@@ -1,0 +1,42 @@
+{
+    "directory": "src/main/webapp/bower_components"
+}
+# Compilación y dependencias
+/target/
+/build/
+/dist/
+/out/
+
+# Archivos de NetBeans
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+/nbactions.xml
+/nb-configuration.xml
+
+# Logs
+*.log
+/logs/
+/app.log
+
+# Archivos temporales
+*.tmp
+*.swp
+*.bak
+*.class
+*.war
+*.ear
+
+# Configuración del IDE
+*.iml
+.idea/
+/.vscode/
+/.settings/
+/.classpath
+.project
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
