@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Promociones</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Promociones</h1>
+    <div style="margin-bottom:1em;">
+        <a th:href="@{'/promociones/nueva'}">Nueva Promoción</a>
+    </div>
+    <div th:if="${promociones == null or #lists.isEmpty(promociones)}">
+        <p>No hay promociones registradas.</p>
+    </div>
+    <div th:if="${promociones != null and !#lists.isEmpty(promociones)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Descuento (%)</th>
+                    <th>Producto</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="promo : ${promociones}">
+                    <td th:text="${promo.nombre}"></td>
+                    <td th:text="${promo.descripcion}"></td>
+                    <td th:text="${promo.descuento * 100}"></td>
+                    <td th:text="${promo.producto.nombre}"></td>
+                    <td th:text="${#dates.format(promo.fechaInicio, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#dates.format(promo.fechaFin, 'dd/MM/yyyy')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/productos/listar'}">Volver a productos</a>
+    </div>
+</body>
+</html>

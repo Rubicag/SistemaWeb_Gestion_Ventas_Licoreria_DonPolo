@@ -1,0 +1,100 @@
+/* Estilos Generales */
+body {
+    background-color: #f8f9fa; /* gris claro */
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    border-bottom: 3px solid #ffc107; /* Línea amarilla */
+    padding: 0.8rem 1.5rem;  /* Ajuste de padding */
+}
+
+.navbar-brand {
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    color: #f8f9fa !important;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    margin-left: 12px;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffc107 !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: #ffc107 !important;
+    border-bottom: 2px solid #ffc107;
+}
+
+.navbar-nav .nav-link.text-danger {
+    font-weight: bold;
+}
+
+/* Contenido Principal */
+.container {
+    margin-top: 5rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.lead {
+    font-size: 1.25rem;
+}
+
+/* Tarjetas */
+.card {
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Botones */
+.btn-outline-primary,
+.btn-outline-success,
+.btn-outline-warning {
+    border-width: 2px;
+    font-weight: 500;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-outline-success:hover {
+    background-color: #198754;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: #000;
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Efecto en los enlaces */
+.navbar-nav .nav-link {
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffc107 !important;
+}

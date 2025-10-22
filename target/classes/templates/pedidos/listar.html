@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Pedidos</title>
+</head>
+<body>
+    <h1>Pedidos</h1>
+    <div th:if="${pedidos == null or #lists.isEmpty(pedidos)}">
+        <p>No hay pedidos registrados.</p>
+    </div>
+    <div th:if="${pedidos != null and !#lists.isEmpty(pedidos)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pedido : ${pedidos}">
+                    <td th:text="${pedido.id}"></td>
+                    <td th:text="${pedido.cliente.nombre}"></td>
+                    <td th:text="${#dates.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${pedido.total}"></td>
+                    <td th:text="${pedido.estado}"></td>
+                    <td>
+                        <a th:href="@{'/pedidos/ver/' + ${pedido.id}}">Ver</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/'}">Volver al inicio</a>
+    </div>
+</body>
+</html>

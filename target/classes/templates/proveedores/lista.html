@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Proveedores</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Proveedores</h1>
+    <div style="margin-bottom:1em;">
+        <a th:href="@{/proveedores/nuevo}">Nuevo Proveedor</a>
+    </div>
+    <div th:if="${proveedores == null or #lists.isEmpty(proveedores)}">
+        <p>No hay proveedores registrados.</p>
+    </div>
+    <div th:if="${proveedores != null and !#lists.isEmpty(proveedores)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>RUC</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="proveedor : ${proveedores}">
+                    <td th:text="${proveedor.idProveedor}"></td>
+                    <td th:text="${proveedor.nombre}"></td>
+                    <td th:text="${proveedor.direccion}"></td>
+                    <td th:text="${proveedor.telefono}"></td>
+                    <td th:text="${proveedor.correo}"></td>
+                    <td th:text="${proveedor.ruc}"></td>
+                    <td>
+                        <a th:href="@{'/proveedores/editar/' + ${proveedor.idProveedor}}">Editar</a>
+                        <span style="margin:0 0.5em;">|</span>
+                        <a th:href="@{'/proveedores/eliminar/' + ${proveedor.idProveedor}}" onclick="return confirm('¿Seguro que deseas eliminar este proveedor?');">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

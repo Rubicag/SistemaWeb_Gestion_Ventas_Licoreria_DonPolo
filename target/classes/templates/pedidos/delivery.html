@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delivery de Pedido</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Información de Entrega</h1>
+    <form th:action="@{/pedidos/confirmar}" method="post">
+        <label>Dirección:</label>
+        <input type="text" name="direccion" required placeholder="Ingrese su dirección"/><br/>
+        <label>Teléfono:</label>
+        <input type="text" name="telefono" required placeholder="Ingrese su teléfono"/><br/>
+        <button type="submit">Confirmar Entrega</button>
+    </form>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/carrito/ver'}">Volver al carrito</a>
+    </div>
+</body>
+</html>

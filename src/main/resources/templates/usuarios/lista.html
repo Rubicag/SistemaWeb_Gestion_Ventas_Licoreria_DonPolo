@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h2>Usuarios Registrados</h2>
+    <div style="margin-bottom:1em;">
+        <a th:href="@{/usuarios/nuevo}">Registrar nuevo usuario</a>
+    </div>
+    <div th:if="${usuarios == null or #lists.isEmpty(usuarios)}">
+        <p>No hay usuarios registrados.</p>
+    </div>
+    <div th:if="${usuarios != null and !#lists.isEmpty(usuarios)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.idUsuario}"></td>
+                    <td th:text="${usuario.nombre}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td th:text="${usuario.rol}"></td>
+                    <td>
+                        <a th:href="@{'/usuarios/editar/' + ${usuario.idUsuario}}">Editar</a>
+                        <span style="margin:0 0.5em;">|</span>
+                        <a th:href="@{'/usuarios/eliminar/' + ${usuario.idUsuario}}" onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{/}">Volver al inicio</a>
+    </div>
+</body>
+</html>

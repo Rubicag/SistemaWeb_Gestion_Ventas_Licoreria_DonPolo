@@ -1,0 +1,69 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Compilar proyecto Maven",
+			"type": "shell",
+			"command": "mvn clean compile",
+			"problemMatcher": [
+				"$javac"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Compilar proyecto Maven (Java 21)",
+			"type": "shell",
+			"command": "mvn clean compile",
+			"problemMatcher": [
+				"$javac"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Generar archivo WAR",
+			"type": "shell",
+			"command": "mvn clean package",
+			"problemMatcher": [
+				"$javac"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Actualizar dependencias Maven (Thymeleaf)",
+			"type": "shell",
+			"command": "mvn clean install",
+			"problemMatcher": [
+				"$javac"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Actualizar dependencias Maven (JPA)",
+			"type": "shell",
+			"command": "mvn clean install",
+			"problemMatcher": [
+				"$javac"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Compilar proyecto tras limpiar Producto.java",
+			"type": "shell",
+			"command": "mvn clean compile",
+			"problemMatcher": [
+				"$javac"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Iniciar aplicación Spring Boot",
+			"type": "shell",
+			"command": "mvn spring-boot:run",
+			"isBackground": false,
+			"problemMatcher": [
+				"$javac"
+			],
+			"group": "build"
+		}
+	]
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Editar Producto</h1>
+    <form th:action="@{/productos/actualizar}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <label>Nombre:<br>
+            <input type="text" th:field="*{nombre}" required placeholder="Nombre del producto" />
+        </label><br><br>
+        <label>Descripción:<br>
+            <textarea th:field="*{descripcion}" required placeholder="Descripción del producto"></textarea>
+        </label><br><br>
+        <label>Precio:<br>
+            <input type="number" step="0.01" th:field="*{precio}" required placeholder="Precio" />
+        </label><br><br>
+        <label>Stock:<br>
+            <input type="number" min="0" th:field="*{stock}" required placeholder="Cantidad en stock" />
+        </label><br><br>
+        <label>Categoría:<br>
+            <input type="text" th:field="*{categoria}" required placeholder="Categoría" />
+        </label><br><br>
+        <button type="submit">Actualizar</button>
+    </form>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+    <div th:if="${success}">
+        <p th:text="${success}" style="color:green;"></p>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/productos/listar'}">Volver a la lista de productos</a>
+    </div>
+</body>
+</html>

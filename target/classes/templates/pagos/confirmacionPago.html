@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Pago</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>¡Pago realizado con éxito!</h1>
+    <p>Gracias por tu compra. Tu pago ha sido procesado correctamente.</p>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/productos/listar'}">Volver a productos</a>
+        <a th:href="@{'/'}" style="margin-left:1em;">Ir al inicio</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seleccionar Método de Pago</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Selecciona tu método de pago</h1>
+    <form th:action="@{/pagos/confirmar}" method="post">
+        <label for="metodoPago">Método de pago:</label>
+        <select name="metodoPago" id="metodoPago" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="tarjeta">Tarjeta de crédito/débito</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia bancaria</option>
+        </select>
+        <button type="submit" style="margin-left:1em;">Pagar</button>
+    </form>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/carrito/ver'}">Volver al carrito</a>
+    </div>
+</body>
+</html>

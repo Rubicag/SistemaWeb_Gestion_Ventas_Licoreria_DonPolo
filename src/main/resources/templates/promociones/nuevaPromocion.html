@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Promoción</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Nueva Promoción</h1>
+    <form th:action="@{'/promociones/guardar'}" method="post">
+        <label>Nombre:<br>
+            <input type="text" name="nombre" required placeholder="Nombre de la promoción" />
+        </label><br><br>
+        <label>Descripción:<br>
+            <input type="text" name="descripcion" required placeholder="Descripción de la promoción" />
+        </label><br><br>
+        <label>Descuento (%):<br>
+            <input type="number" name="descuento" min="0" max="100" step="0.01" required placeholder="Porcentaje de descuento" />
+        </label><br><br>
+        <label>Producto:<br>
+            <select name="productoId" required>
+                <option value="" disabled selected>Seleccione un producto</option>
+                <option th:each="prod : ${productos}" th:value="${prod.id}" th:text="${prod.nombre}"></option>
+            </select>
+        </label><br><br>
+        <label>Fecha inicio:<br>
+            <input type="date" name="fechaInicio" required />
+        </label><br><br>
+        <label>Fecha fin:<br>
+            <input type="date" name="fechaFin" required />
+        </label><br><br>
+        <button type="submit">Guardar</button>
+    </form>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+    <div th:if="${success}">
+        <p th:text="${success}" style="color:green;"></p>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/promociones/listar'}">Volver a promociones</a>
+    </div>
+</body>
+</html>

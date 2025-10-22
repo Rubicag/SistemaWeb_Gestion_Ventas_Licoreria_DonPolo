@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${proveedor.idProveedor != null} ? 'Editar Proveedor' : 'Nuevo Proveedor'">Proveedor</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1 th:text="${proveedor.idProveedor != null} ? 'Editar Proveedor' : 'Nuevo Proveedor'"></h1>
+    <form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post">
+        <input type="hidden" th:field="*{idProveedor}" />
+        <label>Nombre:<br>
+            <input type="text" th:field="*{nombre}" required placeholder="Nombre del proveedor" />
+        </label><br><br>
+        <label>Dirección:<br>
+            <input type="text" th:field="*{direccion}" placeholder="Dirección" />
+        </label><br><br>
+        <label>Teléfono:<br>
+            <input type="text" th:field="*{telefono}" placeholder="Teléfono" />
+        </label><br><br>
+        <label>Correo:<br>
+            <input type="email" th:field="*{correo}" placeholder="Correo electrónico" />
+        </label><br><br>
+        <label>RUC:<br>
+            <input type="text" th:field="*{ruc}" placeholder="RUC" />
+        </label><br><br>
+        <button type="submit">Guardar</button>
+        <a th:href="@{/proveedores}" style="margin-left:1em;">Cancelar</a>
+    </form>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+    <div th:if="${success}">
+        <p th:text="${success}" style="color:green;"></p>
+    </div>
+</body>
+</html>

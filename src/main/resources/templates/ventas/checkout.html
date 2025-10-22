@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout de Venta</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form th:action="@{/ventas/confirmar}" method="post">
+        <label>Cliente:<br>
+            <input type="text" name="cliente" required placeholder="Nombre del cliente" />
+        </label><br><br>
+        <label>Total:<br>
+            <input type="number" name="total" required placeholder="Total de la venta" />
+        </label><br><br>
+        <button type="submit">Confirmar Venta</button>
+    </form>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+    <div th:if="${success}">
+        <p th:text="${success}" style="color:green;"></p>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/ventas/listar'}">Volver a ventas</a>
+    </div>
+</body>
+</html>

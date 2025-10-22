@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Inventarios</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Inventario de Productos</h1>
+    <div th:if="${productos == null or #lists.isEmpty(productos)}">
+        <p>No hay productos en inventario.</p>
+    </div>
+    <div th:if="${productos != null and !#lists.isEmpty(productos)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="producto : ${productos}">
+                    <td th:text="${producto.id}"></td>
+                    <td th:text="${producto.nombre}"></td>
+                    <td th:text="${producto.cantidad}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/'}">Volver al inicio</a>
+    </div>
+</body>
+</html>

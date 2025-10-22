@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Carrito de Compras</h1>
+    <div th:if="${carrito == null or #lists.isEmpty(carrito.items)}">
+        <p>El carrito está vacío.</p>
+    </div>
+    <div th:if="${carrito != null and #lists.size(carrito.items) > 0}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${carrito.items}">
+                    <td th:text="${item.producto.nombre}"></td>
+                    <td th:text="${item.producto.precio}"></td>
+                    <td th:text="${item.cantidad}"></td>
+                    <td th:text="${item.subtotal}"></td>
+                    <td>
+                        <a th:href="@{'/carrito/eliminar/' + ${item.producto.id}}">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Total: </strong><span th:text="${carrito.total}"></span></p>
+        <div style="margin-top: 1em;">
+            <a th:href="@{'/carrito/vaciar'}" style="margin-right: 1em;">Vaciar carrito</a>
+            <a th:href="@{'/carrito/confirmar'}" style="margin-right: 1em;">Confirmar pedido</a>
+            <a th:href="@{'/productos/listar'}">Seguir comprando</a>
+        </div>
+    </div>
+</body>
+</html>

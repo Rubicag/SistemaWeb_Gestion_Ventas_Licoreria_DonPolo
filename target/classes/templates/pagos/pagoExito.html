@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pago Exitoso</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>¡Pago registrado correctamente!</h1>
+    <p th:if="${mensaje}" th:text="${mensaje}"></p>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/pagos/listar'}" style="margin-right:1em;">Ver pagos</a>
+        <a th:href="@{'/productos/listar'}">Volver a productos</a>
+    </div>
+</body>
+</html>

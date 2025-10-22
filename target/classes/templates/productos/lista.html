@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Productos</h1>
+    <div th:if="${productos == null or #lists.isEmpty(productos)}">
+        <p>No hay productos registrados.</p>
+    </div>
+    <div th:if="${productos != null and !#lists.isEmpty(productos)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Categoría</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="producto : ${productos}">
+                    <td th:text="${producto.id}"></td>
+                    <td th:text="${producto.nombre}"></td>
+                    <td th:text="${producto.precio}"></td>
+                    <td th:text="${producto.categoria}"></td>
+                    <td>
+                        <a th:href="@{'/productos/editar/' + ${producto.id}}">Editar</a>
+                        <span style="margin:0 0.5em;">|</span>
+                        <a th:href="@{'/productos/eliminar/' + ${producto.id}}" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/productos/nuevo'}">Agregar Producto</a>
+        <a th:href="@{'/productos/listar'}" style="margin-left:1em;">Ver productos disponibles</a>
+    </div>
+</body>
+</html>

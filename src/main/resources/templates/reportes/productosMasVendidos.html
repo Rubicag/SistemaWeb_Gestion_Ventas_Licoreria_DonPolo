@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos Más Vendidos</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Productos Más Vendidos</h1>
+    <div th:if="${ranking == null or #lists.isEmpty(ranking)}">
+        <p>No hay datos de ventas para mostrar.</p>
+    </div>
+    <div th:if="${ranking != null and !#lists.isEmpty(ranking)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Total Vendido</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="entry : ${ranking}">
+                    <td th:text="${entry.key.nombre}"></td>
+                    <td th:text="${entry.value}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/reportes/pedidos'}">Ver reporte de pedidos</a>
+        <a th:href="@{'/reportes/pagos'}" style="margin-left:1em;">Ver reporte de pagos</a>
+        <a th:href="@{'/productos/listar'}" style="margin-left:1em;">Volver a productos</a>
+    </div>
+</body>
+</html>

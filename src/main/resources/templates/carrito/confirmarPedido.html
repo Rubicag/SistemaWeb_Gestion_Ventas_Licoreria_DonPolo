@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Pedido</title>
+</head>
+<body>
+    <h1>Confirmar Pedido</h1>
+    <div th:if="${carrito != null and #lists.size(carrito.items) > 0}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${carrito.items}">
+                    <td th:text="${item.producto.nombre}"></td>
+                    <td th:text="${item.cantidad}"></td>
+                    <td th:text="${item.producto.precio}"></td>
+                    <td th:text="${item.subtotal}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Total:</strong> <span th:text="${carrito.total}"></span></p>
+        <form th:action="@{/carrito/confirmar}" method="post">
+            <button type="submit">Confirmar Pedido</button>
+        </form>
+    </div>
+    <div th:if="${carrito == null or #lists.isEmpty(carrito.items)}">
+        <p>El carrito está vacío.</p>
+    </div>
+    <a th:href="@{/carrito/ver}">Volver al carrito</a>
+    <a th:href="@{/productos}">Seguir comprando</a>
+</body>
+</html>

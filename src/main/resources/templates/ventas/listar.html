@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Ventas</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Ventas</h1>
+    <div th:if="${ventas == null or #lists.isEmpty(ventas)}">
+        <p>No hay ventas registradas.</p>
+    </div>
+    <div th:if="${ventas != null and !#lists.isEmpty(ventas)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="venta : ${ventas}">
+                    <td th:text="${venta.id}"></td>
+                    <td th:text="${venta.cliente.nombre}"></td>
+                    <td th:text="${#dates.format(venta.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${venta.total}"></td>
+                    <td>
+                        <a th:href="@{'/ventas/ver/' + ${venta.id}}">Ver</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/'}">Volver al inicio</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Pagos</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Reporte de Pagos</h1>
+    <div th:if="${pagos == null or #lists.isEmpty(pagos)}">
+        <p>No hay pagos registrados.</p>
+    </div>
+    <div th:if="${pagos != null and !#lists.isEmpty(pagos)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Monto</th>
+                    <th>Método</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pago : ${pagos}">
+                    <td th:text="${pago.id}"></td>
+                    <td th:text="${pago.pedido.id}"></td>
+                    <td th:text="${pago.cliente.nombre}"></td>
+                    <td th:text="${pago.monto}"></td>
+                    <td th:text="${pago.metodo}"></td>
+                    <td th:text="${#dates.format(pago.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/reportes/pedidos'}">Ver reporte de pedidos</a>
+        <a th:href="@{'/productos/listar'}" style="margin-left:1em;">Volver a productos</a>
+    </div>
+</body>
+</html>

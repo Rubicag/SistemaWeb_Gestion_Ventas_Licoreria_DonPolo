@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Pago</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+    <h1>Registrar Pago</h1>
+    <form th:action="@{'/pagos/registrar'}" method="post">
+        <label>Pedido:
+            <select name="pedidoId" required>
+                <option value="" disabled selected>Seleccione un pedido</option>
+                <option th:each="pedido : ${pedidos}" th:value="${pedido.id}" th:text="${pedido.id}"></option>
+            </select>
+        </label><br>
+        <label>Cliente:
+            <select name="clienteId" required>
+                <option value="" disabled selected>Seleccione un cliente</option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+            </select>
+        </label><br>
+        <label>Monto:
+            <input type="number" name="monto" step="0.01" min="0" required placeholder="Ingrese el monto" />
+        </label><br>
+        <label>Método de pago:
+            <input type="text" name="metodo" required placeholder="Ej: Efectivo, Tarjeta" />
+        </label><br>
+        <button type="submit">Registrar Pago</button>
+    </form>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+    <div th:if="${success}">
+        <p th:text="${success}" style="color:green;"></p>
+    </div>
+    <div style="margin-top:1em;">
+        <a th:href="@{'/pagos/listar'}">Ver pagos registrados</a>
+    </div>
+</body>
+</html>
