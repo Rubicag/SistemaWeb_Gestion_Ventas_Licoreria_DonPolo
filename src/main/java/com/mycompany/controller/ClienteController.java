@@ -43,6 +43,31 @@ public class ClienteController {
     public String listarClientes(Model model) {
         List<Cliente> clientes = clienteService.obtenerClientes();
         model.addAttribute("clientes", clientes);
-        return "clientes/lista"; // JSP: /WEB-INF/views/clientes/lista.jsp
+        return "clientes/listar";
+    }
+
+    // Mostrar formulario de edición
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable("id") int id, Model model) {
+        Cliente cliente = clienteService.buscarClientePorId(id);
+        if (cliente == null) {
+            return "redirect:/clientes/listar";
+        }
+        model.addAttribute("cliente", cliente);
+        return "clientes/editar";
+    }
+
+    // Procesar edición
+    @PostMapping("/actualizar")
+    public String actualizarCliente(@ModelAttribute Cliente cliente) {
+        clienteService.actualizarCliente(cliente);
+        return "redirect:/clientes/listar";
+    }
+
+    // Eliminar cliente
+    @GetMapping("/eliminar/{id}")
+    public String eliminarCliente(@PathVariable("id") int id) {
+        clienteService.eliminarCliente(id);
+        return "redirect:/clientes/listar";
     }
 }

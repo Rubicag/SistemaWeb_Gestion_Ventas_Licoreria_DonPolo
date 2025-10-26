@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Producto</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="brand">
+                <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+                Licorería DonPolo
+            </div>
+            <nav class="menu">
+                <a th:href="@{/productos/listar}">Productos</a>
+                <a th:href="@{/ventas/listar}">Ventas</a>
+                <a th:href="@{/clientes/listar}">Clientes</a>
+                <a th:href="@{/proveedores/listar}">Proveedores</a>
+                <a th:href="@{/ventas/carrito}">Carritos</a>
+                <a th:href="@{/reportes/listar}">Reportes</a>
+                <a th:href="@{/home}">Inicio</a>
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>Agregar Producto</h2>
+            <form th:action="@{/productos/agregar}" th:object="${producto}" method="post">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required />
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" th:field="*{precio}" step="0.01" required />
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" th:field="*{cantidad}" required />
+                <div style="margin-top:18px;display:flex;gap:12px;">
+                    <button type="submit" class="primary">Guardar</button>
+                    <a th:href="@{/productos/listar}" class="secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

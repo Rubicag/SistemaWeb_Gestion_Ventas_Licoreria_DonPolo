@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Venta - Licorería DonPolo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+            Licorería DonPolo
+        </div>
+        <nav class="menu">
+            <a th:href="@{/productos/listar}">Productos</a>
+            <a th:href="@{/ventas/listar}">Ventas</a>
+            <a th:href="@{/clientes/listar}">Clientes</a>
+            <a th:href="@{/proveedores/listar}">Proveedores</a>
+            <a th:href="@{/ventas/carrito}">Carritos</a>
+            <a th:href="@{/reportes/listar}">Reportes</a>
+            <a th:href="@{/home}">Inicio</a>
+        </nav>
+    </header>
+    <main class="main-content">
+        <div class="card">
+            <h2>Registrar Nueva Venta</h2>
+            <form th:action="@{/ventas/guardar}" th:object="${venta}" method="post" class="form">
+                <div class="form-group">
+                    <label for="fechaVenta">Fecha de Venta:</label>
+                    <input type="date" id="fechaVenta" th:field="*{fechaVenta}" required />
+                </div>
+                <div class="form-group">
+                    <label for="cliente">Cliente:</label>
+                    <select id="cliente" th:field="*{cliente}" required>
+                        <option value="" disabled selected>Seleccione un cliente</option>
+                        <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}" th:text="${cliente.nombre}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="total">Total:</label>
+                    <input type="number" id="total" th:field="*{total}" step="0.01" min="0" required />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a th:href="@{/ventas/listar}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>

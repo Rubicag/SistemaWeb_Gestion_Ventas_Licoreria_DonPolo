@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Generar Nuevo Reporte - Licorería DonPolo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+            Licorería DonPolo
+        </div>
+        <nav class="menu">
+            <a th:href="@{/productos/listar}">Productos</a>
+            <a th:href="@{/ventas/listar}">Ventas</a>
+            <a th:href="@{/clientes/listar}">Clientes</a>
+            <a th:href="@{/proveedores/listar}">Proveedores</a>
+            <a th:href="@{/ventas/carrito}">Carritos</a>
+            <a th:href="@{/reportes/listar}">Reportes</a>
+            <a th:href="@{/home}">Inicio</a>
+        </nav>
+    </header>
+    <main class="main-content">
+        <div class="card">
+            <h2>Generar Nuevo Reporte</h2>
+            <form th:action="@{/reportes/guardar}" th:object="${reporte}" method="post" class="form">
+                <div class="form-group">
+                    <label for="tipo">Tipo de Reporte:</label>
+                    <select id="tipo" th:field="*{tipo}" required>
+                        <option value="" disabled selected>Seleccione tipo</option>
+                        <option value="INVENTARIO">Inventario</option>
+                        <option value="PRODUCTOS_MAS_VENDIDOS">Productos Más Vendidos</option>
+                        <option value="PAGOS">Pagos</option>
+                        <option value="PEDIDOS">Pedidos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" th:field="*{fecha}" required />
+                </div>
+                <div class="form-group">
+                    <label for="usuario">Usuario:</label>
+                    <select id="usuario" th:field="*{usuario}" required>
+                        <option value="" disabled selected>Seleccione usuario</option>
+                        <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.nombre}"></option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                    <a th:href="@{/reportes/listar}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

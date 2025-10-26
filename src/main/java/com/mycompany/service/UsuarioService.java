@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.service;
-import com.mycompany.dao.UsuarioDAO;
+import com.mycompany.repository.UsuarioRepository;
 import com.mycompany.model.Usuario;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -14,21 +15,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsuarioService {
 
-    private final UsuarioDAO usuarioDAO;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioDAO usuarioDAO) {
-        this.usuarioDAO = usuarioDAO;
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Registrar un nuevo usuario
     public String registrarUsuario(Usuario usuario) {
-        // Verificar si el email ya existe
-        if (usuarioDAO.buscarPorEmail(usuario.getEmail()) != null) {
+        // Verificar si el correo ya existe
+        if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
             return "El correo ya está registrado";
         }
-
-        // Guardar el usuario
-        usuarioDAO.guardarUsuario(usuario);
+        // Encriptar la contraseña antes de guardar
+        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+        usuarioRepository.save(usuario);
         return null; // null indica que no hubo error
     }
 }

@@ -21,11 +21,16 @@ import java.util.List;
 @Controller
 @RequestMapping("/productos")
 public class ProductoController {
-  private final ProductoService productoService;
-
-    // Constructor de la clase
+    private final ProductoService productoService;
+    // Constructor para inyección de dependencias
     public ProductoController(ProductoService productoService) {
         this.productoService = productoService;
+    }
+
+    // Redirigir /productos a /productos/listar
+    @GetMapping("")
+    public String redirectToListar() {
+        return "redirect:/productos/listar";
     }
 
      // Listar todos los productos
@@ -33,22 +38,23 @@ public class ProductoController {
     public String listarProductos(Model model) {
         List<Producto> productos = productoService.obtenerProductos();
         model.addAttribute("productos", productos);
-        return "producto/catalogo"; // JSP: /WEB-INF/views/producto/catalogo.jsp
+        return "productos/listar";
     }
+
 
     // Mostrar detalle de un producto
     @GetMapping("/detalle/{id}")
     public String detalleProducto(@PathVariable("id") int id, Model model) {
         Producto producto = productoService.buscarProductoPorId(id);
         model.addAttribute("producto", producto);
-        return "producto/detalleProducto"; // JSP: /WEB-INF/views/producto/detalleProducto.jsp
+        return "productos/detalleProducto"; // Corrige la ruta a la carpeta correcta
     }
 
     // Mostrar formulario para agregar producto
     @GetMapping("/agregar")
     public String mostrarFormularioAgregar(Model model) {
         model.addAttribute("producto", new Producto());
-        return "producto/agregar"; // JSP: /WEB-INF/views/producto/agregar.jsp
+        return "productos/agregar"; // Corrige la ruta a la carpeta correcta
     }
 
     // Procesar formulario de agregar producto

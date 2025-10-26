@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Usuario - Licorería DonPolo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="brand">
+                <img src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
+                Licorería DonPolo
+            </div>
+            <nav class="menu">
+                <a th:href="@{/productos/listar}">Productos</a>
+                <a th:href="@{/ventas/listar}">Ventas</a>
+                <a th:href="@{/clientes/listar}">Clientes</a>
+                <a th:href="@{/proveedores/listar}">Proveedores</a>
+                <a th:href="@{/carritos/listar}">Carritos</a>
+                <a th:href="@{/reportes/listar}">Reportes</a>
+                <a th:href="@{/home}">Inicio</a>
+            </nav>
+        </div>
+    </div>
+    <main class="main-content">
+        <div class="container">
+            <div class="card">
+                <h2>Editar Usuario</h2>
+                <form th:action="@{/usuarios/actualizar}" th:object="${usuario}" method="post" class="form">
+                    <input type="hidden" th:field="*{idUsuario}" />
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" th:field="*{nombre}" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" th:field="*{email}" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="password" th:field="*{password}" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="rol">Rol:</label>
+                        <select id="rol" th:field="*{rol}" required>
+                            <option value="" disabled>Seleccione un rol</option>
+                            <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado:</label>
+                        <select id="estado" th:field="*{estado}" required>
+                            <option value="" disabled>Seleccione estado</option>
+                            <option value="ACTIVO">Activo</option>
+                            <option value="INACTIVO">Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <a th:href="@{/usuarios/listar}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

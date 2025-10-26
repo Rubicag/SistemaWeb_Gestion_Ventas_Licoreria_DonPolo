@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario - Licorería DonPolo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f7c873 0%, #e09f3e 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+            max-width: 400px;
+            margin: 90px auto 0 auto;
+            padding: 40px 32px 32px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo img {
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 10px;
+        }
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #a05a2c;
+            margin-bottom: 18px;
+        }
+        h2 {
+            color: #a05a2c;
+            margin-bottom: 18px;
+        }
+        .form-row {
+            margin-bottom: 16px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        label {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #a05a2c;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #e0b97d;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .primary {
+            width: 100%;
+            background: #e09f3e;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 8px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .primary:hover {
+            background: #a05a2c;
+        }
+        .error {
+            color: #d32f2f;
+            background: #ffeaea;
+            border-radius: 4px;
+            padding: 8px;
+            margin-top: 10px;
+        }
+        .help {
+            margin-top: 18px;
+            font-size: 0.98rem;
+        }
+        .small-link {
+            color: #e09f3e;
+            text-decoration: underline;
+        }
+        .small-link:hover {
+            color: #a05a2c;
+        }
+        @media (max-width: 500px) {
+            .card { padding: 18px 4px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">
+            <img th:src="@{/images/489776759_1445572563416672_585177025224455684_n.jpg}" src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Licorería DonPolo" class="logo" onerror="this.style.display='none'">
+        </div>
+        <div class="brand">Licorería DonPolo</div>
+        <h2>Registro de Usuario</h2>
+        <form th:action="@{/registro}" method="post">
+            <div class="form-row">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required />
+            </div>
+            <div class="form-row">
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="email" required />
+            </div>
+            <div class="form-row">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="password" required />
+            </div>
+            <div class="form-row">
+                <label for="confirmPassword">Confirmar contraseña:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required />
+            </div>
+            <div th:if="${errorMessage}">
+                <p class="error" th:text="${errorMessage}"></p>
+            </div>
+            <button type="submit" class="primary">Registrarse</button>
+        </form>
+        <div class="help">
+            ¿Ya tienes cuenta? <a th:href="@{/login}" class="small-link">Inicia sesión aquí</a>
+        </div>
+    </div>
+    <script th:src="@{/js/form-validation.js}" src="/js/form-validation.js"></script>
+</body>
+</html>

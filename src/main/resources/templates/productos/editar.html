@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto - Licorería DonPolo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+            Licorería DonPolo
+        </div>
+        <nav class="menu">
+            <a th:href="@{/productos/listar}">Productos</a>
+            <a th:href="@{/ventas/listar}">Ventas</a>
+            <a th:href="@{/clientes/listar}">Clientes</a>
+            <a th:href="@{/proveedores/listar}">Proveedores</a>
+            <a th:href="@{/ventas/carrito}">Carritos</a>
+            <a th:href="@{/reportes/listar}">Reportes</a>
+            <a th:href="@{/home}">Inicio</a>
+        </nav>
+    </header>
+    <main class="main-content">
+        <div class="card">
+            <h2>Editar Producto</h2>
+            <form th:action="@{/productos/actualizar}" method="post">
+                <input type="hidden" name="idProducto" th:value="${producto.idProducto}" />
+                <div class="form-row">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" th:value="${producto.nombre}" required />
+                </div>
+                <div class="form-row">
+                    <label for="precio">Precio:</label>
+                    <input type="number" id="precio" name="precio" step="0.01" th:value="${producto.precio}" required />
+                </div>
+                <div class="form-row">
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad" th:value="${producto.cantidad}" required />
+                </div>
+                <button type="submit" class="primary">Actualizar</button>
+            </form>
+            <div class="help" style="margin-top:1rem;">
+                <a th:href="@{/productos/listar}" class="small-link">Volver a la lista</a>
+            </div>
+        </div>
+    </main>
+</body>

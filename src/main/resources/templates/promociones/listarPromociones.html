@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Promociones - Licorería DonPolo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+            Licorería DonPolo
+        </div>
+        <nav class="menu">
+            <a th:href="@{/productos}">Productos</a>
+            <a th:href="@{/ventas}">Ventas</a>
+            <a th:href="@{/clientes}">Clientes</a>
+            <a th:href="@{/proveedores}">Proveedores</a>
+            <a th:href="@{/carritos}">Carritos</a>
+            <a th:href="@{/reportes}">Reportes</a>
+            <a th:href="@{/}">Inicio</a>
+        </nav>
+    </header>
+    <main class="main-content">
+        <h2>Listado de Promociones</h2>
+        <a th:href="@{/promociones/nueva}" class="primary" style="margin-bottom:1rem;display:inline-block;">Registrar Nueva Promoción</a>
+            <div class="table-responsive" style="margin-top:12px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descuento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p : ${promociones}">
+                            <td th:text="${p.id}"></td>
+                            <td th:text="${p.nombre}"></td>
+                            <td th:text="${p.descuento}"></td>
+                            <td>
+                                <a th:href="@{'/promociones/editar/' + ${p.id}}" class="small-link">Editar</a>
+                                <a th:href="@{'/promociones/eliminar/' + ${p.id}}" class="small-link" style="color:#d32f2f;margin-left:8px;" onclick="return confirm('¿Eliminar promoción?');">Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </main>
+</body>

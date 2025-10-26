@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel principal - Licorería DonPolo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f7c873 0%, #e09f3e 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100vw;
+            background: #fff6e6ee;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 72px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #a05a2c;
+        }
+        .logo {
+            height: 48px;
+            margin-right: 16px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .menu {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+        .menu a {
+            color: #a05a2c;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.08rem;
+            padding: 8px 14px;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .menu a:hover {
+            background: #e09f3e;
+            color: #fff;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        main.main-content {
+            margin: 120px auto 0 auto;
+            max-width: 600px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+            padding: 56px 40px 40px 40px;
+            text-align: center;
+        }
+        .main-content h2 {
+            color: #a05a2c;
+            font-size: 2.1rem;
+            margin-bottom: 16px;
+        }
+        .main-content p {
+            color: #444;
+            font-size: 1.13rem;
+        }
+        @media (max-width: 800px) {
+            .header-inner, .container { flex-direction: column; height: auto; padding: 0 8px; }
+            .brand { margin-bottom: 8px; }
+        }
+        @media (max-width: 600px) {
+            main.main-content { padding: 24px 6px; margin-top: 100px; }
+            .brand { font-size: 1.2rem; }
+            .header-inner, .container { flex-direction: column; height: auto; padding: 0 2px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="brand">
+                <img src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
+                Licorería DonPolo
+            </div>
+            <nav class="menu">
+                <a th:href="@{/productos/listar}" title="Ver y gestionar productos">
+                    <span style="font-size:1.2em;vertical-align:middle;">🍾</span> Productos
+                </a>
+                <a th:href="@{/ventas/listar}" title="Historial y registro de ventas">
+                    <span style="font-size:1.2em;vertical-align:middle;">💸</span> Ventas
+                </a>
+                <a th:href="@{/pedidos/listar}" title="Pedidos realizados y pendientes">
+                    <span style="font-size:1.2em;vertical-align:middle;">📦</span> Pedidos
+                </a>
+                <a th:href="@{/clientes/listar}" title="Listado de clientes">
+                    <span style="font-size:1.2em;vertical-align:middle;">🧑‍🤝‍🧑</span> Clientes
+                </a>
+                <a th:href="@{/proveedores/listar}" title="Gestión de proveedores">
+                    <span style="font-size:1.2em;vertical-align:middle;">🚚</span> Proveedores
+                </a>
+                <a th:href="@{/reportes/listar}" title="Reportes y estadísticas">
+                    <span style="font-size:1.2em;vertical-align:middle;">📊</span> Reportes
+                </a>
+                <a th:href="@{/logout}" style="color:#fff;background:#e09f3e;font-weight:bold;" title="Cerrar sesión">
+                    <span style="font-size:1.2em;vertical-align:middle;">⏻</span> Cerrar sesión
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <main class="main-content">
+            <h2>Bienvenido, <span th:text="${#authentication.name}"></span></h2>
+            <p>Selecciona una opción del menú para comenzar a gestionar el sistema.</p>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,64 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.model;
 
-/**
- *
- * @author LUIGGI
- */
-public class Producto {
+import jakarta.persistence.*;
+import java.util.List;
 
-    private int id;
+@Entity
+@Table(name = "producto")
+public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_producto")
+    private Integer idProducto;
+
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
+
+    @Column(name = "precio", nullable = false)
     private double precio;
 
-    // Constructor vacío
-    public Producto() {
-    }
+    @Column(name = "cantidad", nullable = false)
+    private int cantidad;
 
-    // Constructor con parámetros
-    public Producto(int id, String nombre, double precio) {
-        this.id = id;
-        this.nombre = nombre;
-        this.precio = precio;
-    }
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
+    private List<Venta> ventas;
 
-    // Getter y Setter para id
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    // Getter y Setter para nombre
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    // Getter y Setter para precio
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    // Método toString opcional para depuración
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", precio=" + precio +
-                '}';
-    }
+    public Integer getIdProducto() { return idProducto; }
+    public void setIdProducto(Integer idProducto) { this.idProducto = idProducto; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public double getPrecio() { return precio; }
+    public void setPrecio(double precio) { this.precio = precio; }
+    public int getCantidad() { return cantidad; }
+    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
+    public List<Venta> getVentas() { return ventas; }
+    public void setVentas(List<Venta> ventas) { this.ventas = ventas; }
 }

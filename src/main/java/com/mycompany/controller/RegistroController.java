@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  *
  * @author LUIGGI
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegistroController {
 
     private final UsuarioService usuarioService;
+    private final PasswordEncoder passwordEncoder;
 
-    public RegistroController(UsuarioService usuarioService) {
+    public RegistroController(UsuarioService usuarioService, PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/registro")
@@ -42,8 +45,13 @@ public class RegistroController {
 
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
-        usuario.setEmail(email);
-        usuario.setPassword(password); // Idealmente, encriptar la contraseña
+        usuario.setCorreo(email);
+        // Si la contraseña no está encriptada, la encripta (migración automática)
+        if (!password.startsWith("$2a$") && !password.startsWith("$2b$") && !password.startsWith("$2y$")) {
+            usuario.setContrasena(passwordEncoder.encode(password));
+        } else {
+            usuario.setContrasena(password);
+        }
 
         String error = usuarioService.registrarUsuario(usuario);
 
