@@ -1,186 +1,125 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
 <head>
-    <meta charset="UTF-8">
-    <title>Proveedores - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Proveedores - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/proveedores.css}" href="/css/proveedores.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(120deg, #f7c873 0%, #e09f3e 100%);
-            margin: 0;
-            min-height: 100vh;
-        }
-        .header {
-            width: 100vw;
+        .proveedores-hero {
             background: #fff6e6ee;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-            z-index: 100;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            height: 72px;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #a05a2c;
-        }
-        .logo {
-            height: 48px;
-            margin-right: 16px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .menu {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-        }
-        .menu a {
-            color: #a05a2c;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.08rem;
-            padding: 8px 14px;
-            border-radius: 4px;
-            transition: background 0.2s, color 0.2s;
-        }
-        .menu a:hover {
-            background: #e09f3e;
-            color: #fff;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(160,90,44,0.10);
             max-width: 900px;
-            margin: 120px auto 0 auto;
-            padding: 40px 32px 32px 32px;
+            margin: 60px auto 0 auto;
+            padding: 44px 32px 32px 32px;
+            position: relative;
         }
-        h2 {
+        .proveedores-hero h2 {
             color: #a05a2c;
+            font-size: 2rem;
             margin-bottom: 18px;
+            font-weight: 700;
+            text-align: center;
         }
-        .primary {
-            background: #e09f3e;
+        .proveedores-hero .add-btn {
+            display: inline-block;
+            background: #a05a2c;
             color: #fff;
             border: none;
-            border-radius: 5px;
-            padding: 10px 18px;
-            font-size: 1.08rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 1rem;
+            border-radius: 6px;
+            padding: 10px 22px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            text-decoration: none;
             transition: background 0.2s;
-            display: inline-block;
         }
-        .primary:hover {
-            background: #a05a2c;
+        .proveedores-hero .add-btn:hover {
+            background: #e09f3e;
+            color: #fff;
         }
-        .table-responsive {
+        .proveedores-hero .table-responsive {
             overflow-x: auto;
         }
-        table {
+        .proveedores-hero table {
             width: 100%;
             border-collapse: collapse;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
         }
-        th, td {
+        .proveedores-hero th, .proveedores-hero td {
             padding: 12px 10px;
-            text-align: left;
+            text-align: center;
         }
-        thead tr {
-            background: #fff6e6ee;
+        .proveedores-hero th {
+            background: #e09f3e;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .proveedores-hero tr:nth-child(even) {
+            background: #fff6e6;
+        }
+        .proveedores-hero tr:hover {
+            background: #ffe0b2;
+        }
+        .proveedores-hero .acciones a {
+            margin: 0 6px;
+            font-size: 1.1rem;
+            text-decoration: none;
             color: #a05a2c;
+            transition: color 0.2s;
         }
-        tbody tr:nth-child(even) {
-            background: #f9f6f2;
+        .proveedores-hero .acciones a:hover {
+            color: #1976d2;
         }
-        .small-link {
-            color: #e09f3e;
-            text-decoration: underline;
-            font-size: 0.98rem;
+        .proveedores-hero .acciones .icon-edit {
+            color: #1976d2;
         }
-        .small-link:hover {
-            color: #a05a2c;
-        }
-        @media (max-width: 900px) {
-            .card { padding: 18px 4px; }
+        .proveedores-hero .acciones .icon-delete {
+            color: #d32f2f;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
-            </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/ventas/carrito}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-                <a th:href="@{/home}">Inicio</a>
-            </nav>
-        </div>
-    </div>
-    <div class="container">
-        <div class="card">
-            <h2>Listado de Proveedores</h2>
-            <a th:href="@{/proveedores/nuevo}" class="primary">Registrar Nuevo Proveedor</a>
+    <section>
+        <div class="proveedores-hero">
+            <h2><i class="fa-solid fa-truck"></i> Listado de Proveedores</h2>
+            <a th:href="@{/proveedores/formulario}" class="add-btn"><i class="fa-solid fa-user-plus"></i> Registrar Nuevo Proveedor</a>
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID Proveedor</th>
-                            <th>Nombre</th>
-                            <th>RUC</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            <th>Acciones</th>
+                            <th><i class="fa-solid fa-hashtag"></i> ID</th>
+                            <th><i class="fa-solid fa-user"></i> Nombre</th>
+                            <th><i class="fa-solid fa-phone"></i> Teléfono</th>
+                            <th><i class="fa-solid fa-envelope"></i> Email</th>
+                            <th><i class="fa-solid fa-toggle-on"></i> Estado</th>
+                            <th><i class="fa-solid fa-gear"></i> Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="proveedor : ${proveedores}">
                             <td th:text="${proveedor.idProveedor}"></td>
                             <td th:text="${proveedor.nombre}"></td>
-                            <td th:text="${proveedor.ruc}"></td>
-                            <td th:text="${proveedor.direccion}"></td>
                             <td th:text="${proveedor.telefono}"></td>
-                            <td>
-                                <a th:href="@{'/proveedores/editar/' + ${proveedor.idProveedor}}" class="small-link">Editar</a>
-                                <a th:href="@{'/proveedores/eliminar/' + ${proveedor.idProveedor}}" class="small-link" style="color:var(--error);margin-left:8px;" onclick="return confirm('¿Está seguro de eliminar este proveedor?');">Eliminar</a>
+                            <td th:text="${proveedor.email}"></td>
+                            <td th:text="${proveedor.estado}"></td>
+                            <td class="acciones">
+                                <a th:href="@{'/proveedores/editar/' + ${proveedor.idProveedor}}" title="Editar" class="icon-edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a th:href="@{'/proveedores/eliminar/' + ${proveedor.idProveedor}}" title="Eliminar" class="icon-delete" onclick="return confirm('¿Desea eliminar este proveedor?');"><i class="fa-solid fa-trash"></i></a>
                             </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(proveedores)}">
+                            <td colspan="6" style="color:#a05a2c;font-weight:500;">No hay proveedores registrados.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
+    </section>
 </body>
 </html>

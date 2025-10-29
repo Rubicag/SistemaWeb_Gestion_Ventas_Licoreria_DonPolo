@@ -16,15 +16,15 @@ public class Venta {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCliente")
-    private Cliente cliente;
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idProducto")
-    private Producto producto;
 
-    @Column(name = "cantidad", nullable = false)
-    private int cantidad;
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<DetalleVenta> detalles;
+
+    @Column(name = "metodo_pago", nullable = false, length = 50)
+    private String metodoPago;
 
     @Column(name = "total", nullable = false)
     private double total;
@@ -35,23 +35,24 @@ public class Venta {
 
     public Venta() {}
 
-    public Venta(Integer id, Cliente cliente, Producto producto, int cantidad, double total, Date fecha) {
+
+    public Venta(Integer id, Usuario usuario, java.util.List<DetalleVenta> detalles, String metodoPago, double total, Date fecha) {
         this.id = id;
-        this.cliente = cliente;
-        this.producto = producto;
-        this.cantidad = cantidad;
+        this.usuario = usuario;
+        this.detalles = detalles;
+        this.metodoPago = metodoPago;
         this.total = total;
         this.fecha = fecha;
     }
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-    public Cliente getCliente() { return cliente; }
-    public void setCliente(Cliente cliente) { this.cliente = cliente; }
-    public Producto getProducto() { return producto; }
-    public void setProducto(Producto producto) { this.producto = producto; }
-    public int getCantidad() { return cantidad; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public java.util.List<DetalleVenta> getDetalles() { return detalles; }
+    public void setDetalles(java.util.List<DetalleVenta> detalles) { this.detalles = detalles; }
+    public String getMetodoPago() { return metodoPago; }
+    public void setMetodoPago(String metodoPago) { this.metodoPago = metodoPago; }
     public double getTotal() { return total; }
     public void setTotal(double total) { this.total = total; }
     public Date getFecha() { return fecha; }
@@ -61,9 +62,7 @@ public class Venta {
     public String toString() {
         return "Venta{" +
                 "id=" + id +
-                ", cliente=" + (cliente != null ? cliente.getId() : null) +
-                ", producto=" + (producto != null ? producto.getIdProducto() : null) +
-                ", cantidad=" + cantidad +
+                ", usuario=" + (usuario != null ? usuario.getIdUsuario() : null) +
                 ", total=" + total +
                 ", fecha=" + fecha +
                 '}';

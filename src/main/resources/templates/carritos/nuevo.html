@@ -1,49 +1,114 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
 <head>
     <meta charset="UTF-8">
-    <title>Nuevo Carrito - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Registrar Nuevo Carrito - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/carritos.css}" href="/css/carritos.css" />
+    <style>
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+            margin: 120px auto 40px;
+            padding: 28px;
+            max-width: 480px;
+        }
+        h2 {
+            color: #a05a2c;
+            text-align: center;
+        }
+        .form-row {
+            margin-bottom: 18px;
+        }
+        label {
+            font-weight: 600;
+            color: #a05a2c;
+            display: block;
+            margin-bottom: 6px;
+        }
+        select, input[type="date"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #e09f3e99;
+            font-size: 1rem;
+        }
+        .actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .primary {
+            background: #e09f3e;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .primary:hover {
+            background: #a05a2c;
+        }
+        .secondary {
+            background: #fff6e6ee;
+            color: #a05a2c;
+            border: 1px solid #e09f3e99;
+            border-radius: 6px;
+            padding: 10px 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .secondary:hover {
+            background: #e09f3e;
+            color: #fff;
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <div class="brand">
-            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-            Licorería DonPolo
-        </div>
-        <nav class="menu">
-            <a th:href="@{/productos/listar}">Productos</a>
-            <a th:href="@{/ventas/listar}">Ventas</a>
-            <a th:href="@{/clientes/listar}">Clientes</a>
-            <a th:href="@{/proveedores/listar}">Proveedores</a>
-            <a th:href="@{/ventas/carrito}">Carritos</a>
-            <a th:href="@{/reportes/listar}">Reportes</a>
-            <a th:href="@{/home}">Inicio</a>
-        </nav>
-    </header>
-    <main class="main-content">
-        <div class="card">
-            <h2>Registrar Nuevo Carrito</h2>
-            <form th:action="@{/carritos/guardar}" th:object="${carrito}" method="post">
-                <div class="form-row">
-                    <label for="usuario">Usuario:</label>
-                    <select id="usuario" th:field="*{usuario}" required>
-                        <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.nombre}"></option>
-                    </select>
+    <!-- Aquí sí va el layout -->
+    <div th:replace="~{layout :: layout}">
+        <main class="main-content">
+            <section>
+                <div class="container">
+                    <div class="card">
+                        <h2><i class="fas fa-cart-plus"></i> Registrar Nuevo Carrito</h2>
+                        <form th:action="@{/carritos/guardar}" th:object="${carrito}" method="post">
+                            <div class="form-row">
+                                <label for="usuario">Usuario:</label>
+                                <select id="usuario" th:field="*{usuario}" required>
+                                    <option th:each="usuario : ${usuarios}"
+                                            th:value="${usuario.idUsuario}"
+                                            th:text="${usuario.nombre}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <label for="fechaCreacion">Fecha de Creación:</label>
+                                <input type="date" id="fechaCreacion" th:field="*{fechaCreacion}" required />
+                            </div>
+
+                            <div class="form-row">
+                                <label for="estado">Estado:</label>
+                                <input type="text" id="estado" th:field="*{estado}" required />
+                            </div>
+
+                            <div class="actions">
+                                <button type="submit" class="primary"><i class="fas fa-save"></i> Guardar</button>
+                                <a th:href="@{/carritos/listar}" class="secondary"><i class="fas fa-times"></i> Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-row">
-                    <label for="fechaCreacion">Fecha de Creación:</label>
-                    <input type="date" id="fechaCreacion" th:field="*{fechaCreacion}" required />
-                </div>
-                <div class="form-row">
-                    <label for="estado">Estado:</label>
-                    <input type="text" id="estado" th:field="*{estado}" required />
-                </div>
-                <div style="margin-top:18px;display:flex;gap:12px;">
-                    <button type="submit" class="primary">Guardar</button>
-                    <a th:href="@{/carritos/listar}" class="secondary">Cancelar</a>
-                </div>
-            </form>
-        </div>
-    </main>
+            </section>
+        </main>
+    </div>
 </body>
+</html>

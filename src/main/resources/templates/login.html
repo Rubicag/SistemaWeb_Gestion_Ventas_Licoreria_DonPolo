@@ -1,140 +1,122 @@
-
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Licorería DonPolo - Iniciar Sesión</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
+<section>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(120deg, #f7c873 0%, #e09f3e 100%);
-            margin: 0;
-            min-height: 100vh;
+        .login-hero {
+            background: #fff6e6ee;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(160,90,44,0.10);
+            max-width: 420px;
+            margin: 60px auto 0 auto;
+            padding: 44px 32px 32px 32px;
+            text-align: center;
+            position: relative;
         }
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
-            max-width: 400px;
-            margin: 90px auto 0 auto;
-            padding: 40px 32px 32px 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .logo img {
-            height: 70px;
-            width: 70px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 10px;
-        }
-        .brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #a05a2c;
+        .login-hero .logo {
             margin-bottom: 18px;
         }
-        h2 {
+        .login-hero h2 {
             color: #a05a2c;
+            font-size: 2rem;
             margin-bottom: 18px;
+            font-weight: 700;
         }
-        .form-row {
-            margin-bottom: 16px;
-            width: 100%;
+        .login-hero form {
+            margin-top: 18px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            gap: 16px;
         }
-        label {
+        .login-hero label {
             font-weight: 500;
-            margin-bottom: 4px;
             color: #a05a2c;
+            margin-bottom: 4px;
+            text-align: left;
         }
-        input[type="email"], input[type="password"] {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #e0b97d;
-            border-radius: 4px;
+        .login-hero input[type="email"],
+        .login-hero input[type="password"] {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #e09f3e;
             font-size: 1rem;
+            background: #fff;
+            margin-bottom: 8px;
         }
-        .primary {
-            width: 100%;
-            background: #e09f3e;
+        .login-hero button.primary {
+            background: #a05a2c;
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 10px 0;
+            border-radius: 6px;
+            padding: 12px 0;
             font-size: 1.1rem;
-            font-weight: bold;
-            margin-top: 8px;
-            transition: background 0.2s;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s;
         }
-        .primary:hover {
-            background: #a05a2c;
+        .login-hero button.primary:hover {
+            background: #e09f3e;
         }
-        .error {
+        .login-hero .error {
             color: #d32f2f;
-            background: #ffeaea;
+            background: #fff0f0;
             border-radius: 4px;
-            padding: 8px;
-            margin-top: 10px;
+            padding: 8px 0;
+            margin-top: 8px;
+            font-size: 0.98rem;
         }
-        .success {
+        .login-hero .success {
             color: #388e3c;
             background: #e8f5e9;
             border-radius: 4px;
-            padding: 8px;
-            margin-top: 10px;
-        }
-        .help {
-            margin-top: 18px;
+            padding: 8px 0;
+            margin-top: 8px;
             font-size: 0.98rem;
         }
-        .small-link {
+        .login-hero .help {
+            margin-top: 18px;
+            font-size: 1rem;
+        }
+        .login-hero .help a {
             color: #e09f3e;
             text-decoration: underline;
+            font-weight: 500;
         }
-        .small-link:hover {
-            color: #a05a2c;
-        }
-        @media (max-width: 500px) {
-            .card { padding: 18px 4px; }
+        .login-hero .icon {
+            font-size: 2.2rem;
+            color: #e09f3e;
+            margin-bottom: 8px;
+            display: block;
         }
     </style>
-</head>
-<body>
-    <div class="card">
+
+    <div class="login-hero">
+        <span class="icon">🔐</span>
         <div class="logo">
-            <img th:src="@{/images/489776759_1445572563416672_585177025224455684_n.jpg}" src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Licorería DonPolo" class="logo" onerror="this.style.display='none'">
+            <img th:src="@{/images/489776759_1445572563416672_585177025224455684_n.jpg}"
+                 src="/images/489776759_1445572563416672_585177025224455684_n.jpg"
+                 alt="Logo"
+                 style="height:70px;width:70px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:10px;"/>
         </div>
-        <div class="brand">Licorería DonPolo</div>
         <h2>Iniciar Sesión</h2>
+
         <form th:action="@{/login}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <div class="form-row">
-                <label for="username">Correo electrónico:</label>
-                <input type="email" id="username" name="username" required />
-            </div>
-            <div class="form-row">
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required />
-            </div>
+            <label for="username">Correo electrónico:</label>
+            <input type="email" id="username" name="username" placeholder="usuario@correo.com" required />
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required />
+
             <button type="submit" class="primary">Iniciar sesión</button>
+
+            <div th:if="${param.error}" class="error">Usuario o contraseña incorrectos</div>
+            <div th:if="${param.logout}" class="success">Sesión cerrada correctamente</div>
         </form>
-        <div th:if="${param.error}">
-            <p class="error">Usuario o contraseña incorrectos</p>
-        </div>
-        <div th:if="${param.logout}">
-            <p class="success">Has cerrado sesión correctamente</p>
-        </div>
+
         <div class="help">
             ¿No tienes cuenta? <a th:href="@{/registro}" class="small-link">Regístrate aquí</a>
         </div>
     </div>
-    <script th:src="@{/js/form-validation.js}" src="/js/form-validation.js"></script>
-</body>
+</section>
 </html>

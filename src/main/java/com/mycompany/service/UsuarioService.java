@@ -1,8 +1,9 @@
+package com.mycompany.service;
+import java.util.List;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.service;
 import com.mycompany.repository.UsuarioRepository;
 import com.mycompany.model.Usuario;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author LUIGGI
  */
 @Service
-public class UsuarioService {
 
+public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    // Obtener todos los usuarios
+    public List<Usuario> obtenerUsuarios() {
+        return usuarioRepository.findAll();
     }
 
     // Registrar un nuevo usuario
@@ -33,5 +39,9 @@ public class UsuarioService {
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
         usuarioRepository.save(usuario);
         return null; // null indica que no hubo error
+    }
+    // Buscar usuario por correo
+    public Usuario buscarUsuarioPorCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo).orElse(null);
     }
 }

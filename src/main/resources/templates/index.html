@@ -1,121 +1,68 @@
-
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Inicio - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
+<section>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+        .welcome-hero {
             background: linear-gradient(120deg, #f7c873 0%, #e09f3e 100%);
-            margin: 0;
-            min-height: 100vh;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(160,90,44,0.10);
+            max-width: 650px;
+            margin: 60px auto 0 auto;
+            padding: 56px 36px 40px 36px;
+            text-align: center;
+            position: relative;
         }
-        .header {
-            width: 100vw;
-            background: #fff6e6ee;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-            z-index: 100;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            height: 72px;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            font-size: 2rem;
-            font-weight: bold;
+        .welcome-hero h2 {
             color: #a05a2c;
+            font-size: 2.3rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
-        .logo {
-            height: 48px;
-            margin-right: 16px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        .welcome-hero p {
+            color: #5a3c1a;
+            font-size: 1.18rem;
+            margin-bottom: 18px;
         }
-        .menu {
-            display: flex;
-            gap: 18px;
-            align-items: center;
+        .welcome-hero .icon {
+            font-size: 3.5rem;
+            color: #e09f3e;
+            margin-bottom: 18px;
+            display: block;
         }
-        .menu a {
-            color: #a05a2c;
+        .welcome-hero .cta-btn {
+            margin-top: 18px;
+            background: #a05a2c;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 1.08rem;
-            padding: 8px 14px;
-            border-radius: 4px;
-            transition: background 0.2s, color 0.2s;
+            display: inline-block;
         }
-        .menu a:hover {
+        .welcome-hero .cta-btn:hover {
             background: #e09f3e;
             color: #fff;
         }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
-            max-width: 600px;
-            margin: 120px auto 0 auto;
-            padding: 48px 32px 32px 32px;
-            text-align: center;
-        }
-        h2 {
-            color: #a05a2c;
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
-        p {
-            color: #444;
-            font-size: 1.1rem;
-        }
-        @media (max-width: 600px) {
-            .card { padding: 24px 8px; }
-            .brand { font-size: 1.2rem; }
+        @media (max-width: 700px) {
+            .welcome-hero { padding: 32px 8px; }
+            .welcome-hero h2 { font-size: 1.3rem; }
         }
     </style>
-</head>
-<body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
-            </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/carritos/listar}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-            </nav>
-        </div>
+
+    <div class="welcome-hero">
+        <span class="icon">🍷</span>
+        <h2>Bienvenido al Sistema de Gestión de Ventas<br>Licorería DonPolo</h2>
+        <p>
+            Gestiona productos, ventas, clientes y reportes de manera profesional.<br>
+            Selecciona una opción del menú para comenzar.
+        </p>
+        <a th:href="@{/productos/listar}" class="cta-btn">Ver productos</a>
     </div>
-    <div class="container">
-        <div class="card">
-            <h2>Bienvenido al Sistema de Gestión de Ventas - Licorería DonPolo</h2>
-            <p>Selecciona una opción del menú para comenzar.</p>
-        </div>
-    </div>
-</body>
+</section>
 </html>

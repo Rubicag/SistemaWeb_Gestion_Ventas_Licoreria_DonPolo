@@ -1,37 +1,19 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Detalle de Producto</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
-</head>
-<body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
+<html lang="es" xmlns:th="http://www.thymeleaf.org"  th:replace="~{layout :: layout(content=~{::section})}">
+    <th:block th:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/productos.css}" href="/css/productos.css" />
+    </th:block>
+
+    <section>
+        <div class="container">
+            <div class="card">
+                <h2>Detalle de Producto</h2>
+                <p><strong>ID:</strong> <span th:text="${producto.idProducto}"></span></p>
+                <p><strong>Nombre:</strong> <span th:text="${producto.nombre}"></span></p>
+                <p><strong>Precio:</strong> S/. <span th:text="${producto.precio}"></span></p>
+                <p><strong>Cantidad:</strong> <span th:text="${producto.cantidad}"></span></p>
+                <a th:href="@{/productos/listar}" class="primary" style="margin-top:1rem;display:inline-block;">Volver a la lista</a>
             </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/ventas/carrito}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-                <a th:href="@{/home}">Inicio</a>
-            </nav>
         </div>
-    </div>
-    <div class="container">
-        <div class="card">
-            <h2>Detalle de Producto</h2>
-            <p><strong>ID:</strong> <span th:text="${producto.idProducto}"></span></p>
-            <p><strong>Nombre:</strong> <span th:text="${producto.nombre}"></span></p>
-            <p><strong>Precio:</strong> <span th:text="${producto.precio}"></span></p>
-            <p><strong>Cantidad:</strong> <span th:text="${producto.cantidad}"></span></p>
-            <a th:href="@{/productos/listar}" class="primary">Volver a la lista</a>
-        </div>
-    </div>
-</body>
+    </section>
 </html>
+

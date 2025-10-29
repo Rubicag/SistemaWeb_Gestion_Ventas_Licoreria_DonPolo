@@ -1,10 +1,9 @@
 package com.mycompany.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "producto")
+@Table(name = "productos")
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +19,7 @@ public class Producto {
     @Column(name = "cantidad", nullable = false)
     private int cantidad;
 
-    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
-    private List<Venta> ventas;
+
 
     public Integer getIdProducto() { return idProducto; }
     public void setIdProducto(Integer idProducto) { this.idProducto = idProducto; }
@@ -31,6 +29,4 @@ public class Producto {
     public void setPrecio(double precio) { this.precio = precio; }
     public int getCantidad() { return cantidad; }
     public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-    public List<Venta> getVentas() { return ventas; }
-    public void setVentas(List<Venta> ventas) { this.ventas = ventas; }
 }

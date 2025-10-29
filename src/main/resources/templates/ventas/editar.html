@@ -1,48 +1,126 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Venta - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Editar Venta - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/ventas.css}" href="/css/ventas.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        .venta-form-hero {
+            background: #fff6e6ee;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(160,90,44,0.10);
+            max-width: 600px;
+            margin: 60px auto 0 auto;
+            padding: 44px 32px 32px 32px;
+            position: relative;
+            text-align: center;
+        }
+        .venta-form-hero h2 {
+            color: #a05a2c;
+            font-size: 2rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+        .venta-form-hero form {
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .venta-form-hero label {
+            font-weight: 500;
+            color: #a05a2c;
+            margin-bottom: 4px;
+            text-align: left;
+        }
+        .venta-form-hero select,
+        .venta-form-hero input[type="number"],
+        .venta-form-hero input[type="date"] {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #e09f3e;
+            font-size: 1rem;
+            background: #fff;
+            margin-bottom: 8px;
+        }
+        .venta-form-hero .error {
+            color: #d32f2f;
+            background: #fff0f0;
+            border-radius: 4px;
+            padding: 8px 0;
+            margin-top: 8px;
+            font-size: 0.98rem;
+        }
+        .venta-form-hero .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        .venta-form-hero .btn {
+            background: #a05a2c;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+        .venta-form-hero .btn:hover {
+            background: #e09f3e;
+        }
+        .venta-form-hero .btn.btn-secondary {
+            background: #e09f3e;
+            color: #fff;
+        }
+        .venta-form-hero .btn.btn-secondary:hover {
+            background: #a05a2c;
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <div class="brand">
-            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-            Licorería DonPolo
-        </div>
-        <nav class="menu">
-            <a th:href="@{/productos/listar}">Productos</a>
-            <a th:href="@{/ventas/listar}">Ventas</a>
-            <a th:href="@{/clientes/listar}">Clientes</a>
-            <a th:href="@{/proveedores/listar}">Proveedores</a>
-            <a th:href="@{/ventas/carrito}">Carritos</a>
-            <a th:href="@{/reportes/listar}">Reportes</a>
-            <a th:href="@{/home}">Inicio</a>
-        </nav>
-    </header>
-    <main class="main-content">
-        <div class="card">
-            <h2>Editar Venta</h2>
-            <form th:action="@{/ventas/actualizar}" th:object="${venta}" method="post">
-                <input type="hidden" th:field="*{idVenta}" />
-                <div class="form-row">
-                    <label for="fechaVenta">Fecha de Venta:</label>
-                    <input type="date" id="fechaVenta" th:field="*{fechaVenta}" required />
-                </div>
-                <div class="form-row">
-                    <label for="cliente">Cliente:</label>
-                    <select id="cliente" th:field="*{cliente}" required>
-                        <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}" th:text="${cliente.nombre}"></option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <label for="total">Total:</label>
-                    <input type="number" id="total" th:field="*{total}" step="0.01" required />
-                </div>
-                <button type="submit" class="primary">Actualizar</button>
-                <a th:href="@{/ventas/listar}" class="small-link" style="margin-left:1rem;">Cancelar</a>
-            </form>
-        </div>
-    </main>
+<section>
+    <div class="venta-form-hero">
+        <h2><i class="fa-solid fa-pen-to-square" style="color:#e09f3e;"></i> Editar Venta</h2>
+        <form th:action="@{/ventas/actualizar}" th:object="${venta}" method="post">
+            <input type="hidden" th:field="*{idVenta}" />
+
+            <label for="fechaVenta"><i class="fa-regular fa-calendar-days"></i> Fecha de Venta:</label>
+            <input type="date" id="fechaVenta" th:field="*{fechaVenta}" required />
+            <div th:if="${#fields.hasErrors('fechaVenta')}" class="error">
+                <i class="fa-solid fa-circle-exclamation"></i> <span th:errors="*{fechaVenta}"></span>
+            </div>
+
+            <label for="usuario"><i class="fa-solid fa-user"></i> Usuario:</label>
+            <select id="usuario" th:field="*{usuario}" required>
+                <option th:each="usuario : ${usuarios}" 
+                        th:value="${usuario.idUsuario}" 
+                        th:text="${usuario.nombre}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('usuario')}" class="error">
+                <i class="fa-solid fa-circle-exclamation"></i> <span th:errors="*{usuario}"></span>
+            </div>
+
+            <label for="total"><i class="fa-solid fa-money-bill-wave"></i> Total:</label>
+            <input type="number" id="total" th:field="*{total}" step="0.01" required />
+            <div th:if="${#fields.hasErrors('total')}" class="error">
+                <i class="fa-solid fa-circle-exclamation"></i> <span th:errors="*{total}"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn"><i class="fa-solid fa-floppy-disk"></i> Actualizar</button>
+                <a th:href="@{/ventas/listar}" class="btn btn-secondary"><i class="fa-solid fa-xmark"></i> Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>
 </body>
+</html>
+

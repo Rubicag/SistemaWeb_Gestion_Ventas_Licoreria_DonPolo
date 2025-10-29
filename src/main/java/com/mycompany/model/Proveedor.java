@@ -3,13 +3,13 @@ package com.mycompany.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "proveedor")
+@Table(name = "proveedores")
 public class Proveedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_proveedor")
     private Integer idProveedor;
-
+                                                                                                                                                                                                                                                                                        
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 

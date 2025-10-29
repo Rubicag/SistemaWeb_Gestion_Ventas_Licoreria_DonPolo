@@ -1,186 +1,117 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Pedidos - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(120deg, #f7c873 0%, #e09f3e 100%);
-            margin: 0;
-            min-height: 100vh;
-        }
-        .header {
-            width: 100vw;
-            background: #fff6e6ee;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-            z-index: 100;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            height: 72px;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #a05a2c;
-        }
-        .logo {
-            height: 48px;
-            margin-right: 16px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .menu {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-        }
-        .menu a {
-            color: #a05a2c;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.08rem;
-            padding: 8px 14px;
-            border-radius: 4px;
-            transition: background 0.2s, color 0.2s;
-        }
-        .menu a:hover {
-            background: #e09f3e;
-            color: #fff;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
-            max-width: 900px;
-            margin: 120px auto 0 auto;
-            padding: 40px 32px 32px 32px;
-        }
-        h2 {
-            color: #a05a2c;
-            margin-bottom: 18px;
-        }
-        .primary {
-            background: #e09f3e;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 18px;
-            font-size: 1.08rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 1rem;
-            transition: background 0.2s;
-            display: inline-block;
-        }
-        .primary:hover {
-            background: #a05a2c;
-        }
-        .table-responsive {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        th, td {
-            padding: 12px 10px;
-            text-align: left;
-        }
-        thead tr {
-            background: #fff6e6ee;
-            color: #a05a2c;
-        }
-        tbody tr:nth-child(even) {
-            background: #f9f6f2;
-        }
-        .small-link {
-            color: #e09f3e;
-            text-decoration: underline;
-            font-size: 0.98rem;
-        }
-        .small-link:hover {
-            color: #a05a2c;
-        }
-        @media (max-width: 900px) {
-            .card { padding: 18px 4px; }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
-            </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/ventas/carrito}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-                <a th:href="@{/home}">Inicio</a>
-            </nav>
-        </div>
-    </div>
-    <div class="container">
-        <div class="card">
-            <h2>Gestión de Pedidos</h2>
-            <a th:href="@{/pedidos/nuevo}" class="primary">Agregar Pedido</a>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Fecha</th>
-                            <th>Dirección Entrega</th>
-                            <th>Estado</th>
-                            <th>Usuario</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="pedido : ${pedidos}">
-                            <td th:text="${pedido.idPedido}"></td>
-                            <td th:text="${pedido.fecha}"></td>
-                            <td th:text="${pedido.direccionEntrega}"></td>
-                            <td th:text="${pedido.estado}"></td>
-                            <td th:text="${pedido.usuario.nombre}"></td>
-                            <td>
-                                <a th:href="@{'/pedidos/editar/' + ${pedido.idPedido}}" class="small-link">Editar</a>
-                                <a th:href="@{'/pedidos/eliminar/' + ${pedido.idPedido}}" class="small-link" style="color:var(--error);margin-left:8px;">Eliminar</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
+    <th:block th:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/pedidos.css}" href="/css/pedidos.css" />
+    </th:block>
+
+    <section>
+        <style>
+            .container {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 0 32px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .card {
+                background: #fff;
+                border-radius: 14px;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+                max-width: 900px;
+                margin: 120px auto 0 auto;
+                padding: 40px 32px 32px 32px;
+            }
+            h2 {
+                color: #a05a2c;
+                margin-bottom: 18px;
+            }
+            .primary {
+                background: #e09f3e;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 18px;
+                font-size: 1.08rem;
+                font-weight: bold;
+                cursor: pointer;
+                margin-bottom: 1rem;
+                transition: background 0.2s;
+                display: inline-block;
+            }
+            .primary:hover {
+                background: #a05a2c;
+            }
+            .table-responsive {
+                overflow-x: auto;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            }
+            th, td {
+                padding: 12px 10px;
+                text-align: left;
+            }
+            thead tr {
+                background: #fff6e6ee;
+                color: #a05a2c;
+            }
+            tbody tr:nth-child(even) {
+                background: #f9f6f2;
+            }
+            .small-link {
+                color: #e09f3e;
+                text-decoration: underline;
+                font-size: 0.98rem;
+            }
+            .small-link:hover {
+                color: #a05a2c;
+            }
+            @media (max-width: 900px) {
+                .card { padding: 18px 4px; }
+            }
+        </style>
+
+        <div class="container">
+            <div class="card">
+                <h2>Gestión de Pedidos</h2>
+                <a th:href="@{/pedidos/nuevo}" class="primary">➕ Agregar Pedido</a>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Dirección Entrega</th>
+                                <th>Estado</th>
+                                <th>Usuario</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pedido : ${pedidos}">
+                                <td th:text="${pedido.idPedido}"></td>
+                                <td th:text="${pedido.fechaPedido}"></td>
+                                <td th:text="${pedido.direccionEntrega}"></td>
+                                <td th:text="${pedido.estado}"></td>
+                                <td th:text="${pedido.usuario.nombre}"></td>
+                                <td>
+                                    <a th:href="@{'/pedidos/editar/' + ${pedido.idPedido}}" class="small-link">✏️ Editar</a>
+                                    <a th:href="@{'/pedidos/eliminar/' + ${pedido.idPedido}}" class="small-link" style="color:#d32f2f;margin-left:8px;">🗑️ Eliminar</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(pedidos)}">
+                                <td colspan="6" style="text-align:center;color:#a05a2c;font-weight:500;">No hay pedidos registrados.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </section>
 </html>

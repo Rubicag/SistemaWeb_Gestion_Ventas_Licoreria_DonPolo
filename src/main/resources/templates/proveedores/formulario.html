@@ -1,60 +1,117 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
 <head>
-    <meta charset="UTF-8">
-    <title>Nuevo Proveedor - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Registrar Proveedor - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/proveedores.css}" href="/css/proveedores.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        .proveedor-form-hero {
+            background: #fff6e6ee;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(160,90,44,0.10);
+            max-width: 440px;
+            margin: 60px auto;
+            padding: 44px 32px 32px;
+            text-align: center;
+        }
+        .proveedor-form-hero h2 {
+            color: #a05a2c;
+            font-size: 2rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+        .proveedor-form-hero form {
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .proveedor-form-hero label {
+            font-weight: 500;
+            color: #a05a2c;
+            text-align: left;
+        }
+        .proveedor-form-hero input[type="text"],
+        .proveedor-form-hero input[type="email"],
+        .proveedor-form-hero input[type="tel"],
+        .proveedor-form-hero select {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #e09f3e;
+            font-size: 1rem;
+            background: #fff;
+        }
+        .proveedor-form-hero button.primary {
+            background: #a05a2c;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .proveedor-form-hero button.primary:hover {
+            background: #e09f3e;
+        }
+        .proveedor-form-hero .error {
+            color: #d32f2f;
+            background: #fff0f0;
+            border-radius: 4px;
+            padding: 6px;
+            font-size: 0.9rem;
+        }
+        .proveedor-form-hero .help {
+            margin-top: 18px;
+            font-size: 1rem;
+        }
+        .proveedor-form-hero .help a {
+            color: #e09f3e;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .proveedor-form-hero .icon {
+            font-size: 2.2rem;
+            color: #e09f3e;
+            margin-bottom: 8px;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="brand">
-            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-            Licorería DonPolo
+<section>
+    <div class="proveedor-form-hero">
+        <span class="icon"><i class="fa-solid fa-truck-medical"></i></span>
+        <h2>Registrar Nuevo Proveedor</h2>
+        <form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required />
+            <div th:if="${#fields.hasErrors('nombre')}" class="error">* <span th:errors="*{nombre}"></span></div>
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" th:field="*{telefono}" required />
+            <div th:if="${#fields.hasErrors('telefono')}" class="error">* <span th:errors="*{telefono}"></span></div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}" required />
+            <div th:if="${#fields.hasErrors('email')}" class="error">* <span th:errors="*{email}"></span></div>
+            <label for="estado">Estado:</label>
+            <select id="estado" th:field="*{estado}" required>
+                <option value="" disabled selected>Seleccione estado</option>
+                <option value="ACTIVO">Activo</option>
+                <option value="INACTIVO">Inactivo</option>
+            </select>
+            <div th:if="${#fields.hasErrors('estado')}" class="error">* <span th:errors="*{estado}"></span></div>
+            <button type="submit" class="primary"><i class="fa-solid fa-floppy-disk"></i> Registrar</button>
+        </form>
+        <div class="help">
+            <a th:href="@{/proveedores/listar}"><i class="fa-solid fa-arrow-left"></i> Volver a la lista</a>
         </div>
-        <nav class="menu">
-            <a th:href="@{/productos/listar}">Productos</a>
-            <a th:href="@{/ventas/listar}">Ventas</a>
-            <a th:href="@{/clientes/listar}">Clientes</a>
-            <a th:href="@{/proveedores/listar}">Proveedores</a>
-            <a th:href="@{/ventas/carrito}">Carritos</a>
-            <a th:href="@{/reportes/listar}">Reportes</a>
-            <a th:href="@{/home}">Inicio</a>
-        </nav>
-    </header>
-    <main class="main-content">
-        <div class="card">
-            <h2>Registrar Nuevo Proveedor</h2>
-            <form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post" class="form">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" th:field="*{nombre}" required />
-                </div>
-                <div class="form-group">
-                    <label for="contacto">Contacto:</label>
-                    <input type="text" id="contacto" th:field="*{contacto}" required />
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" th:field="*{telefono}" required />
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" th:field="*{email}" required />
-                </div>
-                <div class="form-group">
-                    <label for="estado">Estado:</label>
-                    <select id="estado" th:field="*{estado}" required>
-                        <option value="" disabled selected>Seleccione estado</option>
-                        <option value="ACTIVO">Activo</option>
-                        <option value="INACTIVO">Inactivo</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Registrar</button>
-                    <a th:href="@{/proveedores/listar}" class="btn btn-secondary">Cancelar</a>
-                </div>
-            </form>
-        </div>
-    </main>
+    </div>
+</section>
 </body>
 </html>

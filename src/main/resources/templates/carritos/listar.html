@@ -1,73 +1,55 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
 <head>
     <meta charset="UTF-8">
-    <title>Carritos - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carritos - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/carritos.css}" href="/css/carritos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
-        /* Header & common */
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(120deg,#f7c873 0%,#e09f3e 100%); margin:0; min-height:100vh; }
-        .header{ width:100vw; background:#fff6e6ee; box-shadow:0 2px 12px rgba(0,0,0,0.07); position:fixed; top:0; left:0; z-index:100 }
-        .header-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 32px; height:72px }
-        .brand{ display:flex; align-items:center; font-size:2rem; color:#a05a2c }
-        .logo{ height:48px; margin-right:12px; border-radius:50%; background:#fff }
-        .menu{ display:flex; gap:18px }
-        .menu a{ color:#a05a2c; text-decoration:none; padding:8px 12px; border-radius:6px }
-        .menu a:hover{ background:#e09f3e; color:#fff }
         .container{ max-width:1100px; margin:0 auto; padding:0 32px }
         .card{ background:#fff; border-radius:14px; box-shadow:0 4px 24px rgba(0,0,0,0.09); margin:120px auto 40px; padding:28px }
-        h2{ color:#a05a2c }
-        .primary{ background:#e09f3e; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none }
-        .table-responsive{ overflow-x:auto }
+        h2{ color:#a05a2c; display:flex; align-items:center; gap:10px; }
+        .primary{ background:#e09f3e; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none; font-weight:600; transition:background 0.2s; display:inline-block; margin-top:8px; }
+        .primary:hover{ background:#a05a2c; }
+        .table-responsive{ overflow-x:auto; margin-top:12px; }
         table{ width:100%; border-collapse:collapse }
         th,td{ padding:12px 8px; text-align:left }
         thead tr{ background:#fff6e6ee; color:#a05a2c }
         tbody tr:nth-child(even){ background:#f9f6f2 }
-        .small-link{ color:#e09f3e }
+        .icon-btn{ background:none; border:none; cursor:pointer; color:#e09f3e; font-size:1.1rem; margin:0 4px; }
+        .icon-btn:hover{ color:#a05a2c; }
         @media (max-width:900px){ .card{ margin-top:100px } }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
-            </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/carritos/listar}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-            </nav>
-        </div>
-    </div>
+<section>
     <div class="container">
         <div class="card">
-            <h2>Listado de Carritos</h2>
-            <a th:href="@{/carritos/nuevo}" class="primary">Registrar Nuevo Carrito</a>
-            <div class="table-responsive" style="margin-top:12px;">
+            <h2><i class="fa-solid fa-cart-shopping"></i> Listado de Carritos</h2>
+            <a th:href="@{/carritos/nuevo}" class="primary"><i class="fa-solid fa-plus"></i> Registrar Nuevo Carrito</a>
+            <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID Carrito</th>
-                            <th>Usuario</th>
-                            <th>Fecha Creación</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+                            <th><i class="fa-solid fa-hashtag"></i> ID Carrito</th>
+                            <th><i class="fa-solid fa-user"></i> Usuario</th>
+                            <th><i class="fa-solid fa-calendar"></i> Fecha Creación</th>
+                            <th><i class="fa-solid fa-toggle-on"></i> Estado</th>
+                            <th><i class="fa-solid fa-gear"></i> Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="carrito : ${carritos}">
                             <td th:text="${carrito.idCarrito}"></td>
                             <td th:text="${carrito.usuario.nombre}"></td>
-                            <td th:text="${carrito.fechaCreacion}"></td>
+                            <td th:text="${#dates.format(carrito.fechaCreacion, 'dd/MM/yyyy')}"></td>
                             <td th:text="${carrito.estado}"></td>
                             <td>
-                                <a th:href="@{'/carritos/editar/' + ${carrito.idCarrito}}" class="small-link">Editar</a>
-                                <a th:href="@{'/carritos/eliminar/' + ${carrito.idCarrito}}" class="small-link" style="color:#d32f2f;margin-left:8px;" onclick="return confirm('¿Está seguro de eliminar este carrito?');">Eliminar</a>
+                                <a th:href="@{'/carritos/detalle/' + ${carrito.idCarrito}}" class="icon-btn" title="Ver Detalle"><i class="fa-solid fa-eye"></i></a>
+                                <a th:href="@{'/carritos/editar/' + ${carrito.idCarrito}}" class="icon-btn" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a th:href="@{'/carritos/eliminar/' + ${carrito.idCarrito}}" class="icon-btn" style="color:#d32f2f;" title="Eliminar" onclick="return confirm('¿Está seguro de eliminar este carrito?');"><i class="fa-solid fa-trash"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -75,5 +57,6 @@
             </div>
         </div>
     </div>
+</section>
 </body>
 </html>

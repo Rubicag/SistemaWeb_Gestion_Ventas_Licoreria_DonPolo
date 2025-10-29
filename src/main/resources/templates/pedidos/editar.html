@@ -1,53 +1,46 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Pedido - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
-</head>
-<body>
-    <header>
-        <div class="brand">
-            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-            Licorería DonPolo
-        </div>
-        <nav class="menu">
-            <a th:href="@{/productos/listar}">Productos</a>
-            <a th:href="@{/ventas/listar}">Ventas</a>
-            <a th:href="@{/clientes/listar}">Clientes</a>
-            <a th:href="@{/proveedores/listar}">Proveedores</a>
-            <a th:href="@{/ventas/carrito}">Carritos</a>
-            <a th:href="@{/reportes/listar}">Reportes</a>
-            <a th:href="@{/home}">Inicio</a>
-        </nav>
-    </header>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(content=~{::section})}">
+    <th:block th:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/pedidos.css}" href="/css/pedidos.css" />
+    </th:block>
+
     <main class="main-content">
         <div class="card">
             <h2>Editar Pedido</h2>
             <form th:action="@{/pedidos/actualizar}" th:object="${pedido}" method="post">
+                <!-- ID oculto -->
                 <input type="hidden" th:field="*{idPedido}" />
+
                 <div class="form-row">
                     <label for="direccionEntrega">Dirección de Entrega:</label>
                     <input type="text" id="direccionEntrega" th:field="*{direccionEntrega}" required />
                 </div>
+
                 <div class="form-row">
                     <label for="usuario">Usuario:</label>
-                    <select id="usuario" th:field="*{usuario}" required>
-                        <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.nombre}"></option>
+                    <select id="usuario" th:field="*{usuario.idUsuario}" required>
+                        <option value="" disabled>Seleccione un usuario</option>
+                        <option th:each="usuario : ${usuarios}"
+                                th:value="${usuario.idUsuario}"
+                                th:text="${usuario.nombre}"
+                                th:selected="${usuario.idUsuario == pedido.usuario.idUsuario}">
+                        </option>
                     </select>
                 </div>
+
                 <div class="form-row">
                     <label for="fechaPedido">Fecha del Pedido:</label>
                     <input type="date" id="fechaPedido" th:field="*{fechaPedido}" required />
                 </div>
+
                 <div class="form-row">
                     <label for="estado">Estado:</label>
                     <input type="text" id="estado" th:field="*{estado}" required />
                 </div>
+
                 <button type="submit" class="primary">Actualizar</button>
                 <a th:href="@{/pedidos}" class="small-link" style="margin-left:1rem;">Cancelar</a>
             </form>
         </div>
     </main>
-</body>
 </html>
