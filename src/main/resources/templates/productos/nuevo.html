@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(content=~{::section})}">
+      >
 <head>
     <title>Agregar Producto - Licorería Don Polo</title>
     <link rel="stylesheet" th:href="@{/css/productos.css}" href="/css/productos.css" />
@@ -83,9 +83,7 @@
 </head>
 
 <body>
-    <div th:replace="~{layout :: header}"></div>
-
-    <section th:fragment="content">
+    <section>
         <div class="producto-form-hero">
             <span class="icon">📦</span>
             <h2>Agregar Producto</h2>
@@ -116,6 +114,5 @@
         </div>
     </section>
 
-    <div th:replace="~{layout :: footer}"></div>
 </body>
 </html>

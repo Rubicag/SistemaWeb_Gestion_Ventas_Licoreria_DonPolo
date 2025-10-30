@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(content=~{::section})}">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-    <!-- 🔹 Fragmento del head que se inyectará en el layout -->
-    <th:block th:fragment="head">
+    <head>
+        <meta charset="UTF-8">
         <title>Productos - Licorería Don Polo</title>
         <link rel="stylesheet" th:href="@{/css/productos.css}" href="/css/productos.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -85,7 +84,7 @@
                 color: #d32f2f;
             }
         </style>
-    </th:block>
+    </head>
 
     <!-- 🔹 Contenido principal -->
     <section>

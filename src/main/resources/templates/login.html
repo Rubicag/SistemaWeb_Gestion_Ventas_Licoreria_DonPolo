@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(content=~{::section})}">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="/css/index.css"/>
+</head>
+<body>
 <section>
     <style>
         .login-hero {
@@ -119,4 +124,5 @@
         </div>
     </div>
 </section>
+</body>
 </html>

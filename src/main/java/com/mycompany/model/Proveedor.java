@@ -13,7 +13,12 @@ public class Proveedor {
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
-    // Otros campos según tu base de datos
+
+    @Column(name = "telefono", length = 20)
+    private String telefono;
+
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
 
     public Integer getIdProveedor() { return idProveedor; }
     public void setIdProveedor(Integer idProveedor) { this.idProveedor = idProveedor; }

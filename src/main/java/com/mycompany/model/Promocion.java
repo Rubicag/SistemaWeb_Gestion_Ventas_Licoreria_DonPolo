@@ -14,7 +14,7 @@ public class Promocion {
     @Column(name = "descripcion", length = 200)
     private String descripcion;
 
-    @Column(name = "descuento", precision = 5, scale = 2)
+    @Column(name = "descuento")
     private Double descuento;
 
     @Column(name = "fecha_inicio")
