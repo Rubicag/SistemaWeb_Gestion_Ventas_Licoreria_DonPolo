@@ -109,6 +109,26 @@
                     * <span th:errors="*{cantidad}"></span>
                 </div>
 
+                <label for="categoriaId">Categoría:</label>
+                <select id="categoriaId" name="categoriaId" required>
+                    <option value="" disabled>Selecciona una categoría</option>
+                    <option th:each="cat : ${categorias}"
+                            th:value="${cat.idCategoria}"
+                            th:text="${cat.nombre}"
+                            th:selected="${producto.categoria != null} ? ${cat.idCategoria} == ${producto.categoria.idCategoria} : false">
+                    </option>
+                </select>
+
+                <label for="proveedorId">Proveedor:</label>
+                <select id="proveedorId" name="proveedorId" required>
+                    <option value="" disabled>Selecciona un proveedor</option>
+                    <option th:each="prov : ${proveedores}"
+                            th:value="${prov.idProveedor}"
+                            th:text="${prov.nombre}"
+                            th:selected="${producto.proveedor != null} ? ${prov.idProveedor} == ${producto.proveedor.idProveedor} : false">
+                    </option>
+                </select>
+
                 <button type="submit" class="primary">Actualizar</button>
             </form>
 

@@ -104,13 +104,13 @@
                 </thead>
                 <tbody>
                     <tr th:each="venta : ${ventas}">
-                        <td th:text="${venta.idVenta}"></td>
-                        <td th:text="${#dates.format(venta.fechaVenta, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${venta.id}"></td>
+                        <td th:text="${venta.fechaFormateada}"></td>
                         <td th:text="${venta.total}"></td>
                         <td th:text="${venta.cliente.nombre}"></td>
                         <td class="acciones">
-                            <a th:href="@{'/ventas/editar/' + ${venta.idVenta}}" title="Editar" class="icon-edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a th:href="@{'/ventas/eliminar/' + ${venta.idVenta}}" title="Eliminar" class="icon-delete" onclick="return confirm('¿Está seguro de eliminar esta venta?');"><i class="fa-solid fa-trash"></i></a>
+                            <a th:href="@{'/ventas/editar/' + ${venta.id}}" title="Editar" class="icon-edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a th:href="@{'/ventas/eliminar/' + ${venta.id}}" title="Eliminar" class="icon-delete" onclick="return confirm('¿Está seguro de eliminar esta venta?');"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(ventas)}">

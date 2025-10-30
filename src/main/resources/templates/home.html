@@ -49,7 +49,10 @@
     <section>
         <div style="max-width:1200px;margin:0 auto;padding:0 32px;">
             <main style="margin:40px auto 0 auto;max-width:1000px;">
-                <h2 style="color:#a05a2c;font-size:2.2rem;text-align:center;margin-bottom:8px;">Bienvenido, <span th:text="${#authentication.name}">Usuario</span></h2>
+                <h2 style="color:#a05a2c;font-size:2.2rem;text-align:center;margin-bottom:8px;">Bienvenido, 
+                    <span th:if="${#authentication != null}" th:text="${#authentication.name}">Usuario</span>
+                    <span th:if="${#authentication == null}">Invitado</span>
+                </h2>
                 <p style="text-align:center;font-size:1.15rem;color:#5a3c1a;">Panel de gestión y ventas de la Licorería Don Polo</p>
                 <div class="dashboard-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;margin-top:40px;">
                     <a th:href="@{/productos/listar}" class="dashboard-card" style="background:#fff6e6ee;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.09);padding:32px 24px;text-align:center;transition:box-shadow 0.2s,transform 0.2s;cursor:pointer;display:block;text-decoration:none;color:inherit;">

@@ -71,14 +71,12 @@
 </head>
 
 <body>
-    <!-- Aquí sí va el layout -->
-    <div th:replace="~{layout :: layout}">
-        <main class="main-content">
-            <section>
-                <div class="container">
-                    <div class="card">
-                        <h2><i class="fas fa-cart-plus"></i> Registrar Nuevo Carrito</h2>
-                        <form th:action="@{/carritos/guardar}" th:object="${carrito}" method="post">
+    <main class="main-content">
+        <section>
+            <div class="container">
+                <div class="card">
+                    <h2><i class="fas fa-cart-plus"></i> Registrar Nuevo Carrito</h2>
+                    <form th:action="@{/carritos/guardar}" th:object="${carrito}" method="post">
                             <div class="form-row">
                                 <label for="usuario">Usuario:</label>
                                 <select id="usuario" th:field="*{usuario}" required>

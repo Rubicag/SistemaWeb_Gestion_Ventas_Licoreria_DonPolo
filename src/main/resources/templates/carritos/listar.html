@@ -42,8 +42,8 @@
                     <tbody>
                         <tr th:each="carrito : ${carritos}">
                             <td th:text="${carrito.idCarrito}"></td>
-                            <td th:text="${carrito.usuario.nombre}"></td>
-                            <td th:text="${#dates.format(carrito.fechaCreacion, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${carrito.idUsuario}"></td>
+                            <td th:text="${carrito.fechaCreacion}"></td>
                             <td th:text="${carrito.estado}"></td>
                             <td>
                                 <a th:href="@{'/carritos/detalle/' + ${carrito.idCarrito}}" class="icon-btn" title="Ver Detalle"><i class="fa-solid fa-eye"></i></a>

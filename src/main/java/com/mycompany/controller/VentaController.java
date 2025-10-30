@@ -161,5 +161,22 @@ public String historialCompras(Model model) {
     model.addAttribute("ventas", ventas);
     return "ventas/listar";
 }
+@GetMapping("/listar")
+public String listarVentas(Model model) {
+    java.util.List<Venta> ventas = ventaService.obtenerVentas();
+    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+    java.util.List<java.util.Map<String, Object>> ventasFormateadas = new java.util.ArrayList<>();
+    for (Venta venta : ventas) {
+        java.util.Map<String, Object> map = new java.util.HashMap<>();
+        map.put("id", venta.getId());
+        map.put("fechaFormateada", venta.getFecha() != null ? sdf.format(venta.getFecha()) : "");
+        map.put("total", venta.getTotal());
+        map.put("cliente", venta.getUsuario());
+        map.put("venta", venta); // Para acceso a otros campos si es necesario
+        ventasFormateadas.add(map);
+    }
+    model.addAttribute("ventas", ventasFormateadas);
+    return "ventas/listar";
+}
 
 }

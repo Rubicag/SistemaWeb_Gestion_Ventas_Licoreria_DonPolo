@@ -4,7 +4,11 @@
  */
 package com.mycompany.controller;
 import com.mycompany.model.Producto;
+import com.mycompany.model.Categoria;
+import com.mycompany.model.Proveedor;
 import com.mycompany.service.ProductoService;
+import com.mycompany.service.CategoriaService;
+import com.mycompany.service.ProveedorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +26,13 @@ import java.util.List;
 @RequestMapping("/productos")
 public class ProductoController {
     private final ProductoService productoService;
+    private final CategoriaService categoriaService;
+    private final ProveedorService proveedorService;
     // Constructor para inyección de dependencias
-    public ProductoController(ProductoService productoService) {
+    public ProductoController(ProductoService productoService, CategoriaService categoriaService, ProveedorService proveedorService) {
         this.productoService = productoService;
+        this.categoriaService = categoriaService;
+        this.proveedorService = proveedorService;
     }
 
     // Redirigir /productos a /productos/listar
@@ -54,12 +62,18 @@ public class ProductoController {
     @GetMapping("/agregar")
     public String mostrarFormularioAgregar(Model model) {
         model.addAttribute("producto", new Producto());
-        return "productos/agregar"; // Corrige la ruta a la carpeta correcta
+        model.addAttribute("categorias", categoriaService.listarCategorias());
+        model.addAttribute("proveedores", proveedorService.listarProveedores());
+        return "productos/agregar";
     }
 
     // Procesar formulario de agregar producto
     @PostMapping("/agregar")
-    public String agregarProducto(@ModelAttribute Producto producto) {
+    public String agregarProducto(@ModelAttribute Producto producto, @RequestParam Integer categoriaId, @RequestParam Integer proveedorId) {
+        Categoria categoria = categoriaService.obtenerCategoriaPorId(categoriaId);
+        Proveedor proveedor = proveedorService.obtenerProveedorPorId(proveedorId);
+        producto.setCategoria(categoria);
+        producto.setProveedor(proveedor);
         productoService.agregarProducto(producto);
         return "redirect:/productos/listar";
     }
@@ -69,5 +83,32 @@ public class ProductoController {
     public String eliminarProducto(@PathVariable("id") int id) {
         productoService.eliminarProducto(id);
         return "redirect:/productos/listar";
+    }
+
+    // Mostrar formulario para editar producto
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable("id") int id, Model model) {
+        Producto producto = productoService.buscarProductoPorId(id);
+        model.addAttribute("producto", producto);
+        model.addAttribute("categorias", categoriaService.listarCategorias());
+        model.addAttribute("proveedores", proveedorService.listarProveedores());
+        return "productos/editar";
+    }
+
+    // Procesar formulario de edición de producto
+    @PostMapping("/actualizar")
+    public String actualizarProducto(@ModelAttribute Producto producto, @RequestParam Integer categoriaId, @RequestParam Integer proveedorId) {
+        Categoria categoria = categoriaService.obtenerCategoriaPorId(categoriaId);
+        Proveedor proveedor = proveedorService.obtenerProveedorPorId(proveedorId);
+        producto.setCategoria(categoria);
+        producto.setProveedor(proveedor);
+        productoService.agregarProducto(producto); // save() sirve para update también
+        return "redirect:/productos/listar";
+    }
+
+    // Redirigir /productos/nuevo a /productos/agregar para compatibilidad
+    @GetMapping("/nuevo")
+    public String redirigirNuevo() {
+        return "redirect:/productos/agregar";
     }
 }
