@@ -28,7 +28,8 @@ public class Usuario {
     @Column(name = "correo", unique = true, length = 100)
     private String correo;
 
-    @Column(name = "contraseña", nullable = false, length = 255)
+    // Nota: El campo debe almacenar la contraseña hasheada, nunca en texto plano
+    @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;
 
     @Column(name = "rol", nullable = false, length = 20)

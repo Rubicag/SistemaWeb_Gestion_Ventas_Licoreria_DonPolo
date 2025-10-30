@@ -1,0 +1,52 @@
+/* Estilos para la vista de login */
+.card {
+    max-width: 400px;
+    margin: 90px auto 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 32px 24px;
+}
+.logo {
+    display: flex;
+    justify-content: center;
+}
+.brand {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #a05a2c;
+    margin-bottom: 10px;
+}
+.form-row {
+    margin-bottom: 16px;
+}
+.error {
+    color: #c62828;
+    background: #ffebee;
+    border-radius: 4px;
+    padding: 8px;
+    margin-top: 10px;
+}
+.success {
+    color: #388e3c;
+    background: #e8f5e9;
+    border-radius: 4px;
+    padding: 8px;
+    margin-top: 10px;
+}
+.help {
+    margin-top: 18px;
+    font-size: 0.98rem;
+    text-align: center;
+}
+.small-link {
+    color: #e09f3e;
+    text-decoration: underline;
+}
+.small-link:hover {
+    color: #a05a2c;
+}
+@media (max-width: 500px) {
+    .card { padding: 18px 4px; }
+}

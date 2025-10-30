@@ -1,39 +1,45 @@
-<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Editar Carrito - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Editar Carrito - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/carritos.css}" href="/css/carritos.css" />
     <style>
-        body{ font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(120deg,#f7c873 0%,#e09f3e 100%); margin:0 }
-        .header{ width:100vw; background:#fff6e6ee; box-shadow:0 2px 12px rgba(0,0,0,0.07); position:fixed; top:0; left:0 }
-        .header-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 32px; height:72px }
-        .brand{ display:flex; align-items:center; font-size:2rem; color:#a05a2c }
-        .logo{ height:48px; margin-right:12px }
-        .container{ max-width:800px; margin:110px auto; padding:0 24px }
+        .container{ max-width:480px; margin:110px auto; padding:0 24px }
         .card{ background:#fff; border-radius:12px; padding:24px; box-shadow:0 6px 20px rgba(0,0,0,0.08) }
-        label{ display:block; margin-top:12px; color:#555 }
-        input, select{ width:100%; padding:10px; margin-top:6px; border-radius:8px; border:1px solid #e6d5bd }
-        .actions{ margin-top:18px; display:flex; gap:12px }
-        .primary{ background:#e09f3e; color:#fff; padding:8px 14px; border-radius:8px; text-decoration:none; border:none }
-        .secondary{ background:#f3f3f3; color:#333; padding:8px 14px; border-radius:8px; border:none }
+        label{ display:block; margin-top:12px; color:#a05a2c; font-weight:600; }
+        input, select{ width:100%; padding:10px; margin-top:6px; border-radius:8px; border:1px solid #e09f3e99; font-size:1rem; }
+        .actions{ margin-top:18px; display:flex; gap:12px; justify-content:center; }
+        .primary{ background:#e09f3e; color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; border:none; font-weight:600; cursor:pointer; transition:background 0.2s; }
+        .primary:hover{ background:#a05a2c; }
+        .secondary{ background:#fff6e6ee; color:#a05a2c; border:1px solid #e09f3e99; border-radius:8px; padding:10px 18px; font-weight:600; cursor:pointer; text-decoration:none; transition:background 0.2s; }
+        .secondary:hover{ background:#e09f3e; color:#fff; }
     </style>
 </head>
-<body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
+    <section>
+        <div class="container">
+            <div class="card">
+                <h2><i class="fas fa-edit"></i> Editar Carrito</h2>
+                <form th:action="@{/carritos/actualizar}" th:object="${carrito}" method="post">
+                    <input type="hidden" th:field="*{idCarrito}" />
+                    <div class="form-row">
+                        <label for="usuario">Usuario:</label>
+                        <select id="usuario" th:field="*{usuario}" required>
+                            <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.nombre}"></option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="fechaCreacion">Fecha de Creación:</label>
+                        <input type="date" id="fechaCreacion" th:field="*{fechaCreacion}" required />
+                    </div>
+                    <div class="form-row">
+                        <label for="estado">Estado:</label>
+                        <input type="text" id="estado" th:field="*{estado}" required />
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="primary"><i class="fas fa-save"></i> Guardar Cambios</button>
+                        <a th:href="@{/carritos/listar}" class="secondary"><i class="fas fa-times"></i> Cancelar</a>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="card">
-            <h2>Editar Carrito</h2>
-            <!-- Formulario de edición deshabilitado hasta que exista backend -->
-        </div>
-    </div>
-</body>
+    </section>
 </html>
-    <main class="main-content">

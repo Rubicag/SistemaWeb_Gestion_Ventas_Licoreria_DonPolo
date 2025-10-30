@@ -1,62 +1,47 @@
-<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Usuarios - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Usuarios - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/usuarios.css}" href="/css/usuarios.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
-            </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/carritos/listar}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-                <a th:href="@{/home}">Inicio</a>
-            </nav>
-        </div>
-    </div>
-    <main class="main-content">
+<!-- Usamos un fragmento que será insertado en el layout -->
+<!-- ... -->
+    <section>
         <div class="container">
             <div class="card">
-                <h2>Listado de Usuarios</h2>
-                <a th:href="@{/usuarios/nuevo}" class="primary" style="margin-bottom:1rem;display:inline-block;">Registrar Nuevo Usuario</a>
+                <h2><i class="fa-solid fa-users" style="color:#e09f3e;"></i> Listado de Usuarios</h2>
+                <a th:href="@{/usuarios/nuevo}" class="primary" style="margin-bottom:1rem;display:inline-block;"><i class="fa-solid fa-user-plus"></i> Registrar Nuevo Usuario</a>
                 <div class="table-responsive">
-                <table>
-            <thead>
-                <tr style="background:var(--muted);color:var(--brand-1);">
-                    <th>ID Usuario</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="usuario : ${usuarios}">
-                    <td th:text="${usuario.idUsuario}"></td>
-                    <td th:text="${usuario.nombre}"></td>
-                    <td th:text="${usuario.apellido}"></td>
-                    <td th:text="${usuario.correo}"></td>
-                    <td th:text="${usuario.rol}"></td>
-                    <td>
-                        <a th:href="@{'/usuarios/editar/' + ${usuario.idUsuario}}" class="small-link">Editar</a>
-                        <a th:href="@{'/usuarios/eliminar/' + ${usuario.idUsuario}}" class="small-link" style="color:var(--error);margin-left:8px;" onclick="return confirm('¿Está seguro de eliminar este usuario?');">Eliminar</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    <table>
+                        <thead>
+                            <tr style="background:var(--muted);color:var(--brand-1);">
+                                <th><i class="fa-solid fa-hashtag"></i> ID Usuario</th>
+                                <th><i class="fa-solid fa-user"></i> Nombre</th>
+                                <th><i class="fa-solid fa-user"></i> Apellido</th>
+                                <th><i class="fa-solid fa-envelope"></i> Correo</th>
+                                <th><i class="fa-solid fa-user-shield"></i> Rol</th>
+                                <th><i class="fa-solid fa-gear"></i> Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="usuario : ${usuarios}">
+                                <td th:text="${usuario.idUsuario}"></td>
+                                <td th:text="${usuario.nombre}"></td>
+                                <td th:text="${usuario.apellido}"></td>
+                                <td th:text="${usuario.correo}"></td>
+                                <td th:text="${usuario.rol}"></td>
+                                <td>
+                                    <a th:href="@{'/usuarios/editar/' + ${usuario.idUsuario}}" class="small-link" title="Editar"><i class="fa-solid fa-pen-to-square" style="color:#1976d2;"></i></a>
+                                    <a th:href="@{'/usuarios/eliminar/' + ${usuario.idUsuario}}" class="small-link" style="color:var(--error);margin-left:8px;" title="Eliminar" onclick="return confirm('¿Está seguro de eliminar este usuario?');"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
+</th:block>
 </body>
 </html>

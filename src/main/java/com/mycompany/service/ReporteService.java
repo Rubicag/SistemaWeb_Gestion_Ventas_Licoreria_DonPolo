@@ -2,26 +2,29 @@ package com.mycompany.service;
 
 import com.mycompany.model.Reporte;
 import com.mycompany.repository.ReporteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReporteService {
-    @Autowired
-    private ReporteRepository reporteRepository;
+    private final ReporteRepository reporteRepository;
 
-    public List<Reporte> listarReportes() {
+    public ReporteService(ReporteRepository reporteRepository) {
+        this.reporteRepository = reporteRepository;
+    }
+
+    public List<Reporte> obtenerReportes() {
         return reporteRepository.findAll();
+    }
+
+    public Optional<Reporte> obtenerPorId(Integer id) {
+        return reporteRepository.findById(id);
     }
 
     public Reporte guardarReporte(Reporte reporte) {
         return reporteRepository.save(reporte);
-    }
-
-    public Reporte obtenerReportePorId(Integer id) {
-        return reporteRepository.findById(id).orElse(null);
     }
 
     public void eliminarReporte(Integer id) {

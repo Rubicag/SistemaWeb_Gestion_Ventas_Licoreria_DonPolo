@@ -3,17 +3,35 @@ package com.mycompany.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "proveedor")
+@Table(name = "proveedores")
 public class Proveedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_proveedor")
     private Integer idProveedor;
-
+                                                                                                                                                                                                                                                                                        
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
-    // Otros campos según tu base de datos
+
+    @Column(name = "telefono", length = 20)
+    private String telefono;
+
+
+    @Column(name = "email", length = 100)
+    private String email;
+
+    @Column(name = "estado", length = 20)
+    private String estado;
+
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 
     public Integer getIdProveedor() { return idProveedor; }
     public void setIdProveedor(Integer idProveedor) { this.idProveedor = idProveedor; }

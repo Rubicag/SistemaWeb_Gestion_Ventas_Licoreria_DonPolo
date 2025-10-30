@@ -1,48 +1,141 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Producto - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
-</head>
-<body>
-    <header>
-        <div class="brand">
-            <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-            Licorería DonPolo
-        </div>
-        <nav class="menu">
-            <a th:href="@{/productos/listar}">Productos</a>
-            <a th:href="@{/ventas/listar}">Ventas</a>
-            <a th:href="@{/clientes/listar}">Clientes</a>
-            <a th:href="@{/proveedores/listar}">Proveedores</a>
-            <a th:href="@{/ventas/carrito}">Carritos</a>
-            <a th:href="@{/reportes/listar}">Reportes</a>
-            <a th:href="@{/home}">Inicio</a>
-        </nav>
-    </header>
-    <main class="main-content">
-        <div class="card">
+    <head>
+        <meta charset="UTF-8">
+        <title>Editar Producto - Licorería Don Polo</title>
+        <link rel="stylesheet" th:href="@{/css/productos.css}" href="/css/productos.css" />
+        <style>
+            .producto-form-hero {
+                background: #fff6e6ee;
+                border-radius: 18px;
+                box-shadow: 0 6px 32px rgba(160,90,44,0.10);
+                max-width: 440px;
+                margin: 60px auto 0 auto;
+                padding: 44px 32px 32px 32px;
+                position: relative;
+                text-align: center;
+            }
+            .producto-form-hero h2 {
+                color: #a05a2c;
+                font-size: 2rem;
+                margin-bottom: 18px;
+                font-weight: 700;
+            }
+            .producto-form-hero form {
+                margin-top: 18px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+            .producto-form-hero label {
+                font-weight: 500;
+                color: #a05a2c;
+                margin-bottom: 4px;
+                text-align: left;
+            }
+            .producto-form-hero input[type="text"],
+            .producto-form-hero input[type="number"] {
+                padding: 10px 12px;
+                border-radius: 6px;
+                border: 1px solid #e09f3e;
+                font-size: 1rem;
+                background: #fff;
+                margin-bottom: 8px;
+            }
+            .producto-form-hero button.primary {
+                background: #a05a2c;
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                padding: 12px 0;
+                font-size: 1.1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+            .producto-form-hero button.primary:hover {
+                background: #e09f3e;
+            }
+            .producto-form-hero .error {
+                color: #d32f2f;
+                background: #fff0f0;
+                border-radius: 4px;
+                padding: 8px 0;
+                margin-top: 8px;
+                font-size: 0.98rem;
+            }
+            .producto-form-hero .help {
+                margin-top: 18px;
+                font-size: 1rem;
+            }
+            .producto-form-hero .help a {
+                color: #e09f3e;
+                text-decoration: underline;
+                font-weight: 500;
+            }
+            .producto-form-hero .icon {
+                font-size: 2.2rem;
+                color: #e09f3e;
+                margin-bottom: 8px;
+                display: block;
+            }
+        </style>
+    </head>
+
+    <section>
+        <div class="producto-form-hero">
+            <span class="icon">✏️</span>
             <h2>Editar Producto</h2>
-            <form th:action="@{/productos/actualizar}" method="post">
-                <input type="hidden" name="idProducto" th:value="${producto.idProducto}" />
-                <div class="form-row">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" th:value="${producto.nombre}" required />
+
+            <!-- 🔹 Cambiado: se agregó th:object correctamente -->
+            <form th:action="@{/productos/actualizar}" th:object="${producto}" method="post">
+                <input type="hidden" th:field="*{idProducto}" />
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required />
+                <div th:if="${#fields.hasErrors('nombre')}" class="error">
+                    * <span th:errors="*{nombre}"></span>
                 </div>
-                <div class="form-row">
-                    <label for="precio">Precio:</label>
-                    <input type="number" id="precio" name="precio" step="0.01" th:value="${producto.precio}" required />
+
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" th:field="*{precio}" step="0.01" required />
+                <div th:if="${#fields.hasErrors('precio')}" class="error">
+                    * <span th:errors="*{precio}"></span>
                 </div>
-                <div class="form-row">
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad" name="cantidad" th:value="${producto.cantidad}" required />
+
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" th:field="*{cantidad}" required />
+                <div th:if="${#fields.hasErrors('cantidad')}" class="error">
+                    * <span th:errors="*{cantidad}"></span>
                 </div>
+
+                <label for="categoriaId">Categoría:</label>
+                <select id="categoriaId" name="categoriaId" required>
+                    <option value="" disabled>Selecciona una categoría</option>
+                    <option th:each="cat : ${categorias}"
+                            th:value="${cat.idCategoria}"
+                            th:text="${cat.nombre}"
+                            th:selected="${producto.categoria != null} ? ${cat.idCategoria} == ${producto.categoria.idCategoria} : false">
+                    </option>
+                </select>
+
+                <label for="proveedorId">Proveedor:</label>
+                <select id="proveedorId" name="proveedorId" required>
+                    <option value="" disabled>Selecciona un proveedor</option>
+                    <option th:each="prov : ${proveedores}"
+                            th:value="${prov.idProveedor}"
+                            th:text="${prov.nombre}"
+                            th:selected="${producto.proveedor != null} ? ${prov.idProveedor} == ${producto.proveedor.idProveedor} : false">
+                    </option>
+                </select>
+
                 <button type="submit" class="primary">Actualizar</button>
             </form>
-            <div class="help" style="margin-top:1rem;">
+
+            <div class="help">
                 <a th:href="@{/productos/listar}" class="small-link">Volver a la lista</a>
             </div>
         </div>
-    </main>
-</body>
+    </section>
+</html>
+

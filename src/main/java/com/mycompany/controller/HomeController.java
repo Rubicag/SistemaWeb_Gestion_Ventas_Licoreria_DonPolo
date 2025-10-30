@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     @GetMapping("/")
     public String home() {
-        return "index"; // Asegúrate de tener templates/index.html
+        return "home"; // Ahora la raíz muestra el dashboard moderno
     }
 }

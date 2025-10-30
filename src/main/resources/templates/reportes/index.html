@@ -1,40 +1,90 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Reportes - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Reportes - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/reportes.css}" href="/css/reportes.css" />
+    <link rel="stylesheet" th:href="@{/css/fontawesome.min.css}" href="/css/fontawesome.min.css" />
+    
+    <style>
+        .report-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        .report-card {
+            background: #fff6e6ee;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 2rem 2.5rem;
+            min-width: 220px;
+            text-align: center;
+            transition: box-shadow 0.2s, transform 0.2s;
+            border: 1px solid #e09f3e33;
+        }
+        .report-card:hover {
+            box-shadow: 0 4px 16px rgba(224,159,62,0.18);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .report-icon {
+            font-size: 2.5rem;
+            color: #e09f3e;
+            margin-bottom: 0.7rem;
+        }
+        .report-link {
+            color: #a05a2c;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            margin-top: 0.5rem;
+            transition: color 0.2s;
+        }
+        .report-link:hover {
+            color: #e09f3e;
+        }
+        @media (max-width: 700px) {
+            .report-list { flex-direction: column; align-items: center; }
+            .report-card { width: 90%; min-width: unset; }
+        }
+    </style>
 </head>
-<body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/489776759_1445572563416672_585177025224455684_n.jpg" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
-            </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/carritos/listar}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-                <a th:href="@{/home}">Inicio</a>
-            </nav>
-        </div>
-    </div>
-    <main class="main-content">
+
+<!-- ... -->
+    <section>
         <div class="container">
-            <div class="card">
-                <h2>Reportes del Sistema</h2>
+            <div class="card" style="padding: 2.5rem 1.5rem;">
+                <h2 style="margin-bottom: 2rem; color: #a05a2c;">Reportes del Sistema</h2>
                 <ul class="report-list">
-                    <li><a th:href="@{/reportes/inventarios}">Inventarios</a></li>
-                    <li><a th:href="@{/reportes/productosMasVendidos}">Productos Más Vendidos</a></li>
-                    <li><a th:href="@{/reportes/reportePagos}">Pagos</a></li>
-                    <li><a th:href="@{/reportes/reportePedidos}">Pedidos</a></li>
+                    <li>
+                        <div class="report-card">
+                            <span class="report-icon"><i class="fas fa-warehouse"></i></span>
+                            <a th:href="@{/reportes/inventarios}" class="report-link">Inventarios</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="report-card">
+                            <span class="report-icon"><i class="fas fa-chart-bar"></i></span>
+                            <a th:href="@{/reportes/productosMasVendidos}" class="report-link">Productos Más Vendidos</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="report-card">
+                            <span class="report-icon"><i class="fas fa-money-check-alt"></i></span>
+                            <a th:href="@{/reportes/reportePagos}" class="report-link">Pagos</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="report-card">
+                            <span class="report-icon"><i class="fas fa-truck"></i></span>
+                            <a th:href="@{/reportes/reportePedidos}" class="report-link">Pedidos</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
-    </main>
-</body>
+    </section>
+</th:block>
 </html>

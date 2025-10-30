@@ -3,19 +3,19 @@ package com.mycompany.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "detalle_pedido")
+@Table(name = "detalle_pedidos")
 public class DetallePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_detalle_pedido")
-    private Long idDetallePedido;
+    @Column(name = "id_detalle")
+    private Integer idDetalle;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "id_producto")
     private Producto producto;
 
     @Column(name = "cantidad")
@@ -28,8 +28,8 @@ public class DetallePedido {
     private Double subtotal;
 
     // Getters y setters
-    public Long getIdDetallePedido() { return idDetallePedido; }
-    public void setIdDetallePedido(Long idDetallePedido) { this.idDetallePedido = idDetallePedido; }
+    public Integer getIdDetalle() { return idDetalle; }
+    public void setIdDetalle(Integer idDetalle) { this.idDetalle = idDetalle; }
 
     public Pedido getPedido() { return pedido; }
     public void setPedido(Pedido pedido) { this.pedido = pedido; }

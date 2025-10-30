@@ -1,86 +1,10 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Reportes - Licorería DonPolo</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css" />
+    <title>Reporte de Ventas por Producto - Licorería Don Polo</title>
+    <link rel="stylesheet" th:href="@{/css/reportes.css}" href="/css/reportes.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(120deg, #f7c873 0%, #e09f3e 100%);
-            margin: 0;
-            min-height: 100vh;
-        }
-        .header {
-            width: 100vw;
-            background: #fff6e6ee;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-            z-index: 100;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            height: 72px;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #a05a2c;
-        }
-        .logo {
-            height: 48px;
-            margin-right: 16px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .menu {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-        }
-        .menu a {
-            color: #a05a2c;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.08rem;
-            padding: 8px 14px;
-            border-radius: 4px;
-            transition: background 0.2s, color 0.2s;
-        }
-        .menu a:hover {
-            background: #e09f3e;
-            color: #fff;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
-            max-width: 900px;
-            margin: 120px auto 0 auto;
-            padding: 40px 32px 32px 32px;
-        }
-        h2 {
-            color: #a05a2c;
-            margin-bottom: 18px;
-        }
         .primary {
             background: #e09f3e;
             color: #fff;
@@ -129,56 +53,62 @@
         @media (max-width: 900px) {
             .card { padding: 18px 4px; }
         }
+        .filter-bar {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar input, .filter-bar select {
+            padding: 7px 12px;
+            border-radius: 5px;
+            border: 1px solid #e09f3e99;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-inner">
-            <div class="brand">
-                <img src="/images/logo-donpolo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
-                Licorería DonPolo
-            </div>
-            <nav class="menu">
-                <a th:href="@{/productos/listar}">Productos</a>
-                <a th:href="@{/ventas/listar}">Ventas</a>
-                <a th:href="@{/clientes/listar}">Clientes</a>
-                <a th:href="@{/proveedores/listar}">Proveedores</a>
-                <a th:href="@{/ventas/carrito}">Carritos</a>
-                <a th:href="@{/reportes/listar}">Reportes</a>
-                <a th:href="@{/home}">Inicio</a>
-            </nav>
-        </div>
-    </div>
-    <div class="container">
-        <div class="card">
-            <h2>Listado de Reportes</h2>
-            <a th:href="@{/reportes/nuevo}" class="primary">Generar Nuevo Reporte</a>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Reporte</th>
-                            <th>Tipo</th>
-                            <th>Fecha</th>
-                            <th>Usuario</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="reporte : ${reportes}">
-                            <td th:text="${reporte.idReporte}"></td>
-                            <td th:text="${reporte.tipo}"></td>
-                            <td th:text="${reporte.fecha}"></td>
-                            <td th:text="${reporte.usuario.nombre}"></td>
-                            <td>
-                                <a th:href="@{'/reportes/ver/' + ${reporte.idReporte}}" class="small-link">Ver</a>
-                                <a th:href="@{'/reportes/eliminar/' + ${reporte.idReporte}}" class="small-link" style="color:var(--error);margin-left:8px;" onclick="return confirm('¿Está seguro de eliminar este reporte?');">Eliminar</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <section>
+        <div class="container">
+            <div class="card">
+                <h2><i class="fa-solid fa-chart-line"></i> Reporte de Ventas por Producto</h2>
+                <div class="filter-bar">
+                    <input type="text" placeholder="Buscar producto..." oninput="filtrarTabla(this.value)">
+                </div>
+                <div class="table-responsive">
+                    <table id="tablaReportes">
+                        <thead>
+                            <tr>
+                                <th><i class="fa-solid fa-tag"></i> Producto</th>
+                                <th><i class="fa-solid fa-cubes"></i> Cantidad Vendida</th>
+                                <th><i class="fa-solid fa-dollar-sign"></i> Total Vendido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${reporteVentas}">
+                                <td th:text="${item.nombreProducto}"></td>
+                                <td th:text="${item.cantidadVendida}"></td>
+                                <td th:text="${item.totalVendido}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+        <script>
+            function filtrarTabla(valor) {
+                const tabla = document.getElementById('tablaReportes');
+                const filas = tabla.getElementsByTagName('tr');
+                for (let i = 1; i < filas.length; i++) {
+                    const celdas = filas[i].getElementsByTagName('td');
+                    if (celdas.length > 0) {
+                        const producto = celdas[0].textContent.toLowerCase();
+                        filas[i].style.display = producto.includes(valor.toLowerCase()) ? '' : 'none';
+                    }
+                }
+            }
+        </script>
+    </section>
 </body>
 </html>
