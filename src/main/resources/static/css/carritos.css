@@ -1,3 +1,18 @@
+/* Estilos extraídos de carritos.html */
+:root{
+  --primary-brown:#a05a2c;
+  --primary-gold:#e09f3e;
+  --bg-light:#f8f6f2;
+  --bg-warm:#fff6e6;
+}
+.container-fluid{padding:2rem}
+h1{color:var(--primary-brown);font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.acciones-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.btn-primary-custom{background:linear-gradient(135deg,var(--primary-brown) 0%,var(--primary-gold) 100%)}
+.search-box{position:relative;flex:1;max-width:400px}
+.search-box input{width:100%;padding:0.75rem 1rem 0.75rem 3rem;border:2px solid var(--primary-gold);border-radius:8px}
+.carrito-items{max-height:300px;overflow-y:auto;border:2px solid var(--bg-warm);border-radius:8px;padding:1rem}
+.carrito-item{background:var(--bg-warm);border-radius:8px;padding:0.75rem;margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center}
 /* Estilos para la gestión de carritos - coherente con el sistema */
 .card {
     margin-bottom: 18px;

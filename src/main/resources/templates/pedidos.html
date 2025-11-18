@@ -1,0 +1,224 @@
+<div th:replace="~{fragments/layout :: base(title='Gestión de Pedidos', active='pedidos')}">
+    <div th:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/pedidos.css}" />
+    </div>
+    <div th:fragment="content">
+        <div class="container-fluid">
+            <h1>
+                <i class="fas fa-truck"></i>
+                Gestión de Pedidos
+            </h1>
+
+            <!-- Alertas -->
+            <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <span th:text="${mensaje}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Acciones Header -->
+            <div class="acciones-header">
+                <button class="btn btn-primary-custom" onclick="nuevoPedido()">
+                    <i class="fas fa-plus"></i> Nuevo Pedido
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="buscar" class="form-control" placeholder="Buscar por ID, dirección, estado, usuario..." onkeyup="filtrarTabla()">
+                </div>
+            </div>
+
+            <!-- Tabla de Pedidos -->
+            <div class="table-container">
+                <table class="table table-hover" id="tablaPedidos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha Pedido</th>
+                            <th>Dirección Entrega</th>
+                            <th>Estado</th>
+                            <th>Usuario</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pedido : ${pedidos}">
+                            <td th:text="${pedido.idPedido}"></td>
+                            <td th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td th:text="${pedido.direccionEntrega}"></td>
+                            <td>
+                                <span th:class="'badge ' + 
+                                    (${pedido.estado} == 'PENDIENTE' ? 'bg-warning text-dark' : 
+                                    (${pedido.estado} == 'EN_PROCESO' ? 'bg-info' : 
+                                    (${pedido.estado} == 'ENVIADO' ? 'bg-primary' : 
+                                    (${pedido.estado} == 'ENTREGADO' ? 'bg-success' : 
+                                    'bg-danger'))))"
+                                    th:text="${pedido.estado}">
+                                </span>
+                            </td>
+                            <td th:text="${pedido.usuario != null ? pedido.usuario.nombre : 'Sin usuario'}"></td>
+                            <td>
+                                <button class="btn btn-sm btn-info btn-action btn-sm-custom btn-ver" 
+                                    th:attr="data-id=${pedido.idPedido},data-fecha=${#temporals.format(pedido.fecha, 'yyyy-MM-dd''T''HH:mm:ss')},data-direccion=${pedido.direccionEntrega},data-estado=${pedido.estado},data-observaciones=${pedido.observaciones},data-usuario-id=${pedido.usuario != null ? pedido.usuario.idUsuario : ''},data-usuario-nombre=${pedido.usuario != null ? pedido.usuario.nombre : ''}"
+                                    onclick="verDetalleBtn(this)"
+                                    title="Ver detalle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-warning btn-action btn-sm-custom btn-edit" 
+                                    th:attr="data-id=${pedido.idPedido},data-fecha=${#temporals.format(pedido.fecha, 'yyyy-MM-dd''T''HH:mm:ss')},data-direccion=${pedido.direccionEntrega},data-estado=${pedido.estado},data-observaciones=${pedido.observaciones},data-usuario-id=${pedido.usuario != null ? pedido.usuario.idUsuario : ''}"
+                                    onclick="editarPedidoBtn(this)"
+                                    title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-success btn-action btn-sm-custom" 
+                                    th:if="${pedido.estado != 'ENTREGADO' && pedido.estado != 'CANCELADO'}"
+                                    th:attr="data-id=${pedido.idPedido},data-estado=${pedido.estado}"
+                                    onclick="cambiarEstadoBtn(this)"
+                                    title="Cambiar estado">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-action btn-sm-custom" 
+                                    th:if="${pedido.estado == 'PENDIENTE'}"
+                                    th:attr="data-id=${pedido.idPedido}"
+                                    onclick="cancelarPedidoBtn(this)"
+                                    title="Cancelar">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(pedidos)}">
+                            <td colspan="6" class="text-center text-muted">
+                                <i class="fas fa-inbox fa-2x mb-2"></i>
+                                <p>No hay pedidos registrados</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal Nuevo/Editar Pedido -->
+        <div class="modal fade" id="modalPedido" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitulo">
+                            <i class="fas fa-truck"></i> Nuevo Pedido
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="formPedido" th:action="@{/pedidos/guardar}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" id="idPedido" name="idPedido">
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="usuario" class="form-label">
+                                        <i class="fas fa-user"></i> Usuario *
+                                    </label>
+                                    <select class="form-select" id="usuario" name="usuario.idUsuario" required>
+                                        <option value="">Seleccione un usuario</option>
+                                            <option th:each="usuario : ${usuarios}" 
+                                                th:value="${usuario.idUsuario}" 
+                                                th:text="${usuario.nombre + ' (' + usuario.correo + ')'}">
+                                            </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="fecha" class="form-label">
+                                        <i class="fas fa-calendar"></i> Fecha Pedido *
+                                    </label>
+                                    <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="direccionEntrega" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Dirección de Entrega *
+                                </label>
+                                <input type="text" class="form-control" id="direccionEntrega" name="direccionEntrega" 
+                                       placeholder="Ingrese dirección completa" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">
+                                    <i class="fas fa-flag"></i> Estado *
+                                </label>
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option value="PENDIENTE">PENDIENTE</option>
+                                    <option value="EN_PROCESO">EN PROCESO</option>
+                                    <option value="ENVIADO">ENVIADO</option>
+                                    <option value="ENTREGADO">ENTREGADO</option>
+                                    <option value="CANCELADO">CANCELADO</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="observaciones" class="form-label">
+                                    <i class="fas fa-comment"></i> Observaciones
+                                </label>
+                                <textarea class="form-control" id="observaciones" name="observaciones" 
+                                          rows="3" placeholder="Observaciones adicionales..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary-custom">
+                                <i class="fas fa-save"></i> Guardar Pedido
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Detalle Pedido -->
+        <div class="modal fade" id="modalDetalle" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-info-circle"></i> Detalle del Pedido
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>ID Pedido:</strong> <span id="detIdPedido"></span></p>
+                                <p><strong>Fecha:</strong> <span id="detFecha"></span></p>
+                                <p><strong>Estado:</strong> <span id="detEstado"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Usuario:</strong> <span id="detUsuario"></span></p>
+                                <p><strong>Dirección:</strong> <span id="detDireccion"></span></p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <p><strong>Observaciones:</strong></p>
+                                <p id="detObservaciones" class="text-muted"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div th:fragment="scripts">
+        <script th:inline="javascript">/*<![CDATA[*/ window.PEDIDOS_DATA = /*[[${pedidosDto}]]*/ []; /*]]>*/</script>
+        <script th:src="@{/js/pedidos.js}"></script>
+    </div>
+    </div>
+</div>

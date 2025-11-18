@@ -1,0 +1,89 @@
+<!-- Fragmento: layout base que incluye navbar, toasts y confirm modal -->
+<!-- Fragmento minimal: para páginas como login sin navbar ni toasts -->
+<!-- Fragments vacíos por defecto para evitar errores si las vistas no los definen -->
+<div th:fragment="head"></div>
+<div th:fragment="scripts"></div>
+
+<!-- Fragmento común para enlaces CSS compartidos -->
+<div th:fragment="commonHead">
+  <link rel="stylesheet" th:href="@{/css/variables.css}" />
+  <link rel="stylesheet" th:href="@{/css/theme.css}" />
+  <link rel="stylesheet" th:href="@{/css/global.css}" />
+  <link rel="stylesheet" th:href="@{/css/reportes.css}" /> 
+  <link rel="stylesheet" th:href="@{/css/navbar.css}" /> 
+  <link rel="stylesheet" th:href="@{/css/pedidos.css}" />
+  <link rel="stylesheet" th:href="@{/css/ventas.css}" />
+  <link rel="stylesheet" th:href="@{/css/clientes.css}" />
+  <link rel="stylesheet" th:href="@{/css/promociones.css}" />
+  <link rel="stylesheet" th:href="@{/css/proveedores.css}" />
+  <link rel="stylesheet" th:href="@{/css/productos.css}" />
+  <link rel="stylesheet" th:href="@{/css/usuarios.css}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</div>
+
+<!-- Fragmento común para scripts compartidos (global.js) -->
+<div th:fragment="commonScripts">
+  <script th:src="@{/js/global.js}"></script>
+  <script th:src="@{/js/login.js}"></script>
+  <script th:src="@{/js/reportes.js}"></script>
+  <script th:src="@{/js/dashboard.js}"></script>
+  <script th:src="@{/js/navbar-search.js}"></script>
+  <script th:src="@{/js/ajaxTable.js}"></script>
+  <script th:src="@{/js/loadModal.js}"></script>
+</div>
+<div th:fragment="baseMinimal(title)">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title != null ? title : 'Aplicación'}">Aplicación</title>
+    <!-- Enlaces CSS comunes -->
+    <div th:insert="~{::commonHead}"></div>
+    <!-- Placeholder: páginas pueden inyectar CSS/links adicionales definiendo fragment 'head' -->
+    <div th:insert="~{::head}"></div>
+  </head>
+  <body>
+    <div class="container">
+      <div th:insert="~{::content}"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Inserta scripts comunes (global.js) -->
+    <div th:insert="~{::commonScripts}"></div>
+    <script th:src="@{/js/login.js}"></script>
+    <!-- Placeholder: páginas pueden inyectar scripts adicionales definiendo fragment 'scripts' -->
+    <!-- No se inserta ::scripts por defecto en baseMinimal (evita errores si no existe) -->
+  </body>
+</div>
+
+<!-- Fragmento: layout base que incluye navbar, toasts y confirm modal -->
+<div th:fragment="base(title, active)">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title != null ? title : (active != null ? active : 'Aplicación')}">Aplicación</title>
+    <!-- Enlaces CSS comunes -->
+    <div th:insert="~{::commonHead}"></div>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <!-- Placeholder: páginas pueden inyectar CSS/links adicionales definiendo fragment 'head' -->
+    <div th:insert="~{::head}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2.9.2/dist/parsley.min.js"></script>
+  </head>
+  <body>
+      <div th:replace="~{fragments/navbar :: navbar(active=${active != null ? active : title})}"></div>
+    <div class="container">
+      <div th:insert="~{::content}"></div>
+    </div>
+      <div th:replace="~{fragments/toasts :: toasts}"></div>
+      <div th:replace="~{fragments/confirm :: confirmModal}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/navbar-search.js}"></script>
+    <script th:src="@{/js/ajaxTable.js}"></script>
+    <script th:src="@{/js/loadModal.js}"></script>
+    <!-- Inserta scripts comunes (global.js) -->
+    <div th:insert="~{::commonScripts}"></div>
+    <!-- Placeholder: páginas pueden inyectar scripts adicionales definiendo fragment 'scripts' -->
+    <div th:insert="~{::scripts}"></div>
+  </body>
+</div>

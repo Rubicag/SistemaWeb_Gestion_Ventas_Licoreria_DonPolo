@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import com.mycompany.model.Carrito;
 import com.mycompany.model.Usuario;
+import com.mycompany.model.CarritoDetalle;
 import com.mycompany.repository.CarritoRepository;
 import com.mycompany.service.UsuarioService;
 import com.mycompany.service.ProductoService;
+import com.mycompany.service.CarritoService;
 
 @Controller
 @RequestMapping("/carritos")
@@ -24,6 +28,9 @@ public class CarritoController {
     
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private CarritoService carritoService;
 
     public CarritoController(CarritoRepository carritoRepository, UsuarioService usuarioService) {
         this.carritoRepository = carritoRepository;
@@ -36,6 +43,16 @@ public class CarritoController {
         model.addAttribute("carritos", carritos);
         model.addAttribute("usuarios", usuarioService.obtenerUsuarios());
         model.addAttribute("productos", productoService.listarDisponibles());
+        // Cargar detalles por carrito
+        Map<Integer, List<CarritoDetalle>> detallesPorCarrito = carritos.stream()
+            .collect(Collectors.toMap(c -> c.getIdCarrito(), c -> {
+                try {
+                    return carritoService.obtenerDetallesPorCarrito(c.getIdCarrito());
+                } catch (Exception ex) {
+                    return List.of();
+                }
+            }));
+        model.addAttribute("detallesPorCarrito", detallesPorCarrito);
         return "carritos";
     }
 
@@ -66,7 +83,7 @@ public class CarritoController {
                                   @RequestParam("cantidad") Integer cantidad,
                                   RedirectAttributes redirectAttributes) {
         try {
-            // Lógica para agregar producto al carrito
+            carritoService.agregarProducto(idCarrito, idProducto, cantidad);
             redirectAttributes.addFlashAttribute("mensaje", "Producto agregado al carrito");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -92,7 +109,7 @@ public class CarritoController {
     @GetMapping("/vaciar/{id}")
     public String vaciarCarrito(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
-            // Lógica para vaciar carrito
+            carritoService.vaciarCarrito(id);
             redirectAttributes.addFlashAttribute("mensaje", "Carrito vaciado exitosamente");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -103,8 +120,8 @@ public class CarritoController {
     @GetMapping("/convertirAVenta/{id}")
     public String convertirAVenta(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
-            // Lógica para convertir carrito en venta
-            redirectAttributes.addFlashAttribute("mensaje", "Carrito convertido a venta exitosamente");
+            com.mycompany.model.Venta venta = carritoService.convertirAVenta(id);
+            redirectAttributes.addFlashAttribute("mensaje", "Carrito convertido a venta exitosamente. Venta ID: " + venta.getIdVenta());
             return "redirect:/ventas";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());

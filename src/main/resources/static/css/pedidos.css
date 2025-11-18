@@ -1,0 +1,12 @@
+:root{--primary-brown:#a05a2c;--primary-gold:#e09f3e;--bg-light:#f8f6f2;--bg-warm:#fff6e6}
+.container-fluid{padding:2rem}
+h1{color:var(--primary-brown);font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.acciones-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.btn-primary-custom{background:linear-gradient(135deg,var(--primary-brown) 0%,var(--primary-gold) 100%)}
+.search-box{position:relative;flex:1;max-width:400px}
+.search-box input{width:100%;padding:0.75rem 1rem 0.75rem 3rem;border:2px solid var(--primary-gold);border-radius:8px}
+.table-container{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.carrito-items{max-height:300px;overflow-y:auto;border:2px solid var(--bg-warm);border-radius:8px;padding:1rem}
+.btn-action{padding:0.5rem 1rem;border-radius:6px;font-weight:500;transition:all 0.3s;margin:0 0.25rem}
+.btn-sm-custom{padding:0.4rem 0.8rem;font-size:0.875rem}
+@media (max-width:768px){.acciones-header{flex-direction:column;align-items:stretch}.search-box{max-width:100%}.table-container{overflow-x:auto}}

@@ -16,4 +16,11 @@ public class PedidoService {
     public List<Pedido> obtenerPedidos() {
         return pedidoRepository.findAll();
     }
+
+    public void cambiarEstado(Integer id, String nuevoEstado) {
+        Pedido pedido = pedidoRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Pedido no encontrado"));
+        pedido.setEstado(nuevoEstado);
+        pedidoRepository.save(pedido);
+    }
 }

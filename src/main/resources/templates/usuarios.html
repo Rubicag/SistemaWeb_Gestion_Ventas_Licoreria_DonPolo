@@ -1,0 +1,177 @@
+<div th:replace="~{fragments/layout :: base(title='Usuarios', active='usuarios')}">
+    <div th:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/usuarios.css}" />
+    </div>
+    <div th:fragment="content">
+            <div class="container-main">
+        <!-- Alertas Modernas -->
+        <div th:if="${mensaje}" class="alert alert-modern alert-success alert-dismissible fade show">
+            <i class="fas fa-check-circle"></i> <span th:text="${mensaje}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-modern alert-danger alert-dismissible fade show">
+            <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Card Principal Moderna -->
+        <div class="modern-card">
+            <div class="modern-card-header">
+                <h3><i class="fas fa-user-shield me-2"></i>Gestión de Usuarios</h3>
+                <button onclick="nuevoUsuario()" class="btn btn-modern-primary">
+                    <i class="fas fa-user-plus me-2"></i>Nuevo Usuario
+                </button>
+            </div>
+
+            <div class="modern-card-body">
+                <!-- Búsqueda Moderna -->
+                <div class="search-box-modern mb-4">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="buscarUsuario" class="form-control" 
+                           placeholder="Buscar por nombre, correo, rol..." onkeyup="filtrarTabla()">
+                </div>
+
+                <!-- Tabla Moderna -->
+                <div class="table-responsive">
+                    <table class="table table-modern" id="tablaUsuarios">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Completo</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td><span class="badge badge-modern-secondary" th:text="${usuario.idUsuario}">1</span></td>
+                        <td>
+                            <div class="usuario-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <strong th:text="${usuario.nombre}">Juan Pérez</strong>
+                        </td>
+                        <td><i class="fas fa-envelope me-2 icon-secondary"></i><span th:text="${usuario.correo}">juan@email.com</span></td>
+                        <td>
+                            <span class="badge" 
+                                  th:classappend="${usuario.rol == 'ADMIN'} ? 'badge-modern-primary' : (${usuario.rol == 'VENDEDOR'} ? 'badge-modern-info' : 'badge-modern-warning')"
+                                  th:text="${usuario.rol}">VENDEDOR</span>
+                        </td>
+                        <td>
+                            <span class="badge" th:classappend="${usuario.activo} ? 'badge-modern-success' : 'badge-modern-secondary'"
+                                  th:text="${usuario.activo ? 'Activo' : 'Inactivo'}">Activo</span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-modern-warning btn-sm btn-editar-usuario" 
+                                        th:data-usuario-id="${usuario.idUsuario}" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button th:if="${usuario.activo}" 
+                                        class="btn btn-modern-danger btn-sm btn-cambiar-estado" 
+                                        th:data-usuario-id="${usuario.idUsuario}" 
+                                        data-estado="false" title="Desactivar">
+                                    <i class="fas fa-user-slash"></i>
+                                </button>
+                                <button th:unless="${usuario.activo}" 
+                                        class="btn btn-modern-success btn-sm btn-cambiar-estado" 
+                                        th:data-usuario-id="${usuario.idUsuario}" 
+                                        data-estado="true" title="Activar">
+                                    <i class="fas fa-user-check"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(usuarios)}">
+                        <td colspan="6" class="text-center text-muted py-5">
+                            <i class="fas fa-user-shield fa-3x mb-3 opacity-25"></i><br>
+                            <span class="text-large">No hay usuarios registrados</span><br>
+                            <small class="text-muted">Crea el primer usuario para empezar</small>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Usuario -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-modern">
+                <div class="modal-header modal-header-modern">
+                    <h5 class="modal-title"><i class="fas fa-user"></i> <span id="modalTitulo">Nuevo Usuario</span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formUsuario" method="post">
+                        <input type="hidden" id="idUsuario" name="idUsuario">
+                        
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">
+                                    <i class="fas fa-user"></i> Nombre Completo *
+                                </label>
+                                <input type="text" class="form-control form-modern" id="nombre" name="nombre" 
+                                       required maxlength="100" placeholder="Juan Pérez">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">
+                                <i class="fas fa-envelope"></i> Correo Electrónico *
+                            </label>
+                            <input type="email" class="form-control form-modern" id="correo" name="correo" 
+                                   required maxlength="100" placeholder="usuario@email.com">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rol" class="form-label">
+                                <i class="fas fa-user-tag"></i> Rol *
+                            </label>
+                            <select class="form-select form-modern" id="rol" name="rol" required>
+                                <option value="">Seleccione un rol...</option>
+                                <option value="ADMIN">Administrador</option>
+                                <option value="VENDEDOR">Vendedor</option>
+                                <option value="SUPERVISOR">Supervisor</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="passwordGroup">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock"></i> Contraseña <span id="passwordRequired">*</span>
+                            </label>
+                            <input type="password" class="form-control form-modern" id="password" name="password" 
+                                   minlength="6" maxlength="100" placeholder="Mínimo 6 caracteres">
+                            <small class="text-muted">Dejar en blanco para mantener la contraseña actual al editar</small>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="activo" name="activo" checked>
+                            <label class="form-check-label" for="activo">
+                                Usuario Activo
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-modern-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" form="formUsuario" class="btn btn-modern-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="scripts">
+        <script th:inline="javascript">/*<![CDATA[*/ window.USUARIOS_DATA = /*[[${usuarios}]]*/ []; /*]]>*/</script>
+        <script th:src="@{/js/usuarios.js}"></script>
+    </div>
+    </div>
+</div>

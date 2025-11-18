@@ -1,0 +1,123 @@
+<!-- Navbar fragment: markup y script de búsqueda global -->
+<!-- Nota: `navbar.css` se carga desde `fragments/layout :: base` para evitar duplicados -->
+<!-- Navbar markup -->
+<nav class="navbar navbar-expand-lg navbar-modern" th:fragment="navbar(active)">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home">
+            <i class="fas fa-wine-bottle"></i> Licorería Don Polo
+        </a>
+        <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Búsqueda Global -->
+            <div class="search-navbar d-none d-lg-block">
+                <i class="fas fa-search"></i>
+                <input type="text" id="globalSearch" placeholder="Buscar en el sistema..." autocomplete="off">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+            
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'home'} ? 'active' : ''" href="/home">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'clientes'} ? 'active' : ''" href="/clientes">
+                        <i class="fas fa-users"></i> Clientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'productos'} ? 'active' : ''" href="/productos">
+                        <i class="fas fa-box"></i> Productos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'ventas'} ? 'active' : ''" href="/ventas">
+                        <i class="fas fa-cash-register"></i> Ventas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'usuarios'} ? 'active' : ''" href="/usuarios">
+                        <i class="fas fa-user-shield"></i> Usuarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'proveedores'} ? 'active' : ''" href="/proveedores">
+                        <i class="fas fa-truck"></i> Proveedores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'reportes'} ? 'active' : ''" href="/reportes">
+                        <i class="fas fa-chart-line"></i> Reportes
+                    </a>
+                </li>
+                <li class="nav-item">
+                        <form method="post" th:action="@{/logout}" class="d-inline">
+                            <button type="submit" class="nav-link logout-button">
+                            <i class="fas fa-sign-out-alt"></i> Salir
+                            </button>
+                        </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Script de búsqueda global (funcionalidad del fragmento) -->
+<script>
+    (function(){
+        const globalSearch = document.getElementById('globalSearch');
+        const searchResults = document.getElementById('searchResults');
+        if (!globalSearch || !searchResults) return;
+
+        const searchData = [
+            { type: 'Producto', name: 'Cerveza Cusqueña', url: '/productos', icon: 'fa-box' },
+            { type: 'Producto', name: 'Vino Tacama', url: '/productos', icon: 'fa-box' },
+            { type: 'Cliente', name: 'Juan Pérez', url: '/clientes', icon: 'fa-user' },
+            { type: 'Cliente', name: 'María García', url: '/clientes', icon: 'fa-user' },
+            { type: 'Venta', name: 'Venta #001', url: '/ventas', icon: 'fa-shopping-cart' },
+            { type: 'Proveedor', name: 'Distribuidora Lima', url: '/proveedores', icon: 'fa-truck' },
+            { type: 'Usuario', name: 'Administrador', url: '/usuarios', icon: 'fa-user-shield' },
+            { type: 'Reporte', name: 'Ventas del Mes', url: '/reportes', icon: 'fa-chart-line' }
+        ];
+
+        globalSearch.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length < 2) { searchResults.classList.remove('show'); searchResults.innerHTML = ''; return; }
+
+            const filtered = searchData.filter(item => item.name.toLowerCase().includes(query) || item.type.toLowerCase().includes(query));
+            if (filtered.length === 0) {
+                searchResults.innerHTML = `<div class="search-result-item text-center text-muted"><i class="fas fa-search me-2"></i>No se encontraron resultados</div>`;
+                searchResults.classList.add('show');
+                return;
+            }
+
+            const grouped = {};
+            filtered.forEach(item => { if (!grouped[item.type]) grouped[item.type] = []; grouped[item.type].push(item); });
+
+            let html = '';
+            Object.keys(grouped).forEach(type => {
+                html += `<div class="search-result-category">${type}s</div>`;
+                grouped[type].forEach(item => { html += `<a href="${item.url}" class="search-result-item"><i class="fas ${item.icon} me-2"></i><strong>${item.name}</strong></a>`; });
+            });
+
+            searchResults.innerHTML = html;
+            searchResults.classList.add('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!globalSearch.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.remove('show');
+            }
+        });
+
+        globalSearch.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const first = searchResults.querySelector('.search-result-item');
+                if (first && first.href) window.location.href = first.href;
+            }
+        });
+    })();
+</script>

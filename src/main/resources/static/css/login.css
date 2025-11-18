@@ -1,52 +1,53 @@
-/* Estilos para la vista de login */
-.card {
-    max-width: 400px;
-    margin: 90px auto 0 auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    padding: 32px 24px;
+.auth-page{
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--bg-gradient, linear-gradient(135deg, var(--bg) 0%, #ffffff 100%));
+	padding: 2rem 1rem;
 }
-.logo {
-    display: flex;
-    justify-content: center;
+.login-container{width:100%;max-width:420px;margin:0 auto}
+.login-card,.card{background:var(--card-bg,#ffffff);border-radius:12px;padding:28px;box-shadow:0 8px 24px rgba(16,24,40,0.08);text-align:center}
+.logo-container,.logo{display:flex;justify-content:center;margin-bottom:12px}
+.logo img{width:96px;height:96px;object-fit:cover;border-radius:8px}
+/* Limitar tamaño del logo para evitar que crezca demasiado en pantallas grandes */
+.logo-container, .logo { max-width: 360px; }
+.logo-container img, img.logo { width: auto; max-width: 220px; height: auto; }
+/* Regla específica para forzar tamaño/centrado del logo en login */
+.login-card .logo, .login-card img.logo, .login-card .logo-container img { display:block; margin:0 auto; max-width:220px !important; height:auto !important; }
+.login-card img.logo { border-radius:8px; }
+.brand{display:block;text-align:center;font-size:1.3rem;font-weight:bold;color:#a05a2c;margin-bottom:10px}
+.login-title{font-size:1.6rem;margin-bottom:4px}
+.login-subtitle{color:var(--muted,#6b7280);margin-bottom:16px}
+.form-row,.form-group{margin-bottom:16px;text-align:left}
+.input-icon{position:relative}
+.input-icon .fa-user,.input-icon .fa-key{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted,#6b7280)}
+.input-icon input{padding-left:38px}
+.btn-login{width:100%;padding:10px 14px;border-radius:8px}
+.error,.alert-custom{margin:12px 0}
+.success{margin:12px 0}
+.help{margin-top:18px;font-size:0.98rem;text-align:center}
+.small-link{color:#e09f3e;text-decoration:underline}
+.small-link:hover{color:#a05a2c}
+@media (max-width:500px){.login-card{padding:18px} .card{padding:18px 4px}}
+
+/* Fixes: asegurar centrado del contenedor y tamaño controlado del logo */
+.login-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - 40px);
+	padding: 1rem;
 }
-.brand {
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #a05a2c;
-    margin-bottom: 10px;
+.login-card { max-width: 420px; width: 100%; }
+
+img.logo, .logo, .logo-container img {
+	display: block;
+	margin: 0 auto;
+	max-width: 220px;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
 }
-.form-row {
-    margin-bottom: 16px;
-}
-.error {
-    color: #c62828;
-    background: #ffebee;
-    border-radius: 4px;
-    padding: 8px;
-    margin-top: 10px;
-}
-.success {
-    color: #388e3c;
-    background: #e8f5e9;
-    border-radius: 4px;
-    padding: 8px;
-    margin-top: 10px;
-}
-.help {
-    margin-top: 18px;
-    font-size: 0.98rem;
-    text-align: center;
-}
-.small-link {
-    color: #e09f3e;
-    text-decoration: underline;
-}
-.small-link:hover {
-    color: #a05a2c;
-}
-@media (max-width: 500px) {
-    .card { padding: 18px 4px; }
-}
+

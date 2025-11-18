@@ -1,18 +1,21 @@
 package com.mycompany.controller;
 
 import com.mycompany.dto.VentaDTO;
+import com.mycompany.dto.DetalleVentaDTO;
 import com.mycompany.dto.ProductoSimpleDTO;
 import com.mycompany.dto.ClienteSimpleDTO;
 import com.mycompany.model.Venta;
 import com.mycompany.service.VentaService;
 import com.mycompany.service.ClienteService;
 import com.mycompany.service.ProductoService;
-import jakarta.validation.Valid;
+import com.mycompany.service.UsuarioService;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,6 +28,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/ventas")
 public class VentaController {
+    private static final Logger logger = LoggerFactory.getLogger(VentaController.class);
     
     @Autowired
     private VentaService ventaService;
@@ -34,6 +38,9 @@ public class VentaController {
     
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping({"", "/", "/listar"})
     public String listarVentas(Model model) {
@@ -74,39 +81,53 @@ public class VentaController {
     }
 
     @PostMapping("/guardar")
-    public String guardarVenta(@Valid @ModelAttribute("venta") VentaDTO ventaDTO,
-                              BindingResult result,
+    public String guardarVenta(@ModelAttribute("venta") VentaDTO ventaDTO,
                               Authentication authentication,
                               Model model,
                               RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            model.addAttribute("ventas", ventaService.convertirListaADTO(ventaService.listarTodas()));
-            
-            List<ClienteSimpleDTO> clientesDTO = clienteService.listarActivos().stream()
-                .map(c -> new ClienteSimpleDTO(
-                    c.getIdCliente(), c.getNombre(), c.getApellido(), c.getDni(),
-                    c.getEmail(), c.getTelefono(), c.getDireccion()
-                ))
-                .collect(java.util.stream.Collectors.toList());
-            model.addAttribute("clientes", clientesDTO);
-            
-            List<ProductoSimpleDTO> productosDTO = productoService.listarDisponibles().stream()
-                .map(p -> new ProductoSimpleDTO(
-                    p.getIdProducto(), p.getNombre(), p.getDescripcion(),
-                    p.getPrecio(), p.getStock(),
-                    p.getCategoria() != null ? p.getCategoria().getNombre() : "Sin categoría",
-                    p.getProveedor() != null ? p.getProveedor().getNombre() : "Sin proveedor",
-                    p.isActivo()
-                ))
-                .collect(java.util.stream.Collectors.toList());
-            model.addAttribute("productos", productosDTO);
-            return "ventas";
+        logger.info("POST /ventas/guardar recibido - ventaDTO.idUsuario={}, detalles.size={}, total={}",
+            ventaDTO.getIdUsuario(), ventaDTO.getDetalles() != null ? ventaDTO.getDetalles().size() : 0, ventaDTO.getTotal());
+        // Si no viene idUsuario, intentar asignarlo desde el usuario autenticado
+        try {
+            if ((ventaDTO.getIdUsuario() == null || ventaDTO.getIdUsuario() == 0) && authentication != null) {
+                String principalName = authentication.getName();
+                if (principalName != null && !principalName.isBlank()) {
+                    var u = usuarioService.buscarUsuarioPorCorreo(principalName);
+                    if (u != null) {
+                        ventaDTO.setIdUsuario(u.getIdUsuario());
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            // fallthrough: VentaService validará la presencia de usuario
+        }
+
+        // Calcular total a partir de detalles si no viene
+        if (ventaDTO.getTotal() == null || ventaDTO.getTotal().compareTo(BigDecimal.ZERO) == 0) {
+            BigDecimal totalCalc = BigDecimal.ZERO;
+            if (ventaDTO.getDetalles() != null) {
+                for (DetalleVentaDTO d : ventaDTO.getDetalles()) {
+                    BigDecimal precio = d.getPrecioUnitario() != null ? d.getPrecioUnitario() : BigDecimal.ZERO;
+                    int cantidad = d.getCantidad() != null ? d.getCantidad() : 0;
+                    totalCalc = totalCalc.add(precio.multiply(BigDecimal.valueOf(cantidad)));
+                }
+            }
+            ventaDTO.setTotal(totalCalc);
+        }
+
+        // Validaciones mínimas
+        if (ventaDTO.getMetodoPago() == null || ventaDTO.getMetodoPago().isBlank()) {
+            redirectAttributes.addFlashAttribute("error", "Seleccione un método de pago");
+            return "redirect:/ventas";
+        }
+        if (ventaDTO.getDetalles() == null || ventaDTO.getDetalles().isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "La venta debe tener al menos un detalle");
+            return "redirect:/ventas";
         }
 
         try {
             Venta venta = ventaService.crearVenta(ventaDTO);
-            redirectAttributes.addFlashAttribute("mensaje", 
-                "Venta registrada exitosamente. Total: S/. " + venta.getTotal());
+            redirectAttributes.addFlashAttribute("mensaje", "Venta registrada exitosamente. Total: S/. " + venta.getTotal());
             return "redirect:/ventas";
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("error", "Error de stock: " + e.getMessage());

@@ -1,6 +1,12 @@
 // ValidaciÃ³n simple de formulario en el cliente
 document.addEventListener('DOMContentLoaded', function(){
-  const regForm = document.querySelector('form[th\:action="@{/registro}"]') || document.querySelector('form[action="/registro"]');
+  var regForm = null;
+  try {
+    // Evitar usar selectores Thymeleaf no válidos en el navegador
+    regForm = document.querySelector('form[action="/registro"]');
+  } catch(e) {
+    regForm = document.querySelector('form[action="/registro"]');
+  }
   if(regForm){
     regForm.addEventListener('submit', function(e){
       const pwd = regForm.querySelector('input[name="password"]');

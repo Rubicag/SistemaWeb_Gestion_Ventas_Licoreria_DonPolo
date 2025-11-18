@@ -1,0 +1,40 @@
+<!-- Fragmento: modal de confirmación reutilizable -->
+<div th:fragment="confirmModal">
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar acción</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p id="confirmModalMessage">¿Estás seguro?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="confirmModalBtn" class="btn btn-danger">Sí, confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // showConfirm(message, onConfirm)
+    function showConfirm(message, onConfirm) {
+      const msgEl = document.getElementById('confirmModalMessage');
+      const btn = document.getElementById('confirmModalBtn');
+      msgEl.textContent = message || '¿Estás seguro?';
+      const modalEl = document.getElementById('confirmModal');
+      const modal = new bootstrap.Modal(modalEl);
+      const handler = function() {
+        try {
+          if (typeof onConfirm === 'function') onConfirm();
+        } finally {
+          btn.removeEventListener('click', handler);
+          modal.hide();
+        }
+      };
+      btn.addEventListener('click', handler);
+      modal.show();
+    }
+  </script>
+</div>

@@ -29,6 +29,8 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido")
     private List<DetallePedido> detalles;
 
+    @Column(name = "observaciones", length = 500)
+    private String observaciones;
     // Getters y setters
     public Integer getIdPedido() { return idPedido; }
     public void setIdPedido(Integer idPedido) { this.idPedido = idPedido; }
@@ -42,4 +44,6 @@ public class Pedido {
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public List<DetallePedido> getDetalles() { return detalles; }
     public void setDetalles(List<DetallePedido> detalles) { this.detalles = detalles; }
+    public String getObservaciones() { return observaciones; }
+    public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
 }

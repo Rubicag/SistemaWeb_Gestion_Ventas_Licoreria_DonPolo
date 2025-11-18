@@ -1,0 +1,160 @@
+<div th:replace="~{fragments/layout :: base(title='Gestión de Clientes', active='clientes')}">
+    <div th:fragment="content">
+        <div class="container-main">
+            <link rel="stylesheet" th:href="@{/css/clientes.css}" />
+            <div th:if="${mensaje}" class="alert alert-modern alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i><span th:text="${mensaje}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-modern alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i><span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div class="modern-card">
+                <div class="modern-card-header">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <h3 class="mb-0"><i class="fas fa-users me-2"></i>Gestión de Clientes</h3>
+                        <button class="btn btn-modern-primary" data-bs-toggle="modal" data-bs-target="#modalCliente" onclick="nuevoCliente()">
+                            <i class="fas fa-user-plus me-2"></i>Nuevo Cliente
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modern-card-body">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <div class="search-box-modern">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, DNI o email..." onkeyup="filtrarTabla()">
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <span class="badge badge-modern-primary badge-big">
+                                <i class="fas fa-users me-1"></i>
+                                <span id="totalClientes" th:text="${#lists.size(clientes)}">0</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-modern" id="tablaClientes">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-hashtag me-1"></i>ID</th>
+                                    <th><i class="fas fa-user me-1"></i>Nombre Completo</th>
+                                    <th><i class="fas fa-id-card me-1"></i>DNI</th>
+                                    <th><i class="fas fa-envelope me-1"></i>Email</th>
+                                    <th><i class="fas fa-phone me-1"></i>Teléfono</th>
+                                    <th><i class="fas fa-map-marker-alt me-1"></i>Dirección</th>
+                                    <th class="text-center"><i class="fas fa-cog me-1"></i>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="cliente : ${clientes}">
+                                    <td><span class="badge badge-modern-secondary" th:text="${cliente.idCliente}">1</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="cliente-icon">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div>
+                                                <strong th:text="${cliente.nombre + ' ' + cliente.apellido}">Juan Pérez</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-modern-info" th:text="${cliente.dni}">12345678</span></td>
+                                    <td><small th:text="${cliente.email}">juan@email.com</small></td>
+                                    <td><i class="fas fa-phone text-muted me-1"></i><span th:text="${cliente.telefono}">987654321</span></td>
+                                    <td><i class="fas fa-map-marker-alt text-muted me-1"></i><small th:text="${cliente.direccion}">Av. Principal 123</small></td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button class="btn btn-modern-warning btn-editar-cliente" th:data-id="${cliente.idCliente}" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-modern-danger btn-eliminar-cliente" th:data-id="${cliente.idCliente}" th:data-nombre="${cliente.nombre + ' ' + cliente.apellido}" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <a class="btn btn-modern-info" th:href="@{/ventas/cliente/{id}(id=${cliente.idCliente})}" title="Ver ventas">
+                                                <i class="fas fa-shopping-cart"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(clientes)}">
+                                    <td colspan="7" class="text-center text-muted py-5">
+                                        <i class="fas fa-inbox fa-3x mb-3 d-block opacity-25"></i>
+                                        <h5 class="text-muted">No hay clientes registrados</h5>
+                                        <p>Comienza agregando tu primer cliente</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Cliente (mantengo el modal porque es específico de la página) -->
+        <div class="modal fade" id="modalCliente" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content modal-modern">
+                    <div class="modal-header modal-header-modern">
+                        <h5 class="modal-title" id="modalTitulo">
+                            <i class="fas fa-user-plus me-2"></i>Nuevo Cliente
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form id="formCliente" th:action="@{/clientes/guardar}" method="post" onsubmit="return validarFormulario()">
+                        <div class="modal-body p-4">
+                            <input type="hidden" id="idCliente" name="idCliente">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nombre" class="form-label"><i class="fas fa-user text-primary me-1"></i>Nombre *</label>
+                                    <input type="text" class="form-control form-modern" id="nombre" name="nombre" required maxlength="100" placeholder="Ingrese nombre">
+                                    <div class="invalid-feedback">El nombre es obligatorio</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="apellido" class="form-label"><i class="fas fa-user text-primary me-1"></i>Apellido *</label>
+                                    <input type="text" class="form-control form-modern" id="apellido" name="apellido" required maxlength="100" placeholder="Ingrese apellido">
+                                    <div class="invalid-feedback">El apellido es obligatorio</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dni" class="form-label"><i class="fas fa-id-card text-primary me-1"></i>DNI *</label>
+                                    <input type="text" class="form-control form-modern" id="dni" name="dni" required pattern="[0-9]{8}" maxlength="8" placeholder="8 dígitos">
+                                    <div class="invalid-feedback">DNI debe tener 8 dígitos numéricos</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="telefono" class="form-label"><i class="fas fa-phone text-primary me-1"></i>Teléfono *</label>
+                                    <input type="text" class="form-control form-modern" id="telefono" name="telefono" required pattern="[0-9]{9}" maxlength="9" placeholder="9 dígitos">
+                                    <div class="invalid-feedback">Teléfono debe tener 9 dígitos</div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="email" class="form-label"><i class="fas fa-envelope text-primary me-1"></i>Email *</label>
+                                    <input type="email" class="form-control form-modern" id="email" name="email" required maxlength="150" placeholder="correo@ejemplo.com">
+                                    <div class="invalid-feedback">Ingrese un email válido</div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="direccion" class="form-label"><i class="fas fa-map-marker-alt text-primary me-1"></i>Dirección</label>
+                                    <textarea class="form-control form-modern" id="direccion" name="direccion" rows="2" maxlength="255" placeholder="Ingrese dirección completa"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-modern-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i>Cancelar</button>
+                            <button type="submit" class="btn btn-modern-primary"><i class="fas fa-save me-2"></i>Guardar Cliente</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inyecto datos como variable global y cargo JS externo específico de la página -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            window.CLIENTES_DATA = /*[[${clientes}]]*/ [];
+            /*]]>*/
+        </script>
+        <script th:src="@{/js/clientes.js}"></script>
+    </div>
+</div>

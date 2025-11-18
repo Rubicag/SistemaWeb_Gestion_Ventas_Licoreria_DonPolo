@@ -1,3 +1,26 @@
+/* Estilos específicos para la página de Reportes (extraídos de reportes.html) */
+.container-fluid { padding: 2rem; }
+h1 { color: #a05a2c; font-weight: 700; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; }
+.report-card { background: #fff; border-radius: var(--border-radius-lg); padding: 2rem; box-shadow: var(--shadow-md); transition: all 0.3s; margin-bottom: 1.5rem; cursor: pointer; border: 3px solid transparent; }
+.report-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: #e09f3e; }
+.report-card .icon { font-size: 3rem; color: #a05a2c; margin-bottom: 1rem; }
+.report-card h5 { color: #a05a2c; font-weight: 700; margin-bottom: 0.5rem; }
+.report-card p { color: #666; margin-bottom: 0; }
+.btn-primary-custom { background: linear-gradient(135deg, #a05a2c 0%, #e09f3e 100%); }
+.btn-primary-custom:hover { box-shadow: 0 6px 20px rgba(160,90,44,0.3); }
+.modal-content { border-radius: var(--border-radius-lg); border: none; }
+.modal-header { background: linear-gradient(135deg, #a05a2c 0%, #e09f3e 100%); color: #fff; border-radius: 15px 15px 0 0; }
+.form-label { color: #a05a2c; font-weight: 600; margin-bottom: 0.5rem; }
+.form-control, .form-select { border: 2px solid #e09f3e; border-radius: 8px; padding: 0.75rem; transition: all 0.3s; }
+.form-control:focus, .form-select:focus { border-color: #a05a2c; box-shadow: 0 0 0 0.2rem rgba(160,90,44,0.25); }
+.stats-card { background: linear-gradient(135deg, #a05a2c 0%, #e09f3e 100%); color: #fff; border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+.stats-card-green { background: linear-gradient(135deg, #2e7d32 0%, #66bb6a 100%); }
+.stats-card-blue { background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%); }
+.stats-card-red { background: linear-gradient(135deg, #c62828 0%, #e57373 100%); }
+.stats-card h3 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+.stats-card p { margin-bottom: 0; font-size: 1.1rem; }
+.table { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.table thead th { background: linear-gradient(135deg, #a05a2c 0%, #e09f3e 100%); color: #fff; font-weight: 600; border: none; padding: 1rem; }
 /* Estilos para las vistas de reportes */
 .card {
     margin-bottom: 18px;

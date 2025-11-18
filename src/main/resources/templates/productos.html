@@ -1,0 +1,100 @@
+<div th:replace="~{fragments/layout :: base(title='Productos', active='productos')}">
+  <div th:fragment="head">
+      <link rel="stylesheet" th:href="@{/css/productos.css}" />
+  </div>
+  <div th:fragment="content">
+    <div class="container-main">
+
+      <div th:if="${mensaje}" class="alert alert-modern alert-success alert-dismissible fade show">
+        <i class="fas fa-check-circle me-2"></i><span th:text="${mensaje}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      <div th:if="${error}" class="alert alert-modern alert-danger alert-dismissible fade show">
+        <i class="fas fa-exclamation-circle me-2"></i><span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+
+      <div class="modern-card">
+        <div class="modern-card-header">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <h3 class="mb-0"><i class="fas fa-box me-2"></i>Gestión de Productos</h3>
+            <div class="d-flex gap-2">
+              <a href="/productos/bajo-stock" class="btn btn-modern-outline btn-warning"><i class="fas fa-exclamation-triangle me-1"></i>Stock Bajo</a>
+              <button class="btn btn-modern-primary" data-bs-toggle="modal" data-bs-target="#modalProducto" onclick="nuevoProducto()"><i class="fas fa-plus-circle me-2"></i>Nuevo Producto</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modern-card-body">
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <div class="search-box-modern"><i class="fas fa-search"></i>
+                <input type="text" id="searchInput" class="form-control" placeholder="Buscar producto..." onkeyup="filtrarTabla()"></div>
+            </div>
+            <div class="col-md-3"><select class="form-select form-modern" id="filtroCategoria" onchange="filtrarTabla()"><option value="">📦 Todas las categorías</option><option th:each="cat : ${categorias}" th:value="${cat.nombre}" th:text="${cat.nombre}"></option></select></div>
+            <div class="col-md-3"><select class="form-select form-modern" id="filtroProveedor" onchange="filtrarTabla()"><option value="">🚚 Todos los proveedores</option><option th:each="prov : ${proveedores}" th:value="${prov.nombre}" th:text="${prov.nombre}"></option></select></div>
+            <div class="col-md-2 text-end"><span class="badge badge-modern-primary badge-big"><i class="fas fa-box me-1"></i><span id="totalProductos" th:text="${#lists.size(productos)}">0</span></span></div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-modern" id="tablaProductos">
+              <thead>
+                <tr><th>ID</th><th>Producto</th><th>Categoría</th><th>Proveedor</th><th>Precio</th><th>Stock</th><th>Marca</th><th>Presentación</th><th class="text-center">Acciones</th></tr>
+              </thead>
+              <tbody>
+                <tr th:each="producto : ${productos}">
+                  <td><span class="badge badge-modern-secondary" th:text="${producto.idProducto}">1</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2"><div class="product-icon"><i class="fas fa-wine-bottle"></i></div><div><strong th:text="${producto.nombre}">Producto</strong><br><small class="text-muted" th:text="${producto.descripcion}">Descripción</small></div></div>
+                  </td>
+                  <td><span class="badge badge-modern-info" th:text="${producto.nombreCategoria}">Categoría</span></td>
+                  <td th:text="${producto.nombreProveedor}">Proveedor</td>
+                  <td><strong class="text-success" th:text="'S/ ' + ${#numbers.formatDecimal(producto.precio, 1, 2)}">S/ 0.00</strong></td>
+                  <td><span th:classappend="${producto.stock <= producto.stockMinimo} ? 'badge-modern-danger' : 'badge-modern-success'" class="badge"><i class="fas fa-boxes me-1"></i><span th:text="${producto.stock}">0</span></span><small class="d-block text-muted mt-1" th:text="'Mín: ' + ${producto.stockMinimo}">Mín: 0</small></td>
+                  <td th:text="${producto.marca}">-</td>
+                  <td th:text="${producto.presentacion}">-</td>
+                  <td class="text-center"><div class="btn-group btn-group-sm" role="group"><button class="btn btn-modern-warning btn-editar-producto" th:data-producto-id="${producto.idProducto}" title="Editar"><i class="fas fa-edit"></i></button><button class="btn btn-modern-danger btn-eliminar-producto" th:data-producto-id="${producto.idProducto}" th:data-producto-nombre="${producto.nombre}" title="Eliminar"><i class="fas fa-trash"></i></button></div></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(productos)}"><td colspan="9" class="text-center text-muted py-5"><i class="fas fa-inbox fa-3x mb-3 d-block opacity-25"></i><h5 class="text-muted">No hay productos registrados</h5><p>Comienza agregando tu primer producto</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Producto -->
+      <div class="modal fade" id="modalProducto" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content modal-modern">
+            <div class="modal-header modal-header-modern"><h5 class="modal-title" id="modalTitulo"><i class="fas fa-plus-circle me-2"></i>Nuevo Producto</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+            <form id="formProducto" th:action="@{/productos/agregar}" method="post">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <div class="modal-body p-4">
+                <input type="hidden" id="idProducto" name="idProducto">
+                <div class="row g-3">
+                  <div class="col-md-6"><label for="nombre" class="form-label"><i class="fas fa-tag me-1"></i>Nombre del Producto *</label><input type="text" class="form-control form-modern" id="nombre" name="nombre" required maxlength="150"></div>
+                  <div class="col-md-3"><label for="codigoBarras" class="form-label"><i class="fas fa-barcode me-1"></i>Código de Barras</label><input type="text" class="form-control form-modern" id="codigoBarras" name="codigoBarras" maxlength="50"></div>
+                  <div class="col-md-3"><label for="marca" class="form-label"><i class="fas fa-certificate me-1"></i>Marca</label><input type="text" class="form-control form-modern" id="marca" name="marca" maxlength="100"></div>
+                  <div class="col-md-12"><label for="descripcion" class="form-label"><i class="fas fa-align-left me-1"></i>Descripción</label><textarea class="form-control form-modern" id="descripcion" name="descripcion" rows="2" maxlength="255"></textarea></div>
+                  <div class="col-md-3"><label for="presentacion" class="form-label"><i class="fas fa-wine-bottle me-1"></i>Presentación</label><input type="text" class="form-control form-modern" id="presentacion" name="presentacion" maxlength="50" placeholder="Ej: 750ml"></div>
+                  <div class="col-md-3"><label for="gradoAlcoholico" class="form-label"><i class="fas fa-percentage me-1"></i>Grado Alcohólico (%)</label><input type="number" class="form-control form-modern" id="gradoAlcoholico" name="gradoAlcoholico" step="0.1" min="0" max="100"></div>
+                  <div class="col-md-3"><label for="precio" class="form-label"><i class="fas fa-dollar-sign me-1"></i>Precio (S/) *</label><input type="number" class="form-control form-modern" id="precio" name="precio" required step="0.01" min="0.01"></div>
+                  <div class="col-md-3"><label for="stock" class="form-label"><i class="fas fa-boxes me-1"></i>Stock Actual *</label><input type="number" class="form-control form-modern" id="stock" name="stock" required min="0"></div>
+                  <div class="col-md-4"><label for="stockMinimo" class="form-label"><i class="fas fa-exclamation-triangle me-1"></i>Stock Mínimo</label><input type="number" class="form-control form-modern" id="stockMinimo" name="stockMinimo" min="0" value="5"></div>
+                  <div class="col-md-4"><label for="idCategoria" class="form-label"><i class="fas fa-layer-group me-1"></i>Categoría *</label><select class="form-select form-modern" id="idCategoria" name="idCategoria" required><option value="">Seleccione...</option><option th:each="cat : ${categorias}" th:value="${cat.idCategoria}" th:text="${cat.nombre}"></option></select></div>
+                  <div class="col-md-4"><label for="idProveedor" class="form-label"><i class="fas fa-truck me-1"></i>Proveedor *</label><select class="form-select form-modern" id="idProveedor" name="idProveedor" required><option value="">Seleccione...</option><option th:each="prov : ${proveedores}" th:value="${prov.idProveedor}" th:text="${prov.nombre}"></option></select></div>
+                </div>
+              </div>
+              <div class="modal-footer"><button type="button" class="btn btn-modern-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i>Cancelar</button><button type="submit" class="btn btn-modern-primary"><i class="fas fa-save me-2"></i>Guardar Producto</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    <div th:fragment="scripts">
+      <script th:inline="javascript">/*<![CDATA[*/ window.PRODUCTOS_DATA = /*[[${productos}]]*/ []; /*]]>*/</script>
+      <script th:src="@{/js/productos.js}"></script>
+    </div>
+    </div>
+  </div>
+</div>

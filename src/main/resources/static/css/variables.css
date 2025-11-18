@@ -1,0 +1,30 @@
+/* Archivo de variables CSS que mapea nombres usados en plantillas antiguas
+   a las variables definidas en `global.css`. Esto evita que estilos
+   que usan nombres como --primary o --surface queden sin valor.
+*/
+:root {
+  /* Alias de color primario */
+  --primary: var(--primary-color, #8B4513);
+  --primary-acc: var(--primary-light, #C87533);
+
+  /* Superficie / fondo de tarjetas */
+  --surface: var(--white, #ffffff);
+
+  /* Radios y medidas */
+  --radius: var(--border-radius-md, 12px);
+  --border-radius-sm: var(--border-radius-sm, 8px);
+  --border-radius-lg: var(--border-radius-lg, 16px);
+
+  /* Sombras */
+  --shadow-md: var(--shadow-md, 0 4px 16px rgba(0,0,0,0.12));
+  --shadow-lg: var(--shadow-lg, 0 8px 32px rgba(0,0,0,0.16));
+
+  /* Utilitarios */
+  --muted: var(--medium-gray, #666666);
+  --danger: var(--accent-red, #c62828);
+  --bg: var(--bg-light, #f8f9fa);
+  --bg-gradient: linear-gradient(135deg, var(--bg) 0%, #ffffff 100%);
+
+  /* Compatibilidad para card/bg */
+  --card-bg: var(--surface);
+}

@@ -1,86 +1,73 @@
-/* Estilos para la vista de registro */
-.card {
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.09);
-    max-width: 400px;
-    margin: 90px auto 0 auto;
-    padding: 40px 32px 32px 32px;
+/* Estilos para la vista de registro (mejorados) */
+.auth-page {
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, rgba(250,246,240,1) 0%, #ffffff 100%);
 }
-.logo img {
+
+.auth-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 32px rgba(0,0,0,0.07);
+    padding: 2.5rem;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+}
+
+.auth-card h2 { color: var(--primary); font-weight: 700; margin-bottom: 0.75rem; }
+
+.auth-card .rounded-circle {
     height: 70px;
     width: 70px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--surface);
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    margin-bottom: 10px;
+    margin: 0 auto 12px auto;
+    display: block;
 }
-.brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #a05a2c;
-    margin-bottom: 18px;
+
+/* Logo imagen controlada por clase logo-img (mayor especificidad) */
+.auth-card .logo-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 12px auto;
 }
-h2 {
-    color: #a05a2c;
-    margin-bottom: 18px;
-}
-.form-row {
-    margin-bottom: 16px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-label {
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: #a05a2c;
-}
+
+.form-row, .mb-3.text-start { margin-bottom: 14px; text-align: left; }
+label { font-weight: 600; color: var(--primary); margin-bottom: 6px; }
 input[type="text"], input[type="email"], input[type="password"] {
     width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #e0b97d;
-    border-radius: 4px;
+    padding: 10px 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 8px;
     font-size: 1rem;
 }
-.primary {
+
+.btn-primary-custom { background: linear-gradient(90deg, var(--primary-acc), var(--primary)); }
+.btn-primary-custom:hover { background: linear-gradient(90deg, var(--primary), var(--primary-acc)); }
+
+.text-danger { color: var(--danger); }
+.help { margin-top: 16px; color: var(--muted); }
+
+@media (max-width: 800px) { .auth-card { padding: 22px; } }
+@media (max-width: 500px) { .auth-card { padding: 16px; } }
+
+/* Fixes: asegurar centrado del contenedor y tamaño controlado del logo (consistencia con login) */
+.auth-page { display: flex; align-items: center; justify-content: center; }
+.auth-card { max-width: 520px; width: 100%; }
+.logo-container img, img.logo, .auth-card .logo-img {
+    display: block;
+    margin: 0 auto;
+    max-width: 220px;
     width: 100%;
-    background: #e09f3e;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 0;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-top: 8px;
-    transition: background 0.2s;
-    cursor: pointer;
+    height: auto;
+    object-fit: cover;
 }
-.primary:hover {
-    background: #a05a2c;
-}
-.error {
-    color: #d32f2f;
-    background: #ffeaea;
-    border-radius: 4px;
-    padding: 8px;
-    margin-top: 10px;
-}
-.help {
-    margin-top: 18px;
-    font-size: 0.98rem;
-}
-.small-link {
-    color: #e09f3e;
-    text-decoration: underline;
-}
-.small-link:hover {
-    color: #a05a2c;
-}
-@media (max-width: 500px) {
-    .card { padding: 18px 4px; }
-}
+

@@ -1,6 +1,11 @@
 package com.mycompany.controller;
 
 import com.mycompany.model.Promocion;
+import com.mycompany.dto.PromocionSimpleDTO;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+import com.mycompany.dto.ProductoSimpleDTO;
 import com.mycompany.service.PromocionService;
 import com.mycompany.service.ProductoService;
 import jakarta.validation.Valid;
@@ -25,8 +30,38 @@ public class PromocionController {
 
     @GetMapping({"", "/", "/listar"})
     public String listarPromociones(Model model) {
-        model.addAttribute("promociones", promocionService.obtenerPromociones());
-        model.addAttribute("productos", productoService.listarTodos());
+        // Convertir entidades a DTOs para evitar propiedades faltantes en las vistas
+        var promos = promocionService.obtenerPromociones();
+        var dtoList = promos.stream().map(p -> {
+            String tipo = "PORCENTAJE";
+            if (p.getDescuento() == null) tipo = "";
+            // Estado derivado
+            String estado;
+            LocalDate hoy = LocalDate.now();
+            if (!p.isActivo()) {
+                estado = "FINALIZADA";
+            } else if (hoy.isBefore(p.getFechaInicio())) {
+                estado = "PROGRAMADA";
+            } else if (hoy.isAfter(p.getFechaFin())) {
+                estado = "FINALIZADA";
+            } else {
+                estado = "ACTIVA";
+            }
+            return new PromocionSimpleDTO(p.getIdPromocion(), p.getNombre(), p.getDescripcion(),
+                    p.getDescuento(), p.getFechaInicio(), p.getFechaFin(), tipo, estado);
+        }).collect(Collectors.toList());
+
+        model.addAttribute("promociones", dtoList);
+        List<ProductoSimpleDTO> productosDTO = productoService.listarDisponibles().stream()
+            .map(p -> new ProductoSimpleDTO(
+                p.getIdProducto(), p.getNombre(), p.getDescripcion(),
+                p.getPrecio(), p.getStock(),
+                p.getCategoria() != null ? p.getCategoria().getNombre() : "Sin categoría",
+                p.getProveedor() != null ? p.getProveedor().getNombre() : "Sin proveedor",
+                p.isActivo()
+            ))
+            .collect(Collectors.toList());
+        model.addAttribute("productos", productosDTO);
         return "promociones";
     }
 
@@ -36,8 +71,35 @@ public class PromocionController {
                                    Model model,
                                    RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("promociones", promocionService.obtenerPromociones());
-            model.addAttribute("productos", productoService.listarTodos());
+            var promos = promocionService.obtenerPromociones();
+            var dtoList = promos.stream().map(p -> {
+                String tipo = "PORCENTAJE";
+                if (p.getDescuento() == null) tipo = "";
+                String estado;
+                LocalDate hoy = LocalDate.now();
+                if (!p.isActivo()) {
+                    estado = "FINALIZADA";
+                } else if (hoy.isBefore(p.getFechaInicio())) {
+                    estado = "PROGRAMADA";
+                } else if (hoy.isAfter(p.getFechaFin())) {
+                    estado = "FINALIZADA";
+                } else {
+                    estado = "ACTIVA";
+                }
+                return new PromocionSimpleDTO(p.getIdPromocion(), p.getNombre(), p.getDescripcion(),
+                        p.getDescuento(), p.getFechaInicio(), p.getFechaFin(), tipo, estado);
+            }).collect(Collectors.toList());
+                model.addAttribute("promociones", dtoList);
+                List<ProductoSimpleDTO> productosDTO = productoService.listarDisponibles().stream()
+                    .map(p -> new ProductoSimpleDTO(
+                        p.getIdProducto(), p.getNombre(), p.getDescripcion(),
+                        p.getPrecio(), p.getStock(),
+                        p.getCategoria() != null ? p.getCategoria().getNombre() : "Sin categoría",
+                        p.getProveedor() != null ? p.getProveedor().getNombre() : "Sin proveedor",
+                        p.isActivo()
+                    ))
+                    .collect(Collectors.toList());
+                model.addAttribute("productos", productosDTO);
             return "promociones";
         }
 
@@ -57,8 +119,35 @@ public class PromocionController {
                                       Model model,
                                       RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("promociones", promocionService.obtenerPromociones());
-            model.addAttribute("productos", productoService.listarTodos());
+            var promos = promocionService.obtenerPromociones();
+            var dtoList = promos.stream().map(p -> {
+                String tipo = "PORCENTAJE";
+                if (p.getDescuento() == null) tipo = "";
+                String estado;
+                LocalDate hoy = LocalDate.now();
+                if (!p.isActivo()) {
+                    estado = "FINALIZADA";
+                } else if (hoy.isBefore(p.getFechaInicio())) {
+                    estado = "PROGRAMADA";
+                } else if (hoy.isAfter(p.getFechaFin())) {
+                    estado = "FINALIZADA";
+                } else {
+                    estado = "ACTIVA";
+                }
+                return new PromocionSimpleDTO(p.getIdPromocion(), p.getNombre(), p.getDescripcion(),
+                        p.getDescuento(), p.getFechaInicio(), p.getFechaFin(), tipo, estado);
+            }).collect(Collectors.toList());
+                model.addAttribute("promociones", dtoList);
+                List<ProductoSimpleDTO> productosDTO = productoService.listarDisponibles().stream()
+                    .map(p -> new ProductoSimpleDTO(
+                        p.getIdProducto(), p.getNombre(), p.getDescripcion(),
+                        p.getPrecio(), p.getStock(),
+                        p.getCategoria() != null ? p.getCategoria().getNombre() : "Sin categoría",
+                        p.getProveedor() != null ? p.getProveedor().getNombre() : "Sin proveedor",
+                        p.isActivo()
+                    ))
+                    .collect(Collectors.toList());
+                model.addAttribute("productos", productosDTO);
             return "promociones";
         }
 

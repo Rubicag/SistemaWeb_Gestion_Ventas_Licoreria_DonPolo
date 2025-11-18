@@ -1,105 +1,220 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Página de Inicio - Licorería Don Polo</title>
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-        <style>
-            body {
-                background: #f8f6f2;
-            }
-            .dashboard-card {
-                background: #fff6e6ee;
-                border-radius: 1rem;
-                box-shadow: 0 4px 24px rgba(0,0,0,0.09);
-                padding: 2.5rem 1.5rem;
-                text-align: center;
-                transition: box-shadow 0.2s, transform 0.2s;
-                cursor: pointer;
-                text-decoration: none;
-                color: inherit;
-                border: none;
-            }
-            .dashboard-card:hover {
-                box-shadow: 0 8px 32px rgba(224,159,62,0.18);
-                transform: translateY(-4px) scale(1.03);
-            }
-            .dashboard-card i {
-                font-size: 2.5rem;
-                color: #e09f3e;
-                margin-bottom: 12px;
-            }
-            .dashboard-card h3 {
-                color: #a05a2c;
-                font-size: 1.3rem;
-                margin-bottom: 8px;
-            }
-            .dashboard-card p {
-                color: #444;
-                font-size: 1.05rem;
-            }
-        </style>
-</head>
+<div th:replace="~{fragments/layout :: base(title='Panel de Control', active='home')}">
+    <div th:fragment="content">
+      <div class="container-fluid p-4">
+        <!-- Header -->
+        <div class="page-header animate-fade-in-up">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1><i class="fas fa-tachometer-alt me-3"></i>Panel de Control</h1>
+                    <p>Bienvenido, <strong th:if="${#authentication != null}" th:text="${#authentication.name}">Usuario</strong></p>
+                </div>
+                <div>
+                    <span class="badge badge-modern badge-modern-info">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}">15/11/2025</span>
+                    </span>
+                </div>
+            </div>
+        </div>
 
-<body>
-        <section class="container py-5">
-            <main class="mx-auto" style="max-width:1000px;">
-                <h2 class="text-center mb-2" style="color:#a05a2c;font-size:2.2rem;">Bienvenido, 
-                    <span th:if="${#authentication != null}" th:text="${#authentication.name}">Usuario</span>
-                    <span th:if="${#authentication == null}">Invitado</span>
-                </h2>
-                <p class="text-center mb-4" style="font-size:1.15rem;color:#5a3c1a;">Panel de gestión y ventas de la Licorería Don Polo</p>
-                    <div class="row g-4 justify-content-center">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <a th:href="@{/productos/listar}" class="dashboard-card d-block h-100">
-                                <i class="fa-solid fa-box"></i>
-                                <h3>Productos</h3>
-                                <p>Gestiona el inventario, stock y detalles de productos.</p>
-                            </a>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <a th:href="@{/ventas/listar}" class="dashboard-card d-block h-100">
-                                <i class="fa-solid fa-cash-register"></i>
-                                <h3>Ventas</h3>
-                                <p>Registra y consulta ventas realizadas en el sistema.</p>
-                            </a>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <a th:href="@{/clientes/listar}" class="dashboard-card d-block h-100">
-                                <i class="fa-solid fa-users"></i>
-                                <h3>Clientes</h3>
-                                <p>Administra la información y el historial de tus clientes.</p>
-                            </a>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <a th:href="@{/proveedores/listar}" class="dashboard-card d-block h-100">
-                                <i class="fa-solid fa-truck"></i>
-                                <h3>Proveedores</h3>
-                                <p>Gestiona proveedores y relaciones comerciales.</p>
-                            </a>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <a th:href="@{/reportes/listar}" class="dashboard-card d-block h-100">
-                                <i class="fa-solid fa-chart-line"></i>
-                                <h3>Reportes</h3>
-                                <p>Visualiza reportes y estadísticas del negocio.</p>
-                            </a>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                            <a th:href="@{/carritos/listar}" class="dashboard-card d-block h-100">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <h3>Carrito</h3>
-                                <p>Consulta y administra carritos de compra activos.</p>
-                            </a>
-                        </div>
+        <!-- Estadísticas -->
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card-modern animate-fade-in-up">
+                    <i class="fas fa-dollar-sign stat-icon"></i>
+                    <div class="stat-value">
+                        <span th:text="${ventasDelDia != null ? #numbers.formatDecimal(ventasDelDia, 1, 2) : '0.00'}">0.00</span>
                     </div>
-            </main>
-        </section>
-<!-- Fin de tarjetas, duplicado eliminado -->
-</body>
-<!-- Bootstrap JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</html>
+                    <div class="stat-label">Ventas del Día</div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card-modern green animate-fade-in-up anim-delay-01">
+                    <i class="fas fa-shopping-cart stat-icon"></i>
+                    <div class="stat-value">
+                        <span th:text="${totalVentas != null ? totalVentas : '0'}">0</span>
+                    </div>
+                    <div class="stat-label">Total Ventas (30 días)</div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card-modern red animate-fade-in-up anim-delay-02">
+                    <i class="fas fa-exclamation-triangle stat-icon"></i>
+                    <div class="stat-value">
+                        <span th:text="${productosBajoStock != null ? productosBajoStock : '0'}">0</span>
+                    </div>
+                    <div class="stat-label">Productos Stock Bajo</div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card-modern blue animate-fade-in-up anim-delay-03">
+                    <i class="fas fa-users stat-icon"></i>
+                    <div class="stat-value">
+                        <span th:text="${clientesActivos != null ? clientesActivos : '0'}">0</span>
+                    </div>
+                    <div class="stat-label">Clientes Activos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Módulos -->
+        <div class="row g-4 mb-4">
+            <!-- Gráfico de Ventas -->
+            <div class="col-lg-8">
+                <div class="modern-card">
+                    <h5 class="mb-4 text-primary-custom">
+                        <i class="fas fa-chart-line me-2"></i> Ventas de los Últimos 7 Días
+                    </h5>
+                    <canvas id="ventasChart" height="80"></canvas>
+                </div>
+            </div>
+            
+            <!-- Gráfico de Productos Más Vendidos -->
+            <div class="col-lg-4">
+                <div class="modern-card">
+                    <h5 class="mb-4 text-primary-custom">
+                        <i class="fas fa-chart-pie me-2"></i> Productos Top 5
+                    </h5>
+                    <canvas id="productosChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Módulos del Sistema -->
+        <div class="modern-card">
+            <h3 class="mb-4 text-primary-custom">
+                <i class="fas fa-th-large me-2"></i> Módulos del Sistema
+            </h3>
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/productos" class="dashboard-module d-block">
+                        <i class="fas fa-box"></i>
+                        <h3>Productos</h3>
+                        <p>Gestiona el inventario y stock</p>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/ventas" class="dashboard-module d-block">
+                        <i class="fas fa-cash-register"></i>
+                        <h3>Ventas</h3>
+                        <p>Registra ventas diarias</p>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/clientes" class="dashboard-module d-block">
+                        <i class="fas fa-users"></i>
+                        <h3>Clientes</h3>
+                        <p>Administra clientes</p>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/proveedores" class="dashboard-module d-block">
+                        <i class="fas fa-truck"></i>
+                        <h3>Proveedores</h3>
+                        <p>Gestiona proveedores</p>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/usuarios" class="dashboard-module d-block">
+                        <i class="fas fa-user-shield"></i>
+                        <h3>Usuarios</h3>
+                        <p>Administra usuarios</p>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/reportes" class="dashboard-module d-block">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Reportes</h3>
+                        <p>Visualiza estadísticas</p>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/promociones" class="dashboard-module d-block">
+                        <i class="fas fa-tags"></i>
+                        <h3>Promociones</h3>
+                        <p>Gestiona ofertas</p>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/pedidos" class="dashboard-module d-block">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h3>Pedidos</h3>
+                        <p>Gestiona pedidos</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+      </div>
+
+    <div th:fragment="scripts">
+            <script>
+                // Configuración de colores
+                const colors = {
+                        primary: '#8B4513',
+                        secondary: '#D4AF37',
+                        success: '#2E7D32',
+                        danger: '#C62828',
+                        warning: '#EF6C00',
+                        info: '#1565C0'
+                };
+
+                // Gráfico de Ventas de los Últimos 7 Días
+                const ventasCtx = document.getElementById('ventasChart');
+                if (ventasCtx && window.Chart) {
+                    const ventasChart = new Chart(ventasCtx, {
+                        type: 'line',
+                        data: {
+                                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                                datasets: [{
+                                        label: 'Ventas (S/)',
+                                        data: [120, 190, 150, 280, 220, 310, 250],
+                                        borderColor: colors.primary,
+                                        backgroundColor: 'rgba(139, 69, 19, 0.1)',
+                                        borderWidth: 3,
+                                        fill: true,
+                                        tension: 0.4,
+                                        pointBackgroundColor: colors.primary,
+                                        pointBorderColor: '#fff',
+                                        pointBorderWidth: 2,
+                                        pointRadius: 5,
+                                        pointHoverRadius: 7
+                                }]
+                        },
+                        options: { responsive: true }
+                    });
+                }
+
+                // Gráfico de Productos Más Vendidos
+                const productosCtx = document.getElementById('productosChart');
+                if (productosCtx && window.Chart) {
+                    const productosChart = new Chart(productosCtx, {
+                        type: 'doughnut',
+                        data: {
+                                labels: ['Cerveza', 'Vino', 'Pisco', 'Whisky', 'Ron'],
+                                datasets: [{
+                                        label: 'Unidades Vendidas',
+                                        data: [45, 25, 15, 10, 5],
+                                        backgroundColor: [
+                                                colors.primary,
+                                                colors.secondary,
+                                                colors.success,
+                                                colors.info,
+                                                colors.warning
+                                        ],
+                                        borderColor: '#fff',
+                                        borderWidth: 3,
+                                        hoverOffset: 10
+                                }]
+                        },
+                        options: { responsive: true }
+                    });
+                }
+            </script>
+
+            <!-- Helpers JS para dashboard y tablas (incluidos en layout) -->
+            <script>
+                    window.addEventListener('load', function(){ if (typeof loadDashboard === 'function') loadDashboard(); });
+            </script>
+    </div>
+        </div>
+</div>

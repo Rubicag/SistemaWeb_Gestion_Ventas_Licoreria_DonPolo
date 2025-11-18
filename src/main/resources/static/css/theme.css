@@ -1,0 +1,38 @@
+.btn-primary-custom {
+  /* Propiedades base compartidas por todas las variantes */
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  padding: .6rem 1rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Background por defecto (puede ser sobrescrito por CSS de página) */
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-acc) 100%);
+}
+.btn-primary-custom:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+
+.btn-excel {
+  background: linear-gradient(135deg, #2e7d32, #66bb6a);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  padding: .5rem .9rem;
+}
+
+.btn-pdf {
+  background: linear-gradient(135deg, #c62828, #ef5350);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  padding: .5rem .9rem;
+}
+
+.toast-custom { min-width: 260px; border-radius: var(--border-radius-sm); box-shadow: var(--shadow-md); }
+.toast-custom .toast-body { font-size: .95rem; }
+
+.table { border-radius: var(--radius); overflow: hidden; }
+.table tbody tr td { vertical-align: middle; }
