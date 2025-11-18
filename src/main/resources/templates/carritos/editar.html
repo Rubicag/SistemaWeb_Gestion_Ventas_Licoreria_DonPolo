@@ -23,7 +23,10 @@
                     <div class="form-row">
                         <label for="usuario">Usuario:</label>
                         <select id="usuario" th:field="*{usuario}" required>
-                            <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.nombre}"></option>
+                            <option th:each="usuario : ${usuarios}"
+                                    th:value="${usuario.idUsuario}"
+                                    th:text="${usuario.nombre + ' (' + usuario.correo + ')'}">
+                            </option>
                         </select>
                     </div>
                     <div class="form-row">

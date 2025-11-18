@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.mycompany.repository.VentaRepository;
 import com.mycompany.model.Venta;
 import com.mycompany.model.DetalleVenta;
@@ -18,6 +21,12 @@ import java.util.List;
 @Service
 
 public class VentaService {
+    private static final Logger logger = LoggerFactory.getLogger(VentaService.class);
+
+    // Ejemplo de logging seguro
+    public void logOperacionVenta(String usuario) {
+        logger.info("Operación de venta realizada por usuario: {}", usuario);
+    }
     private final VentaRepository ventaRepository;
     private final DetalleVentaRepository detalleVentaRepository;
     private final ProductoRepository productoRepository;

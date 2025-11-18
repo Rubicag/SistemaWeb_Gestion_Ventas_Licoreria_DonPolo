@@ -1,47 +1,58 @@
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Usuarios - Licorería Don Polo</title>
-    <link rel="stylesheet" th:href="@{/css/usuarios.css}" href="/css/usuarios.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Usuarios - Licorería Don Polo</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+        <style>
+            body { background: #f8f6f2; }
+            .card-hero { background: #fff6e6ee; border-radius: 1rem; box-shadow: 0 4px 24px rgba(0,0,0,0.09); padding: 2.5rem; }
+            .card-hero h2 { color: #a05a2c; display: flex; align-items: center; gap: 10px; }
+            .btn-primary-custom { background: #a05a2c; border-color: #a05a2c; }
+            .btn-primary-custom:hover { background: #e09f3e; border-color: #e09f3e; }
+            table.table thead th { background: #fff6e6ee; color: #a05a2c; }
+        </style>
 </head>
 <body>
-<!-- Usamos un fragmento que será insertado en el layout -->
-<!-- ... -->
-    <section>
-        <div class="container">
-            <div class="card">
-                <h2><i class="fa-solid fa-users" style="color:#e09f3e;"></i> Listado de Usuarios</h2>
-                <a th:href="@{/usuarios/nuevo}" class="primary" style="margin-bottom:1rem;display:inline-block;"><i class="fa-solid fa-user-plus"></i> Registrar Nuevo Usuario</a>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr style="background:var(--muted);color:var(--brand-1);">
-                                <th><i class="fa-solid fa-hashtag"></i> ID Usuario</th>
-                                <th><i class="fa-solid fa-user"></i> Nombre</th>
-                                <th><i class="fa-solid fa-user"></i> Apellido</th>
-                                <th><i class="fa-solid fa-envelope"></i> Correo</th>
-                                <th><i class="fa-solid fa-user-shield"></i> Rol</th>
-                                <th><i class="fa-solid fa-gear"></i> Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="usuario : ${usuarios}">
-                                <td th:text="${usuario.idUsuario}"></td>
-                                <td th:text="${usuario.nombre}"></td>
-                                <td th:text="${usuario.apellido}"></td>
-                                <td th:text="${usuario.correo}"></td>
-                                <td th:text="${usuario.rol}"></td>
-                                <td>
-                                    <a th:href="@{'/usuarios/editar/' + ${usuario.idUsuario}}" class="small-link" title="Editar"><i class="fa-solid fa-pen-to-square" style="color:#1976d2;"></i></a>
-                                    <a th:href="@{'/usuarios/eliminar/' + ${usuario.idUsuario}}" class="small-link" style="color:var(--error);margin-left:8px;" title="Eliminar" onclick="return confirm('¿Está seguro de eliminar este usuario?');"><i class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+<section class="container py-5">
+    <div class="card card-hero mx-auto" style="max-width:900px;">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0"><i class="fa-solid fa-users me-2"></i> Listado de Usuarios</h2>
+                <a th:href="@{/usuarios/nuevo}" class="btn btn-primary btn-primary-custom"><i class="fa-solid fa-user-plus me-2"></i> Registrar Nuevo Usuario</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col"><i class="fa-solid fa-hashtag"></i> ID Usuario</th>
+                            <th scope="col"><i class="fa-solid fa-user"></i> Nombre</th>
+                            <th scope="col"><i class="fa-solid fa-user"></i> Apellido</th>
+                            <th scope="col"><i class="fa-solid fa-envelope"></i> Correo</th>
+                            <th scope="col"><i class="fa-solid fa-user-shield"></i> Rol</th>
+                            <th scope="col"><i class="fa-solid fa-gear"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td th:text="${usuario.idUsuario}"></td>
+                            <td th:text="${usuario.nombre}"></td>
+                            <td th:text="${usuario.apellido}"></td>
+                            <td th:text="${usuario.correo}"></td>
+                            <td th:text="${usuario.rol}"></td>
+                            <td>
+                                <a th:href="@{'/usuarios/editar/' + ${usuario.idUsuario}}" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a th:href="@{'/usuarios/eliminar/' + ${usuario.idUsuario}}" class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="return confirm('¿Está seguro de eliminar este usuario?');"><i class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
-</th:block>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

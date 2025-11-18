@@ -1,8 +1,11 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.service;
+
+import com.google.common.collect.ImmutableList;
 
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -22,6 +25,11 @@ public class ProductoService {
 
     public ProductoService(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
+    }
+
+    // Ejemplo de uso seguro de Guava: lista inmutable para productos destacados
+    public java.util.List<String> obtenerProductosDestacados() {
+        return ImmutableList.of("Ron", "Whisky", "Vodka");
     }
 
     // Obtener todos los productos

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes - Licorería Don Polo</title>
+    <title>Proveedores - Licorería Don Polo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
@@ -20,8 +20,8 @@
   <div class="card card-hero mx-auto" style="max-width:900px;">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0"><i class="fa-solid fa-users me-2"></i> Listado de Clientes</h2>
-        <a th:href="@{/clientes/nuevo}" class="btn btn-primary btn-primary-custom"><i class="fa-solid fa-user-plus me-2"></i> Registrar Nuevo Cliente</a>
+        <h2 class="mb-0"><i class="fa-solid fa-truck me-2"></i> Listado de Proveedores</h2>
+        <a th:href="@{/proveedores/formulario}" class="btn btn-primary btn-primary-custom"><i class="fa-solid fa-user-plus me-2"></i> Registrar Nuevo Proveedor</a>
       </div>
       <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
@@ -29,24 +29,24 @@
             <tr>
               <th scope="col"><i class="fa-solid fa-hashtag"></i> ID</th>
               <th scope="col"><i class="fa-solid fa-user"></i> Nombre</th>
-              <th scope="col"><i class="fa-solid fa-envelope"></i> Correo</th>
-              <!-- <th scope="col"><i class="fa-solid fa-phone"></i> Teléfono</th> -->
+              <th scope="col"><i class="fa-solid fa-envelope"></i> Email</th>
+              <th scope="col"><i class="fa-solid fa-toggle-on"></i> Estado</th>
               <th scope="col"><i class="fa-solid fa-gear"></i> Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="cliente : ${clientes}">
-              <td th:text="${cliente.idUsuario}"></td>
-              <td th:text="${cliente.nombre}"></td>
-              <td th:text="${cliente.correo}"></td>
-              <!-- <td th:text="${cliente.telefono}"></td> -->
+            <tr th:each="proveedor : ${proveedores}">
+              <td th:text="${proveedor.idProveedor}"></td>
+              <td th:text="${proveedor.nombre}"></td>
+              <td th:text="${proveedor.email}"></td>
+              <td th:text="${proveedor.estado}"></td>
               <td>
-                <a th:href="@{'/clientes/editar/' + ${cliente.idUsuario}}" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a th:href="@{'/clientes/eliminar/' + ${cliente.idUsuario}}" class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="return confirm('¿Está seguro de eliminar este cliente?');"><i class="fa-solid fa-trash"></i></a>
+                <a th:href="@{'/proveedores/editar/' + ${proveedor.idProveedor}}" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a th:href="@{'/proveedores/eliminar/' + ${proveedor.idProveedor}}" class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="return confirm('¿Desea eliminar este proveedor?');"><i class="fa-solid fa-trash"></i></a>
               </td>
             </tr>
-            <tr th:if="${#lists.isEmpty(clientes)}">
-              <td colspan="4" class="text-center text-secondary">No hay clientes registrados.</td>
+            <tr th:if="${#lists.isEmpty(proveedores)}">
+              <td colspan="5" class="text-center text-secondary">No hay proveedores registrados.</td>
             </tr>
           </tbody>
         </table>

@@ -2,6 +2,54 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Carrito - Licorería Don Polo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+    body { background: #f8f6f2; }
+    .card-hero { background: #fff6e6ee; border-radius: 1rem; box-shadow: 0 4px 24px rgba(0,0,0,0.09); padding: 2.5rem; }
+    .card-hero h2 { color: #a05a2c; display: flex; align-items: center; gap: 10px; }
+    .btn-primary-custom { background: #a05a2c; border-color: #a05a2c; }
+    .btn-primary-custom:hover { background: #e09f3e; border-color: #e09f3e; }
+    </style>
+</head>
+<body>
+<section class="container py-5">
+    <div class="card card-hero mx-auto" style="max-width:600px;">
+    <div class="card-body">
+    <h2 class="mb-4"><i class="fa-solid fa-cart-plus me-2"></i> Registrar Nuevo Carrito</h2>
+    <form th:action="@{/carritos/guardar}" method="post">
+    <div class="mb-3">
+          <label for="idUsuario" class="form-label">Usuario</label>
+          <input type="text" id="idUsuario" name="idUsuario" class="form-control" required>
+    </div>
+    <div class="mb-3">
+          <label for="fechaCreacion" class="form-label">Fecha de Creación</label>
+          <input type="date" id="fechaCreacion" name="fechaCreacion" class="form-control" required>
+    </div>
+    <div class="mb-3">
+          <label for="estado" class="form-label">Estado</label>
+          <select id="estado" name="estado" class="form-select" required>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+    </div>
+    <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary btn-primary-custom"><i class="fa-solid fa-save me-2"></i> Guardar</button>
+          <a th:href="@{/carritos}" class="btn btn-secondary"><i class="fa-solid fa-xmark me-2"></i> Cancelar</a>
+    </div>
+    </form>
+    </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
     <title>Registrar Nuevo Carrito - Licorería Don Polo</title>
     <link rel="stylesheet" th:href="@{/css/carritos.css}" href="/css/carritos.css" />
     <style>
@@ -71,14 +119,12 @@
 </head>
 
 <body>
-    <!-- Aquí sí va el layout -->
-    <div th:replace="~{layout :: layout}">
-        <main class="main-content">
-            <section>
-                <div class="container">
-                    <div class="card">
-                        <h2><i class="fas fa-cart-plus"></i> Registrar Nuevo Carrito</h2>
-                        <form th:action="@{/carritos/guardar}" th:object="${carrito}" method="post">
+    <main class="main-content">
+        <section>
+            <div class="container">
+                <div class="card">
+                    <h2><i class="fas fa-cart-plus"></i> Registrar Nuevo Carrito</h2>
+                    <form th:action="@{/carritos/guardar}" th:object="${carrito}" method="post">
                             <div class="form-row">
                                 <label for="usuario">Usuario:</label>
                                 <select id="usuario" th:field="*{usuario}" required>

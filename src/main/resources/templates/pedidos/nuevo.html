@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(content=~{::section})}">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Registrar Pedido - Licorería Don Polo</title>
     <link rel="stylesheet" th:href="@{/css/pedidos.css}" href="/css/pedidos.css" />
@@ -9,7 +8,7 @@
     <!-- Encabezado común -->    
 
     <!-- Contenido principal -->
-    <main class="main-content" th:fragment="content">
+    <main class="main-content">
         <div class="card">
             <h2>Registrar Nuevo Pedido</h2>
             <form th:action="@{/pedidos/guardar}" th:object="${pedido}" method="post">

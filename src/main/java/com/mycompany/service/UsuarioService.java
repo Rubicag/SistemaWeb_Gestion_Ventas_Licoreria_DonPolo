@@ -1,4 +1,5 @@
 package com.mycompany.service;
+import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -43,5 +44,10 @@ public class UsuarioService {
     // Buscar usuario por correo
     public Usuario buscarUsuarioPorCorreo(String correo) {
         return usuarioRepository.findByCorreo(correo).orElse(null);
+    }
+
+    // Ejemplo de validación segura con Apache Commons Lang
+    public boolean esNombreValido(String nombre) {
+        return StringUtils.isNotBlank(nombre);
     }
 }

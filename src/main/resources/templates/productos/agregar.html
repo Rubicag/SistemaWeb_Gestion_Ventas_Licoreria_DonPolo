@@ -34,6 +34,24 @@
                         </div>
                     </div>
 
+                    <div class="form-row">
+                        <label for="categoriaId">Categoría:</label>
+                        <select id="categoriaId" name="categoriaId" required>
+                            <option value="" disabled selected>Selecciona una categoría</option>
+                            <option th:each="cat : ${categorias}"
+                                    th:value="${cat.idCategoria}"
+                                    th:text="${cat.nombre}"></option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="proveedorId">Proveedor:</label>
+                        <select id="proveedorId" name="proveedorId" required>
+                            <option value="" disabled selected>Selecciona un proveedor</option>
+                            <option th:each="prov : ${proveedores}"
+                                    th:value="${prov.idProveedor}"
+                                    th:text="${prov.nombre}"></option>
+                        </select>
+                    </div>
                     <div style="margin-top:18px;display:flex;gap:12px;">
                         <button type="submit" class="primary">Guardar</button>
                         <a th:href="@{/productos/listar}" class="secondary">Cancelar</a>
